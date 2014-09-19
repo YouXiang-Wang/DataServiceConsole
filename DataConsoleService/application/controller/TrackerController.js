@@ -9,6 +9,8 @@ var Q = require("q");
 
 var qs = require("querystring");
 
+var config = require("../../config").config;
+
 var PMRModel = require("../models").PmrInfo;
 var pmrProxy = require('../proxy').PmrProxy;
 
@@ -79,6 +81,8 @@ function TrackerController() {
         
         var _baseUrl = "https://w3-01.sso.ibm.com/software/servdb/crm/secure/l3AnalystProfile.do?";
         
+        var localRepsPath = config.pmrRepository;
+        
         //request.post({url: _login_url, jar: _jar, form: form_data}, function(err, res, body) {
         request.post(_post, function(err, res, body) {
             if(err) {
@@ -125,7 +129,7 @@ function TrackerController() {
                                     console.log("PMR_3_" + pmrInfo.pmrNumber);
                                     console.log("**********************************************************");
                                     
-                                    var fileName  = "c:/PMRS2/" + pmrInfo.pmrNumber + ".html";
+                                    var fileName  = localRepsPath + "/" + pmrInfo.pmrNumber + ".html";
                                     
                                      fs.writeFile(fileName, body.toString(), function(error){
                                         if(error){
@@ -157,6 +161,8 @@ function TrackerController() {
     
     this.parseHTML = function(body){
         var $ = cheerio.load(body);
+        
+        var localRepsPath = config.pmrRepository;
         
         var tdText;
         var vNext;
@@ -341,14 +347,15 @@ function TrackerController() {
            });
            console.log("PMR_2_" +pmrNumber);
            
+           var updates = $(".ibm-twisty-body").first();
            
+           var fileName  = localRepsPath + "/_" + pmrInfo.pmrNumber + ".html";
            
-           
-           
-           
-           
-           
-           
+           fs.writeFile(fileName, updates, function(error){
+               if(error){
+                   console.log(error);
+               }
+           });
            
            
         return pmrInfo;
