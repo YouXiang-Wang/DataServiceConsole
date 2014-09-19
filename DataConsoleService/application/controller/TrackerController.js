@@ -339,7 +339,7 @@ function TrackerController() {
             	   pmrInfo.scratchPad =  scratchPad;
                }
            });
-           //console.log("PMR_2_" +pmrNumber);
+           console.log("PMR_2_" +pmrNumber);
            
            
            
