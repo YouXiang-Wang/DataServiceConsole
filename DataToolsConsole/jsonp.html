@@ -1,0 +1,45 @@
+<!DOCTYPE HTML>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<title>Demo: jsonp Dojo pull requests</title>
+		
+		<link rel="stylesheet" href="css/demo.css" media="screen">
+	</head>
+	<body>
+		<h1>Demo: jsonp Dojo pull requests</h1>
+		<ul id="pullrequests">
+
+		<ul>
+		<!-- load dojo and provide config via data attribute -->
+		<script type="text/javascript" src="js/dojo/dojo.js" data-dojo-config="async: false, parseOnLoad: true" charset="utf-8"></script>
+		
+		<script>
+			require(["dojo/request/script", "dojo/dom-construct", "dojo/dom", "dojo/_base/array",
+			"dojo/domReady!"
+			], function(script, domConstruct, dom, arrayUtil){
+				//http://localhost:3200/resource/pmr/listpmrs?type=1&group=1
+				//http://localhost/DataToolsConsole/data/data.json
+				// http://www.wangyoux.org:3200/resource/pmr/listpmrs?type=1&group=1
+				// http://www.baidu.com
+				//script.get("https://api.github.com/repos/dojo/dojo/pulls", {
+				script.get("http://www.wangyoux.org:3200/resource/pmr/listpmrs?type=1&group=1", {	
+					jsonp: "callback"
+				}).then(function(response){
+					var results = response.result;
+					alert(results);
+					
+					/*
+					var fragment = document.createDocumentFragment();
+					arrayUtil.forEach(results, function(pull){
+						var li = domConstruct.create("li", {}, fragment);
+						var link = domConstruct.create("a", {href: pull.url, innerHTML: pull.title}, li);
+					});
+					domConstruct.place(fragment, dom.byId("pullrequests"));
+					*/
+					
+				});
+			});
+		</script>
+	</body>
+</html>

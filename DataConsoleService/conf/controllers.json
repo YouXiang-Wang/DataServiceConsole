@@ -1,0 +1,57 @@
+[
+	{
+		"url" : "/command/:command",
+		"rest" : "get",
+		"id" : "com.ibm.datatools.node.controller.commandcontroller",
+		"resource" : "command",
+		"path" : "CommandController",
+		"class" : "CommandController",
+		"procedure" : "executeCommand"
+	},
+	{
+		"url" : "/track/:url",
+		"rest" : "get",
+		"id" : "com.ibm.datatools.node.controller.trackercontroller",
+		"resource" : "url",
+		"path" : "TrackerController",
+		"class" : "TrackerController",
+		"procedure" : "executeCommand"
+	},
+	{
+		"url" : "/resource/pmr/:command",
+		"rest" : "get",
+		"id" : "com.ibm.datatools.node.controller.PMRResourceController",
+		"resource" : "url",
+		"path" : "PMRResourceController",
+		"class" : "PMRResourceController",
+		"procedure" : "executeCommand"
+	},
+	{
+		"url" : "/resources/command/:command",
+		"rest" : "get",
+		"id" : "com.ibm.datatools.node.controller.eoscommandcontroller",
+		"resource" : "command",
+		"path" : "EOSCommandController",
+		"class" : "EOSCommandController",
+		"procedure" : "executeCommand"
+	},
+	{
+		"url" : "/object/:type",
+		"rest" : "get",
+		"id" : "com.ibm.datatools.node.controller.objectcontroller",
+		"resource" : "object",
+		"path" : "ObjectController",
+		"class" : "ObjectController",
+		"procedure" : "loadProperties"
+	},
+	{
+		"url" : "/connection/:action",
+		"rest" : "post",
+		"id" : "com.ibm.datatools.node.controller.conntioncontroller",
+		"resource" : "connection",
+		"path" : "ConnectionController",
+		"class" : "ConnectionController",
+		"procedure" : "addConnection"
+	}
+	
+]

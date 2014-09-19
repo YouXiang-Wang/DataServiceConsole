@@ -1,0 +1,295 @@
+html, body { height: 100% }
+
+html, body, h1, h3, h4, h5, h6, p, img, ol, ul, li, form, table, tr, th, td {
+    border: 0 none;
+    border-collapse: collapse;
+    border-spacing: 0;
+    list-style: none outside none;
+    margin: 0;
+    padding: 0;
+}
+
+.dsweb{
+	background-color: #222222;
+}
+
+.containBG{background-color:#222222;}
+.searchArea{position:absolute;right:0; background:#222222 url("images/main_bg.jpg") repeat;margin-top:0px;}
+.leftPane{ background:#222222 url("images/main_bg.jpg") repeat;}
+.connection{ background:#222222 url("images/banner_connection.jpg") repeat;width:301px;height:40px;position:absolute;right:10px;top:8px;}
+#dijit__WidgetsInTemplateMixin_3{top:0;}
+.uriBaseProp{
+	cursor: pointer;
+    display: inline-block;
+    height: 16px;
+    margin-right: 5px;
+    vertical-align: top;
+    width: 16px;
+}
+
+.filterAddFilter{
+	background: url("images/filter_add.png") no-repeat;
+}
+
+.filterExecFilter{
+	background: url("images/filter_db.png") no-repeat;
+}
+
+.filterEnabledFilter{
+	background: url("images/filter_enabled.png") no-repeat;
+}
+
+.createGraphicAction{
+	background: url("images/chart_bar_add.png") no-repeat;
+}
+
+.filterRemoveFilter{
+	background: url("images/clear_obj.gif") no-repeat; width :16px;  
+    height : 16px;
+}
+
+
+.executeFilter{
+	background: url("images/filter.gif") no-repeat; width :16px;  
+    height : 16px;;
+}
+
+.tableIconSegment{
+	background: url("icons/table.gif") no-repeat;
+}
+.describetableIcon{
+	cursor: pointer;
+	background: url("icons/properties.gif") no-repeat;
+}
+.viewtableDataIcon{
+	cursor: pointer;
+	background: url("icons/view.gif") no-repeat;
+}
+
+.sqlEditortableIcon{
+	cursor: pointer;
+	background: url("icons/icon_sqlEdit.png") no-repeat;
+}
+
+.previewHeader{
+	margin-top: 5px;
+}
+.previewToolbar{
+	padding:2px 10px;
+ 	background-image: -moz-linear-gradient(#E3E3E3 0%, #F7F7F7 5%, #C1C1C1 95%, #E3E3E3 100%);
+    background-image: -webkit-linear-gradient(#E3E3E3 0%, #F7F7F7 5%, #C1C1C1 95%, #E3E3E3 100%);
+    background-image: -o-linear-gradient(#E3E3E3 0%, #F7F7F7 5%, #C1C1C1 95%, #E3E3E3 100%);
+    background-image: linear-gradient(#E3E3E3 0%, #F7F7F7 5%, #C1C1C1 95%, #E3E3E3 100%);
+    border:1px solid #B5BCC7;
+}
+
+/*banner relative definition*/
+.topRowBanner{
+	background: #3b3b3b url("images/banner_bg.jpg") repeat top left;
+	height:55px;
+}
+
+.bannderBase{
+    position: absolute;
+    top: 0;
+    white-space: nowrap;
+    z-index: 2;
+    height:55px;
+    color: #f5f5f5 !important;
+}
+
+.bannerLeft{
+    left: 0;
+    width:313px;
+    height:55px;
+    background: #3b3b3b url("images/banner_logo.jpg") no-repeat top left;
+}
+
+.bannerRight{
+    
+    width:198px;
+    height:40px;
+    border-radius:6px;
+    padding:8px 0 0 12px;
+    margin-top:8px;
+    background: url("images/toolbar_bg.jpg") no-repeat top left;
+}
+
+.bannerRight button{
+    cursor: pointer;
+    float: left;
+    position: relative;
+    height:29px;
+    border:none;
+}
+
+.bannerRightItem a{
+	display: block;
+	float: none;
+	text-decoration: none;
+}
+
+.toolbarItem_clear{height:29px; width:30px;background: url("images/toolbar_clear.png") no-repeat top left;}
+.toolbarItem_clear:hover{height:29px; width:30px;background: url("images/toolbar_clear_hover.png") no-repeat top left;}
+
+
+.toolbarItem_home{height:29px; width:30px;background: url("images/toolbar_home.png") no-repeat top left;}
+.toolbarItem_home:hover{height:29px; width:30px;background: url("images/toolbar_home_hover.png") no-repeat top left;}
+.toolbarItem_history{height:29px; width:29px;background: url("images/toolbar_history.png") no-repeat top left;}
+.toolbarItem_history:hover{height:29px; width:29px;background: url("images/toolbar_history_hover.png") no-repeat top left;}
+.toolbarItem_addCommand{height:29px; width:29px;background: url("images/toolbar_addCommand.png") no-repeat top left;}
+.toolbarItem_addCommand:hover{height:29px; width:29px;background: url("images/toolbar_addCommand_hover.png") no-repeat top left;}
+.toolbarItem_user{height:29px; width:29px;background: url("images/toolbar_user.png") no-repeat top left;}
+.toolbarItem_user:hover{height:29px; width:29px;background: url("images/toolbar_user_hover.png") no-repeat top left;}
+.toolbarItem_sqleditor{height:29px; width:29px;background: url("images/toolbar_SQL.png") no-repeat top left;}
+.toolbarItem_sqleditor:hover{height:29px; width:29px;background: url("images/toolbar_SQL_hover.png") no-repeat top left;}
+.toolbarItem_browser{height:29px; width:29px;background: url("images/toolbar_voice_hover.png") no-repeat top left;}
+.toolbarItem_browser:hover{height:29px; width:29px;background: url("images/toolbar_voice.png") no-repeat top left;}
+.toolbarItem_config{height:29px; width:30px;background: url("images/toolbar_config.png") no-repeat top left;}
+.toolbarItem_config:hover{height:29px; width:30px;background: url("images/toolbar_config_hover.png") no-repeat top left;}
+
+a.dropdownToggle:hover{background: rgba(255, 255, 255, 0.05)}
+
+
+
+/*welcome pane section*/
+.welcomeTagArea{
+	text-align: center;
+	display:block; 
+	width:100%;
+	padding:4px 10px;
+}
+
+.welcomeTagSection{
+    float: left;
+    height: 60px;
+    position: relative;
+    vertical-align: middle;
+    width: 80px;
+    padding: 4px 2px;    
+    border-radius:10px;
+    box-shadow:0 0 10px 1px #767676;
+    margin:4px;
+    background-image: -moz-linear-gradient(#E3E3E3 0%, #F7F7F7 5%, #C1C1C1 95%, #E3E3E3 100%);
+    background-image: -webkit-linear-gradient(#E3E3E3 0%, #F7F7F7 5%, #C1C1C1 95%, #E3E3E3 100%);
+    background-image: -o-linear-gradient(#E3E3E3 0%, #F7F7F7 5%, #C1C1C1 95%, #E3E3E3 100%);
+    background-image: linear-gradient(#E3E3E3 0%, #F7F7F7 5%, #C1C1C1 95%, #E3E3E3 100%);
+}
+
+.commandLinkIcon{
+    display: inline-block;
+    height: 32px;
+    margin-left: 2px;
+    margin-right: 2px;
+    vertical-align: middle;
+    width: 32px;
+ 	cursor: pointer;	
+}
+
+.addNewCommandLink{
+	background: url("icons/add.png") no-repeat;     	
+}
+
+.defaultCommandLinkIcon{
+	background: url("icons/icon_task_32.png") no-repeat;     
+}
+
+.welcomeInfoSection{
+	font-family: Segoe UI,Helvetica Neue,Verdana,Arial,sans-serif;
+    font-size: 1em;
+    padding:10px;
+}
+
+.linkTextSection{
+    height: 24px;
+    line-height: 12px;
+    margin-top: 2px;
+    overflow: hidden;
+    width: 80px;
+}
+
+table.addWelcomeLink {
+	width:100%;
+	height:100%	
+}
+
+table.addWelcomeLink td{ padding: 5px; }
+
+/*response section content */
+.responseErrorText{
+	background-color: red;
+}
+
+table.responseBottomBorder { border-collapse:collapse; }
+table.responseBottomBorder td, table.responseBottomBorder th { border-bottom:1px dotted black;padding:5px; }
+
+
+
+.historyViewToolbar{
+    background-image: -moz-linear-gradient(#E3E3E3 0%, #F7F7F7 5%, #C1C1C1 95%, #E3E3E3 100%);
+    background-image: -webkit-linear-gradient(#E3E3E3 0%, #F7F7F7 5%, #C1C1C1 95%, #E3E3E3 100%);
+    background-image: -o-linear-gradient(#E3E3E3 0%, #F7F7F7 5%, #C1C1C1 95%, #E3E3E3 100%);
+    background-image: linear-gradient(#E3E3E3 0%, #F7F7F7 5%, #C1C1C1 95%, #E3E3E3 100%);
+    border-bottom: 1px solid #A9A9A9;
+    padding: 4px 6px;    
+}
+
+.historySummaryContent{
+	float: right;
+	color: #535353;
+	padding-right: 10px
+}
+
+.historyResultItem{
+    border-radius: 3px 3px 3px 3px;
+    color: #007799;
+    cursor: pointer;
+    display: inline-block;
+    font-weight: bold;
+    padding: 0 4px 2px;	
+}
+
+.historyResultItem:before {
+    color: #AB7D02;
+    content: "";
+    font-size: 110%;
+    font-weight: bold;
+    margin-right: 2px;
+}
+
+
+/* SQL Editor View */
+.sqlEditorToolbar{
+    background-image: -moz-linear-gradient(#E3E3E3 0%, #F7F7F7 5%, #C1C1C1 95%, #E3E3E3 100%);
+    background-image: -webkit-linear-gradient(#E3E3E3 0%, #F7F7F7 5%, #C1C1C1 95%, #E3E3E3 100%);
+    background-image: -o-linear-gradient(#E3E3E3 0%, #F7F7F7 5%, #C1C1C1 95%, #E3E3E3 100%);
+    background-image: linear-gradient(#E3E3E3 0%, #F7F7F7 5%, #C1C1C1 95%, #E3E3E3 100%);
+    border-bottom: 1px solid #A9A9A9;
+    padding: 4px 6px;    
+}
+
+.execSQLIcon{
+    display: inline-block;
+    height: 16px;
+    vertical-align: middle;
+    width: 16px;
+ 	cursor: pointer;		
+	background: url("icons/sql.png") no-repeat;     
+}
+
+.dgrid-no-data,
+.dgrid-loading {
+    color: #aaa;
+    font-size: 3em;
+    padding: 3em;
+    text-align: center;
+}
+
+.dgrid .dgrid-scroller {
+    position: relative;
+    margin-top: 0px;
+    overflow: auto;
+}
+.oneui .dijitSelect .dijitArrowButton .dijitArrowButtonInner {
+	width:16px !important;
+}

@@ -1,0 +1,7 @@
+#pmrsGrid {
+	position: relative;
+	overflow: hidden;
+	border: 1px solid #ddd;
+	height: 85%;
+	display: block;
+}

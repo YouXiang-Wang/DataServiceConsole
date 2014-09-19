@@ -1,0 +1,56 @@
+<html> 
+    <head> 
+    <title>Main Application</title>
+	<link rel="stylesheet" href="js/dojo/resources/dojo.css" media="screen">
+	<link rel="stylesheet" href="js/dijit/themes/dijit.css" media="screen">
+	<link rel="stylesheet" href="js/gridx/resources/Gridx.css" media="screen">
+
+		
+	<style id="screen" type="text/css">
+		@import "js/gridx/resources/Gridx.css";
+    	@import "js/idx/themes/oneui/oneui.css";
+    </style>
+    
+    
+    <script type="text/javascript" src="js/dojo/dojo.js" data-dojo-config="async: false, parseOnLoad: true" charset="utf-8"></script>
+    
+  
+    <script type="text/javascript">
+    
+      var dojoConfig = {
+            async: false,
+            parseOnLoad: true,
+            isDebug: true,
+            baseUrl: "js/",
+            packages: [
+              { name: "dojo",  location: "dojo" },
+              { name: "dijit", location: "dijit" },
+              { name: "dojox", location: "dojox" },
+              { name: "idx", location: "idx" },
+              { name: "dcc", location: "dcc" }
+            ]
+      };
+    </script>
+        
+	
+    </head> 
+    
+    
+    <body> 
+
+<div data-dojo-type="idx/app/AppMarquee" region="marquee" 
+   id="appMarquee0" 
+   appName="IBM Convergence IDX Toolkit" 
+   vendorName="IBM">
+   
+   <span data-dojo-type="idx/form/Link">About</span> 
+   <span role="presentation">|</span> 
+   <span data-dojo-type="idx/form/Link">Help</span> 
+   <span role="presentation">|</span> 
+   <span data-dojo-type="idx/form/Link">Logout</span> 
+</div>
+
+
+    </body> 
+</html> 
+ 

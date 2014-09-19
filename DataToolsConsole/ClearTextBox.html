@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>Welcome</title>
+	<script type="text/javascript" src="js/dojoVersion.js"></script>
+	
+	<link rel="stylesheet" href="js/dojo/resources/dojo.css" media="screen">
+	<link rel="stylesheet" href="js/dijit/themes/dijit.css" media="screen">
+	<link rel="stylesheet" href="css/dcc.css" media="screen">
+	
+	
+   	<script type="text/javascript">
+   	var dojoConfig = {
+   	    
+			parseOnLoad: true,
+			isDebug: false,
+            baseUrl: "js/",
+			packages: [
+		   		{ name: "dojo",  location: "dojo" },
+		   		{ name: "dojox", location: "dojox" },
+		   		{ name: "dijit", location: "dijit" },
+		   		{ name: "xstyle", location: "xstyle" },
+		   		{ name: "dcc", location: "dcc" },
+			],
+			waitSeconds: 10,
+			async: false,
+			cacheBust: false
+		};
+   	
+		dojoScriptImport("js/dojo/dojo.js", "postDojo");
+	</script>
+	
+		<script>
+			require(["dojo/_base/lang", "dojo/_base/declare","dojo/domReady!"],
+				function(lang, declare) {
+					
+					
+				});
+		</script>
+	</head>
+	<body>
+		
+<div id="promoNode">	
+<p>The following simple Dojo widget provides a simple clear link for mobile users.</p>
+
+<div data-dojo-type="dcc/datatools/widget/ClearTextBox" style="width:300px"></div>
+</div>
+
+
+		
+		
+	</body>
+</html>

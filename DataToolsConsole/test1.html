@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<title>FlipCard Dynamic Navigator with Group Tests</title>
+		
+		<link rel="stylesheet" href="js/dojo/resources/dojo.css" media="screen">
+		<link rel="stylesheet" href="js/dijit/themes/dijit.css" media="screen">
+		<link rel="stylesheet" href="js/gridx/resources/Gridx.css" media="screen">
+		
+		<script src="js/dojo/dojo.js" data-dojo-config="async: true, parseOnLoad: true" charset="utf-8"></script>
+		
+		<!--
+		<script type="text/javascript" src="../../tests/dojoVersion.js"></script>
+		  -->
+	
+		<style id="idxStyles" type="text/css">
+			@import "js/gridx/resources/Gridx.css";
+			@import "js/gridx/tests/support/common.css";
+		
+            @import "js/idx/themes/oneui/oneui.css";
+            
+            html, body {
+			    width: 100%;
+			    height: 100%;
+			    margin: 0; 
+			    padding: 0;
+			}
+			
+			.oneui .idxFlipCardNavDynamic .idxFlipCardNavBar .monitorIcon{
+				background: url("resources/images/navSprite_24.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+				background-position: -24px 0;
+			}
+			.oneui .idxFlipCardNavDynamic .idxFlipCardNavBar .welcomeIcon{
+				background: url("resources/images/navSprite_24.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+				background-position: -264px 0;
+			}
+			.oneui .idxFlipCardNavDynamic .idxFlipCardNavBar .analyzeIcon{
+				background: url("resources/images/navSprite_24.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+				background-position: -72px 0;
+			}
+			.oneui .idxFlipCardNavDynamic .idxFlipCardNavBar .searchIcon{
+				background: url("resources/images/navSprite_24.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+				background-position: 0 0;
+			}
+			
+			.oneui .idxFlipCardNavDynamic .idxFlipCardNavBar .userIcon{
+				background: url("resources/images/navSprite_24.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+				background-position: -96px 0;
+			}
+			.oneui .idxFlipCardNavDynamic .idxFlipCardNavBar .settingsIcon{
+				background: url("resources/images/navSprite_24.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+				background-position: -120px 0;
+			}
+			.oneui .idxFlipCardNavDynamic .idxFlipCardNavBar .helpIcon{
+				background: url("resources/images/navSprite_24.png") no-repeat scroll 0 0 rgba(0, 0, 0, 0);
+				background-position: -144px 0;
+			}
+			
+		</style>
+	
+    <script type="text/javascript">
+    
+      var dojoConfig = {
+            async: true,
+            parseOnLoad: true,
+            isDebug: true,
+            baseUrl: "js/",
+            packages: [
+              { name: "dojo",  location: "dojo" },
+              { name: "dijit", location: "dijit" },
+              { name: "dojox", location: "dojox" },
+              { name: "dcc", location: "dcc" }
+            ]
+      };
+    </script>
+
+		
+		<script type="text/javascript" id="postDojo">
+			var modules = [
+				"dojo._base.lang", // lang.mixin lang.hitch
+				"dojo.aspect",
+				"dojo.dom", 
+				"dojo.data.ItemFileWriteStore",
+				"dijit.registry", 
+				"idx.layout.FlipCardNavDynamic",  
+				"idx.tests._pagefooter._PageFooter"
+			]; 
+			var lang, aspect, dom, registry, FlipCardNavDynamic, _PageFooter;
+			
+			function preParse(modules){
+				lang 				= modules["dojo/_base/lang"];
+				aspect 				= modules["dojo/aspect"];
+				dom 				= modules["dojo/dom"];
+				ItemFileWriteStore	= modules["dojo/data/ItemFileWriteStore"];
+				registry 			= modules["dijit/registry"];
+				FlipCardNavDynamic   = modules["idx/layout/FlipCardNavDynamic"];
+				_PageFooter   		= modules["idx/tests/_pagefooter/_PageFooter"];
+			}
+			function postParse() {
+				//init flipcard navigator widget
+				var flipCardNav = new FlipCardNavDynamic({
+					// navList: navStore,
+					navList: "resources/data/nav_list_group.json",
+					navStyle: "tree",
+					labelAttr: "title",
+					toggleNavBarAction: true,
+					toggleNavDetailItemOnHover: true,
+					customContent: dom.byId("custom_content")
+				}, "flipcardNavNode");
+				
+				var navActionHandler = function(item, e){
+					if(item.id == "welcome"){
+						dom.byId("user_content").innerHTML = dom.byId("welcome_content").innerHTML.toString();
+					}else{
+						dom.byId("user_content").innerHTML = (item.title || item.name) + " Nav Item Selected !";
+					}
+				}
+				var navSettingsActionHandler = function(item, e){
+					switch(item.id){
+						case "user_add_navitem":
+							this.navListModel.addItem({id:"welcome_2", name:"welcome_2", title:"Welcome 2", icon:"resources/images/blank.png", type:"nav"}, 
+								null, 1);
+							this.navListModel.addItem({id:"monitor_2", name:"monitor_2", title:"Monitor 2", icon:"resources/images/blank.png", type:"nav"}, 
+								null, null, {id:"monitor"});
+							this.navListModel.addItem({id:"analyze_2", name:"analyze_2", title:"Analyze 2", icon:"resources/images/blank.png", type:"nav"});
+							
+							alert("Operation Finished");
+							
+							break;
+						
+						case "user_update_navitem":
+							this.navListModel.updateItem({id:"welcome_2", name:"welcome_2_changed", title:"W2 Changed", icon:"resources/images/blank.png", iconClass:"welcomeIcon", type:"nav"});
+							this.navListModel.updateItem({id:"monitor_2", name:"monitor_2_changed", title:"M2 Changed", icon:"resources/images/blank.png", iconClass:"monitorIcon", type:"nav"});
+							this.navListModel.updateItem({id:"analyze_2", name:"analyze_2_changed", title:"A2 Changed", icon:"resources/images/blank.png", iconClass:"analyzeIcon", type:"nav"});
+							
+							alert("Operation Finished");
+							
+							break;
+						
+						case "user_delete_navitem":
+							this.navListModel.deleteItem("welcome_2");
+							this.navListModel.deleteItem("monitor_2");
+							this.navListModel.deleteItem("analyze_2");
+							
+							alert("Operation Finished");
+							
+							break;
+							
+						case "advanced_add_navitem":
+							this.navListModel.addItem({id:"monitor_dynamic", name:"monitor_dynamic", title:"Dynamic Added Monitor", icon:"resources/images/blank.png", type:"nav"},
+								{id:"monitor"}, 2, null, {id:"monitor"});
+							this.navListModel.addItem({id:"monitor_dynamic_special", name:"monitor_dynamic_special", title:"Dynamic Added Monitor Special", icon:"resources/images/blank.png", type:"nav"},
+								{id:"monitor_special"}, 2, null, {id:"monitor"});
+							this.navListModel.addItem({id:"monitor_dynamic_special_3_x", name:"monitor_dynamic_special_3_x", title:"Dynamic Added Monitor Special 3.x", icon:"resources/images/blank.png", type:"nav"},
+								{id:"monitor_special_3"}, null, {id:"monitor_special_3_2"}, {id:"monitor"});
+							
+							this.navListModel.addItem({id:"analyze_dynamic", name:"analyze_dynamic", title:"Dynamic Added Analyze", icon:"resources/images/blank.png", type:"nav"},
+								{id:"analyze_2"}, null, null, {id:"analyze"});
+							this.navListModel.addItem({id:"analyze_dynamic_detail", name:"analyze_dynamic_detail", title:"Dynamic Added Analyze Detail", icon:"resources/images/blank.png", type:"nav"},
+								{id:"analyze_2_2"}, null, null, {id:"analyze"});
+								
+							alert("Operation Finished");
+							//TODO add support for root nav to expando
+							
+							break;
+						
+						case "advanced_update_navitem":
+							this.navListModel.updateItem({id:"monitor_tasks", name:"monitor_tasks", title:"Task Updated", icon:"resources/images/blank.png", type:"nav"},
+								null, null, null, null, {id:"monitor"});
+							this.navListModel.updateItem({id:"monitor_ways", name:"monitor_ways", title:"Ways Updated", icon:"resources/images/blank.png", type:"nav"},
+								null, null, null, null, {id:"monitor"});
+								this.navListModel.updateItem({id:"monitor_common", name:"monitor_common", title:"Common Updated", icon:"resources/images/blank.png", type:"nav"},
+								null, null, null, null, {id:"monitor"});
+								
+							this.navListModel.updateItem({id:"monitor_dynamic", name:"monitor_dynamic", title:"Monitor Updated", icon:"resources/images/blank.png", type:"nav"},
+								null, null, null, null, {id:"monitor"});
+							this.navListModel.updateItem({id:"monitor_dynamic_special", name:"monitor_dynamic_special", title:"Monitor Special Updated", icon:"resources/images/blank.png", type:"nav"},
+								null, null, null, null, {id:"monitor"});
+							this.navListModel.updateItem({id:"monitor_dynamic_special_3_x", name:"monitor_dynamic_special_3_x", title:"Monitor Special 3.x Updated", icon:"resources/images/blank.png", type:"nav"},
+								null, null, null, null, {id:"monitor"});
+								
+							alert("Operation Finished");
+							
+							break;
+						
+						case "advanced_delete_navitem":
+							this.navListModel.deleteItem("monitor_special_3_2_1", {id:"monitor_special_3_2"}, {id:"monitor"});
+							this.navListModel.deleteItem("monitor_special_3_1", {id:"monitor_special_3"}, {id:"monitor"});
+							this.navListModel.deleteItem("monitor_special_3", {id:"monitor_special"}, {id:"monitor"});
+							this.navListModel.deleteItem("monitor_special_2", {id:"monitor_special"}, {id:"monitor"});
+							this.navListModel.deleteItem("monitor_special", {id:"monitor"}, {id:"monitor"});
+							this.navListModel.deleteItem("monitor_dynamic", {id:"monitor"}, {id:"monitor"});
+							
+							this.navListModel.deleteItem("analyze_dynamic_detail", {id:"analyze_2_2"}, {id:"analyze"});
+							this.navListModel.deleteItem("analyze_dynamic", {id:"analyze_2"}, {id:"analyze"});
+							
+							alert("Operation Finished");
+							
+							break;
+							
+						case "advanced_delete_root":
+							// this.navListModel.deleteItem("monitor");
+							this.navListModel.addItem({id:"monitor_dynamic", name:"monitor_dynamic", title:"Dynamic Added Monitor", icon:"resources/images/blank.png", type:"nav"},
+								{id:"monitor"}, 2, null, {id:"monitor"});
+							// this.navListModel.addItem({id:"monitor_dynamic_special", name:"monitor_dynamic_special", title:"Dynamic Added Monitor Special", icon:"resources/images/blank.png", type:"nav"},
+								// {id:"monitor_special"}, 2, null, {id:"monitor"});
+							
+							alert("Operation Finished");
+							
+							break;
+							
+						default:
+							//TODO
+							break;
+					}
+				}
+				var navAllActionHandler = function(item, e){
+					console.log(item);
+				}
+				
+				aspect.after(flipCardNav, "handleNavAction_stub", navActionHandler, true);
+				aspect.after(flipCardNav, "handleSettingsAction_stub", navSettingsActionHandler, true);
+				aspect.after(flipCardNav, "handleAllAction_stub", navAllActionHandler, true);
+				
+				
+				flipCardNav.startup();
+				
+			}
+			//dojoRequireModules(modules, null, currentDojoVersion.async, preParse, postParse);
+			
+		</script>
+		
+	</head>
+	<body class="oneui">
+		<script type="text/javascript"></script><!-- only oneui theme is supported -->
+		
+		<div style="width: 100%; height: 100%; margin: 0px; padding: 0px;">
+			<div style="width: 100%; height: 100%;">
+				<div id="flipcardNavNode"></div>
+			</div>
+			
+			<div id="custom_content" style="padding:20px;">
+				<div id="user_content" style="font-size:20px;">
+				</div>
+			</div>
+		</div>
+		
+		<div style="display:none">
+			<div id="welcome_content">
+				<div style="padding:10px;font-size:15px">
+					<div style="font-size:18px;font-weight:bold"> Dynamic Navigator Senarios </div>
+					
+					<div style="margin:10px; float:left; width:280px">
+						<div style="margin:5px"> Senarios 1: navigate in different navigation level</div>
+						<img src="resources/images/nav_dyna_group_1.png" style="width:250px; height:500px"/>
+					</div>
+					<div style="margin:10px; float:left; width:280px">
+						<div style="margin:5px"> Senarios 2: customize root level navigation items</div>
+						<img src="resources/images/nav_dyna_group_2.png" style="width:250px; height:500px"/>
+					</div>
+					<div style="margin:10px; float:left; width:280px">
+						<div style="margin:5px"> Senarios 3: customize sub level navigation items</div>
+						<img src="resources/images/nav_dyna_group_3.png" style="width:250px; height:500px"/>
+					</div>
+				</div>
+			</div>
+		</div>
+		
+	</body>
+</html>

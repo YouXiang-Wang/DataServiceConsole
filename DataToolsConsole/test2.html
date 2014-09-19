@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>Welcome</title>
+	<script type="text/javascript" src="js/dojoVersion.js"></script>
+	
+	<link rel="stylesheet" href="js/dojo/resources/dojo.css" media="screen">
+	<link rel="stylesheet" href="js/dijit/themes/dijit.css" media="screen">
+	<link rel="stylesheet" href="css/dcc.css" media="screen">
+		
+
+	<!--
+	<style id="screen" type="text/css">
+		@import "js/idx/themes/oneui/oneui.css";
+		
+		.oneui .menu-workitem.dijitMenuTable { width: auto; padding: 1px 0px; }
+		.oneui .menu-workitem .oneuiMenuColumn { width: 50%; max-width: 250px; border-left: 1px solid #f0f0f0; padding: 4px 0px; }
+		.oneui .menu-workitem .oneuiMenuColumn:first-child { border-left: 0px; }
+		.dj_ie7 .oneui .menu-workitem .oneuiMenuColumn { width: 250px; }
+		.dijitRtl .oneui .menu-workitem .oneuiMenuColumn { border-left: 0px; border-right: 1px solid #f0f0f0 }
+		.dijitRtl .oneui .menu-workitem .oneuiMenuColumn:first-child { border-right: 0px; }
+		.oneui .menu-workitem .dijitMenuItem { white-space: normal; }
+		.oneui .menu-workitem .dijitMenuItem .dijitMenuItemIconCell { vertical-align: top; padding: 7px 6px 0px 19px; width: 16px; height: 16px; }
+		.dijitRtl .oneui .menu-workitem .dijitMenuItem .dijitMenuItemIconCell { padding: 7px 19px 0px 6px; }
+		.oneui .menu-workitem .dijitMenuItemLabel { vertical-align: top; }
+		.oneui .menu-workitem .dijitMenuItem .dijitMenuArrowCell { padding-left: 1px; padding-right: 1px; }
+		.oneui .menu-workitem td.oneuiMenuHeadingLabel { border-left: 1px solid white; border-right: 1px solid white; border-bottom: 1px solid white; padding: 7px 20px 7px 14px; }
+		.dijitRtl .oneui .menu-workitem td.oneuiMenuHeadingLabel { padding: 7px 14px 7px 20px; }
+		
+		.oneui .dijitMenuTable .mi-workitem-icon-welcome,
+		.oneui .dijitMenuTable .mi-workitem-icon-query-folder,
+		.oneui .dijitMenuTable .mi-workitem-icon-query-create,
+		.oneui .dijitMenuTable .mi-workitem-icon-query,
+		.oneui .dijitMenuTable .mi-workitem-icon-defect,
+		.oneui .dijitMenuTable .mi-workitem-icon-task,
+		.oneui .dijitMenuTable .mi-workitem-icon-enhancement,
+		.oneui .dijitMenuTable .mi-workitem-icon-plan,
+		.oneui .dijitMenuTable .mi-workitem-icon-trackbuild,
+		.oneui .dijitMenuTable .mi-workitem-icon-retrospective,
+		.oneui .dijitMenuTable .mi-workitem-icon-story,
+		.oneui .dijitMenuTable .mi-workitem-icon-architectural,
+		.oneui .dijitMenuTable .mi-workitem-icon-adoption,
+		.oneui .dijitMenuTable .mi-workitem-icon-createfromtemplate { margin-left: 0px; margin-right: 0px; width: 16px; height: 16px; background-image: url(images/menu_icons_workitems.png); }
+
+		.mi-workitem-icon-welcome { background-position: 0px 0px; }
+		.mi-workitem-icon-query-folder { background-position: -16px 0px; }
+		.mi-workitem-icon-query-create { background-position: -32px 0px; }
+		.mi-workitem-icon-query { background-position: -48px 0px; }
+		.mi-workitem-icon-defect { background-position: -64px 0px; }
+		.mi-workitem-icon-task { background-position: -80px 0px; }
+		.mi-workitem-icon-enhancement { background-position: -96px 0px; }
+		.mi-workitem-icon-plan { background-position: -112px 0px; }
+		.mi-workitem-icon-trackbuild { background-position: -128px 0px; }
+		.mi-workitem-icon-retrospective { background-position: -144px 0px; }
+		.mi-workitem-icon-story { background-position: -160px 0px; }
+		.mi-workitem-icon-architectural { background-position: -176px 0px; }
+		.mi-workitem-icon-adoption { background-position: -192px 0px; }
+		.mi-workitem-icon-createfromtemplate { background-position: -208px 0px; }
+
+		.communities-header { margin-bottom: 8px; padding: 15px; border-bottom: 1px solid #ededed; background-color: #fafafa; }
+		
+		.communities-filter-item { cursor: pointer; }
+		.communities-filter-item:hover { text-decoration: underline }
+		.communities-filter-separator { padding: 0px 8px; }
+		
+		.communities-search { margin: 15px 0px 0px 0px }
+		.communities-search .dijitTextBox { border: 1px solid #e3e3e3; width: 100%; -moz-border-radius: 12px; border-radius: 12px; }
+		.communities-search .dijitTextBox .dijitInputContainer { background: transparent; }
+		.communities-search .dijitButton { position: relative; width: 0px; }
+		.oneui .communities-search .dijitButton .dijitButtonNode {position: relative; left: -32px; top: -1px; background-image: url('images/search_messages.png'); background-color: transparent; border: 0px; padding: 0px; width: 14px; height: 14px; min-width: 0px; box-shadow: none; -webkit-box-shadow: none; -moz-box-shadow: none; }
+		.dijitRtl .oneui .communities-search .dijitButton .dijitButtonNode {position: relative; right: -32px; top: -1px; background-image: url('images/search_messages.png'); background-color: transparent; border: 0px; padding: 0px; width: 14px; height: 14px; min-width: 0px; box-shadow: none; -webkit-box-shadow: none; -moz-box-shadow: none; }
+		.communities-search .dijitButton.dijitIcon { height: 14px; width: 14px; border: 0px; }
+
+
+		.menu-communities {  }
+		.mi-communities-name { font-weight: bold; }
+		.mi-communities-note {  }
+		.menu-communities .dijitMenuItem .dijitMenuArrowCell { padding-right: 0px;}
+				
+		.mi-communities-icon { margin-left: 0px; margin-right: 0px; width: 32px; height: 32px; background-image: url(images/megaMenuIcon32px.png); }
+		.menu-communities td.dijitMenuItemIconCell { padding-left: 5px; padding-right: 1px; }
+		.dijitRtl .menu-communities td.dijitMenuItemIconCell { padding-left: 1px; padding-right: 5px; }
+		.menu-communities .oneuiMenuColumn:first-child td.dijitMenuItemIconCell { padding-left: 14px;}
+		.dijitRtl .menu-communities .oneuiMenuColumn:first-child td.dijitMenuItemIconCell { padding-left: 1px; padding-right: 14px; }
+		
+		.communities-footer { margin-top: 8px; padding: 10px 15px 10px 15px; border-top: 1px solid #ededed; background-color: #fafafa;}
+		
+		.menu-apps .dijitMenuItem { height: 30px; }
+		
+		.mi-apps-suite { font-weight: bold; }
+		.mi-apps-associated { color: #7f7f7f; font-size: 0.9em; }
+		
+		.mi-apps-icon-activities,
+		.mi-apps-icon-blogs,
+		.mi-apps-icon-bookmarks,
+		.mi-apps-icon-files,
+		.mi-apps-icon-forums,
+		.mi-apps-icon-wikis { margin-left: 1em; margin-right: 4px; width: 16px; height: 16px; background-image: url(images/menu_icons_apps.png); }
+
+		.mi-apps-icon-activities { background-position: 0px 0px; }
+		.mi-apps-icon-blogs { background-position: -16px 0px; }
+		.mi-apps-icon-bookmarks { background-position: -32px 0px; }
+		.mi-apps-icon-files { background-position: -48px 0px; }
+		.mi-apps-icon-forums { background-position: -64px 0px; }
+		.mi-apps-icon-wikis { background-position: -80px 0px; }
+		
+		.triggerElement {
+			display: inline-block; 
+			border: 1px solid black; 
+			margin: 0px 0px 0px 20px; 
+			padding: 0.5em 1em; 
+			background-color: #dde7ff; 
+		}
+
+		.dj_ie7 .triggerElement {
+			display: inline;
+		}
+		
+		
+	</style>
+	-->
+   	<script type="text/javascript">
+   	var dojoConfig = {
+   	    
+			parseOnLoad: true,
+			isDebug: false,
+            baseUrl: "js/",
+			packages: [
+		   		{ name: "dojo",  location: "dojo" },
+		   		{ name: "dojox", location: "dojox" },
+		   		{ name: "dijit", location: "dijit" },
+		   		{ name: "dcc", location: "dcc" },
+			],
+			waitSeconds: 10,
+			async: false,
+			cacheBust: false
+		};
+   	
+		dojoScriptImport("js/dojo/dojo.js", "postDojo");
+	</script>
+	
+		<script>
+			require(["dojo/_base/lang", "dojo/_base/declare", "dcc/datatools/utils/RegularExpressionUtil","dojo/domReady!"],
+				function(lang, declare, RegularExpressionUtil) {
+					
+					
+					//var objStr = "select * from sysibm.tables SAMPLE5 Mon czeccść *  succeede?a Dot";
+					//var patt = "czeccść \\**succeedea";
+					//var patt = "*sysibm.tables*";
+					
+					//var objStr = "select * from sysibm.tables from 2";
+					//var patt = "FROM";
+					
+					
+					var objStr = "64515,499,000DD";
+					var patt = "64*000";
+					
+					
+					var reg = RegularExpressionUtil.compilePattern(patt, false, true);
+					
+					var rtn = RegularExpressionUtil.match(objStr,reg);
+					
+					if(rtn !=null) {
+						alert(rtn.length);
+					} else {
+						alert("null");
+					}
+					
+				});
+		</script>
+	</head>
+	<body>
+		<h2>Test</h2>
+		
+		
+	</body>
+</html>

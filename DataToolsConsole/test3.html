@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+	<title>Welcome</title>
+	
+	
+		<script>
+			
+		//要匹配的字符串
+		var objStr="AAAA13622222222，13633333333 aa 13988888888";
+		//设置正则表达式匹配以13开头的11为手机号码，全局匹配（这里是匹配移动手机号）
+		//var reg=new RegExp("13[4-9](//d){8}","gi");
+		var reg=new RegExp(".*136.*","gi");
+		var arr = reg.exec(objStr);
+		
+		
+		//提示用户发现移动号码，然后打印出结果
+		//document.write("发现移动手机号码");
+		//调用函数打印匹配的结果
+		//findPhoneNumbers(arr);
+		
+		/*
+		//重新编译正则表达式
+		reg.compile("13[0-3](//d){8}","gmi");
+		document.write("www.jbxue.com - 发现联通手机号码");
+		findPhoneNumbers(objStr.match(reg));
+		//定义输出返回结果函数
+		*/
+		
+		function findPhoneNumbers(arr){
+			if(arr!=null) {
+				document.write("<li>"+arr.length+"<br>");
+				for(var i=0;i<arr.length;i++){
+					document.write("<li>"+arr[i]+"<br>");
+				}
+			}
+		}
+		
+		function result(arr){
+			if(arr!=null) {
+				document.write("<li>"+arr.length+"<br>");
+				for(var i=0;i<arr.length;i++){
+					document.write("<li>"+arr[i]+"<br>");
+				}
+			}
+		}
+		
+		
+		function matchDemo(){
+			   var s;                                
+			   var re = new RegExp("d(b+)(d)","ig"); //正则表达式样式。
+			   var str = "cdbBdbsbdbdz";             //将被查找的字符串。
+			   var arr = re.exec(str);               //进行查找。
+			   s = "正则属性 : " + re.lastIndex + "<br/>";
+			   s += "RegExp属性: " + RegExp.lastIndex + "<br/>";
+			   return(s);                            //返回结果。
+			}
+			//document.write(matchDemo());
+			
+		
+			function matchDemo1(){
+				   var s;                                
+				   var re = new RegExp("64.*000\\*.*5","gmi"); //正则表达式样式。
+				   var str = "ass64515,499,000*05";             //将被查找的字符串。
+				   var arr = re.exec(str);               //进行查找。
+				   result(arr)
+				}
+			document.write(matchDemo1());
+				
+				
+		</script>
+	</head>
+	<body>
+		
+		
+		
+	</body>
+</html>

@@ -1,0 +1,39 @@
+
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<title>Demo: button</title>
+	
+	<link rel="stylesheet" href="js/dijit/themes/claro/claro.css" media="screen">
+
+<!-- load dojo and provide config via data attribute -->
+		<script src="js/dojo/dojo.js" data-dojo-config="async: true, parseOnLoad: false"></script>
+	<script>
+	require([
+		//"dojo/dom",
+		//"dojo/on",
+		"dojo/parser",
+		
+		//"dijit/form/Button",
+		"dojo/domReady!"
+	], function( parser, registry){
+		parser.parse();
+		
+	});
+	</script>
+	
+</head>
+<body class="claro">
+	<h1>Demo: button</h1>
+	<button id="button1" type="button">Button1</button>
+	<button id="button2" data-dojo-type="dijit/form/Button" type="button">Button2</button>
+	<button id="button3" data-dojo-type="dijit/form/Button" type="button">
+		<span>Button3</span>
+		<script type="dojo/on" data-dojo-event="click">
+			console.log("I was clicked");
+		</script>
+	</button>
+	
+</body>
+</html>

@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Main Application</title>
+
+    <style type="text/css">
+      @import "js/dijit/themes/soria/soria.css";
+    </style>
+    
+	
+	
+    <script type="text/javascript">
+    /*
+      var dojoConfig = {
+            async: true,
+            parseOnLoad: true,
+            isDebug: true,
+            baseUrl: "js/",
+            packages: [
+              { name: "dojo",  location: "dojo" },
+              { name: "dijit", location: "dijit" },
+              { name: "dojox", location: "dojox" }
+            ]
+      };
+      */
+    </script>
+    
+    <script type="text/javascript" src="js/dojo/dojo.js" charset="utf-8" data-dojo-config="async: true, parseOnLoad: true"></script>
+	
+	<script type="text/javascript">	
+	
+		require(["dojo/domReady!", 
+		         "dojo/parser",
+		         "dojo/dom",
+		         "dijit/registry",
+		         "dijit/layout/BorderContainer",
+		         "dijit/layout/ContentPane",
+		         "dijit/layout/TabContainer"
+		 		], 
+		 		function(ready, parser){
+					//parser.parse();
+		 		}
+		 );
+		
+	</script>
+	
+</head>
+<body class="soria">
+
+<div style="height:100%;"> 
+
+     <div id="mainApp" data-dojo-type="dijit/layout/BorderContainer"  style="height:100%; "
+     data-dojo-props='title:"Nested BC"'>
+        
+        
+        <!-- begin of top -->
+		<div data-dojo-type="dijit/layout/ContentPane" data-dojo-props='id:"main_top", region:"top", style:"height: 16px;"'>
+		    top menu1
+		</div>
+		<!-- begin of top -->
+		
+		
+    	<div data-dojo-type="dijit/layout/BorderContainer" data-dojo-props='region:"center", design:"sidebar"'>
+    	    
+    	    <div data-dojo-type="dijit.layout.BorderContainer" data-dojo-props='region:"left", style:"width: 300px", splitter: "true"'>
+    	        <!-- begin of left TabContainer -->
+        		<div data-dojo-type="dijit/layout/TabContainer" data-dojo-props='region:"center"'>
+        			<!-- main section with tree, table, and preview -->
+        			<div data-dojo-type="dijit/layout/ContentPane"  title="Tab1 View">
+        			    aa
+        			</div>
+        			<div data-dojo-type="dijit/layout/ContentPane"  title="Tab2 View">
+        			    bb
+        			</div>
+                </div> <!-- end of left TabContainer -->
+                
+        		<div data-dojo-type="dijit/layout/ContentPane" data-dojo-props='region:"bottom", style:"height: 16px;"'>
+        		    bottom bar
+        		</div>
+    		</div>
+    		
+    		<!--
+    
+    		<div data-dojo-type="dijit/layout/ContentPane" data-dojo-props='region:"top", style:"height: 16px;"'>
+    		    top menu2
+    		</div>
+    		-->
+    		
+    		
+    		<!-- begin of right TabContainer -->
+    		<div data-dojo-type="dijit/layout/TabContainer" data-dojo-props=' region:"center"'>
+    		    
+    			<!-- main section with tree, table, and preview -->
+    			<div data-dojo-type="dijit/layout/ContentPane"  title="dashboard">
+    			    dashboard
+    			</div>
+    			<div data-dojo-type="dijit/layout/ContentPane"   title="environment" >
+    			    environment
+    			</div>
+    
+    		</div> <!-- end of right TabContainer -->
+    		
+    		<div data-dojo-type="dijit/layout/ContentPane" data-dojo-props='id:"right", region:"right", style:"width: 16px;"'>
+    		    right bar
+    		</div>
+    	</div> <!-- end of main -->
+    	
+    	<!-- begin of bottom -->
+        <div data-dojo-type="dijit/layout/ContentPane" data-dojo-props='id:"main_bottom", region:"bottom", style:"height: 16px;"'>
+		    bottom
+		</div>
+		<!-- end of bottom -->
+		
+    </div>
+</div>
+</body>
+</html>
+
