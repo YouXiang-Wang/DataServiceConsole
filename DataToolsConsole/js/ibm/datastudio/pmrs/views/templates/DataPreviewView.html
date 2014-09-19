@@ -1,0 +1,23 @@
+<div>
+	<div class="previewHeader">
+		Preview For: 
+		<span data-dojo-attach-point="previewHeaderName"></span>
+	</div>
+	<div data-dojo-attach-point="previewToolbar" class="previewToolbar">
+		<div>
+			<span data-dojo-attach-point="addFilterAction" class="uriBaseProp filterAddFilter"
+				title="Add Filter Option" data-dojo-attach-event="onclick:_addFilterItem"></span>
+			<span data-dojo-attach-point="filterAction" class="uriBaseProp filterExecFilter"
+				title="Execute Filter" data-dojo-attach-event="onclick:_filterResultTable"></span>	
+			<span data-dojo-attach-point="chartPreviewAction" class="uriBaseProp createGraphicAction"
+				title="Graphic Preview" data-dojo-attach-event="onclick: _previewDataInChart"></span>	
+			<input type="checkbox" data-dojo-attach-point="filterOnCurrentResultSet" 
+				data-dojo-attach-event="onclick:_changeFilterOptions" checked />Filter on Current Result<br/>			
+		</div>
+	</div>
+	<div data-dojo-attach-point="filterSection"></div>
+	<div data-dojo-attach-point="loadingIndicator" data-dojo-type="ibm/ds/share/widgets/LoadingWidget"></div>
+	<div data-dojo-attach-point="previewGridSection" style="width:99%;height:40%;"></div>
+	<div data-dojo-attach-point="previewSnippSection" style="width:99%;height:60%;margin:5px;overflow:auto;">	
+	</div>
+</div>

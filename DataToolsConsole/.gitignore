@@ -1,2 +1,10 @@
-/js
+/js/dojo
+/js/dijit
+/js/dojox
+/js/gridx
+/js/dgrid
+/js/idx
+/js/law
+/js/xstyle
+/js/put-selector
 /resources

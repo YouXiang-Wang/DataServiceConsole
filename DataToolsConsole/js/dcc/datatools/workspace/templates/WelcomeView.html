@@ -1,0 +1,56 @@
+<div>
+	<div data-dojo-attach-point="loadingIndicator" data-dojo-type="ibm/ds/share/widgets/LoadingWidget"></div>
+	<div class="welcomeInfoSection">
+		<p>Welcome to Data Studio Admin Console. You can start by click <span data-command="help" class="gcli-out-shortcut">help</span>. </p>
+		<p>You can define the welcome page by click add command or drag the command executed to welcome page. </p>
+	</div>
+	<div data-dojo-attach-point="welcomeContainer" class="welcomeTagArea">
+	</div>	
+	
+	<div data-dojo-type="dijit/Dialog" title="Add New Command Shortcut" data-dojo-attach-point="addCommandDialog" style="width:600px;height:220px;">
+	    <div class="dijitDialogPaneContentArea" style="width:100%;height:100%;">
+	        <table class="addWelcomeLink">
+	            <tr>
+	                <td><label for="commandLinkText">Command Shortcut Name: </label></td>
+	                <td><input style="width: 30em;" data-dojo-type="dijit/form/TextBox" type="text" name="commandLinkText" data-dojo-attach-point="commandLinkText"></td>
+	            </tr>
+	            <tr>
+	                <td><label for="commandToExecuteText">Command To Execute: </label></td>
+	                <td><input style="width: 30em;" data-dojo-type="dijit/form/TextBox" type="text" name="commandToExecuteText" data-dojo-attach-point="commandToExecuteText"></td>
+	            </tr>
+	            <tr>
+	                <td><label for="commandLinkIcon">Choose Shortcut Icon: </label></td>
+	                <td><input style="width: 30em;" data-dojo-type="dijit/form/TextBox" type="text" name="commandLinkIcon" data-dojo-attach-point="commandLinkIcon"></td>
+	            </tr>	
+	            <tr>
+	                <td><label for="commandLinkDescription">Description for Shortcut: </label></td>
+	                <td><input style="width: 30em;" data-dojo-type="dijit/form/TextBox" type="text" name="commandLinkDescription" data-dojo-attach-point="commandLinkDescription"></td>
+	            </tr>		                        
+	        </table>
+	    </div>
+	
+	    <div class="dijitDialogPaneActionBar">
+	        <button data-dojo-type="dijit/form/Button" type="button" data-dojo-attach-event="onClick: addLinkItemDailogHandler">
+	            OK
+	        </button>
+	        <button data-dojo-type="dijit/form/Button" type="button" data-dojo-attach-event="onClick: hideAddLinkDailogHandler">
+	            Cancel
+	        </button>
+	    </div>	
+	</div>
+	
+	<div data-dojo-type="dijit/Dialog" title="Voice Command Input Dialog" data-dojo-attach-point="voiceCommandDialog" style="width:600px;height:350px;">
+	    <div class="dijitDialogPaneContentArea" style="width:95%;height:90%;">
+	        <div data-dojo-type='ibm/ds/share/widgets/VoiceInput' data-dojo-attach-point="voiceInputBox" style="width:95%;"></div>
+	    </div>
+	
+	    <div class="dijitDialogPaneActionBar">
+	        <button data-dojo-type="dijit/form/Button" type="button" data-dojo-attach-event="onClick: hideVoiceCommandDialog">
+	            OK
+	        </button>
+	        <button data-dojo-type="dijit/form/Button" type="button" data-dojo-attach-event="onClick: hideVoiceCommandDialog">
+	            Cancel
+	        </button>
+	    </div>	
+	</div>	
+</div>

@@ -1,0 +1,26 @@
+/* Define clear */
+.dccClearTextBox { 
+	padding-right: 25px; 
+	position: relative; 
+}
+
+.dccClearTextBox a.dccClear { 
+	width: 12px;
+	height: 16px;
+	display: block;
+	overflow: hidden;
+	text-indent: -5000px;
+	position: absolute;
+	top: 6px; 
+	right: 5px;
+	background: url(../images/closeButtonSprite.png) 0 0 no-repeat;
+	z-index: 2000;
+	cursor: pointer; 
+}
+
+.dccClearTextBox a.dccClear:hover { 
+	background-position:-12px 0; 
+}
+.dj_ie .dccClearTextBox a.dccClear	{ 
+	top:2px; 
+}

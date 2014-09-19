@@ -1,0 +1,35 @@
+<div>
+	<div data-dojo-type="dijit/layout/BorderContainer" style="height:100%; " data-dojo-props='design:"sidebar"'
+		data-dojo-attach-point="appContainer">
+		<div data-dojo-type="dojox/layout/ExpandoPane" data-dojo-attach-point="leftPane" data-dojo-props="region:'left', splitter:true, startExpanded: false, maxWidth:300"
+			style="width:200px;" class="leftPane">
+			This is the left side view...
+		</div>
+		<div data-dojo-type="dijit/layout/ContentPane" data-dojo-attach-point="centerPane" data-dojo-props='region:"center",splitter:true' class="containBG" style="width:100%;height:70%;background-color:transparent; border:none;">
+			<div data-dojo-type="ibm/ds/layout/TabContainer" style="width:100%;height:100%;" data-dojo-attach-point="mainViewContainer">
+				<div data-dojo-type="ibm/ds/workspace/WelcomeView" data-dojo-props="title: 'Shortcuts'" style="width:100%;height:400px;"></div>
+			</div>
+		</div>
+		<div data-dojo-type="dijit/layout/ContentPane" data-dojo-props='region:"bottom",splitter:true' 
+			style="width:100%;height:30%;background-color:transparent; border:none;"  class="containBG">
+			<div data-dojo-type="ibm/ds/layout/TabContainer" data-dojo-props="tabPosition: 'left'"  
+				style="width:100%;height:100%;" data-dojo-attach-point="propertyViewContainer">
+				<div data-dojo-type="ibm/ds/layout/ContentPane" data-dojo-props="title: 'Property'" style="width:100%;height:100%;">
+					Here will be the property view, show the properties information for the selected object.
+				</div>
+				<div data-dojo-type="ibm/ds/layout/ContentPane" data-dojo-props="title: 'Problem'" style="width:100%;height:100%;">
+					Here will be the problem view, show the error or warning information for user.
+				</div>
+				<div data-dojo-type="ibm/ds/layout/ContentPane" data-dojo-props="title: 'Result View'" style="width:100%;height:100%;">
+					Here will be the result view, user can view the SQL result.
+				</div>	
+				<div data-dojo-type="ibm/ds/property/CommandHistoryView" data-dojo-attach-point="commandHistoryTab" data-dojo-props="title: 'Task History'" 
+					style="width:100%;height:100%;">
+				</div>											
+			</div>
+		</div>			
+		<div data-dojo-type="ibm/ds/gcli/Gcli" data-dojo-attach-point="commandSection" 
+			data-dojo-props='splitter:true,region:"trailing", maxWidth:700' style="width:350px;height:100%;top:0px;margin-top:0px;border-style:none none none solid;border-color:#111111;" class="searchArea">
+		</div>	
+	</div>	
+</div>
