@@ -53,18 +53,55 @@ function TrackerController() {
                                     }
                                  ];
         
+        var pmrAnalysisEntries1 = [
+                                  {
+                               	baseURL: "https://w3-01.sso.ibm.com/software/servdb/crm/secure/l3groupClosed.do?",
+                               	group: "Data Studio Administrator",
+                               	startDate: "2012-01-01",
+                               	endDate: "2014-09-01",
+                               	category: "Closed"
+                               	},
+                               	
+                                ];
+        
+        
+        var pmrAnalysisEntries2 = [
+                                  
+                                   {baseURL: "https://w3-01.sso.ibm.com/software/servdb/crm/secure/l3groupClosed.do?",
+                                    group: "Optim Data Studio Core Development",
+                                    startDate: "2012-01-01",
+                                    endDate: "2014-09-01",
+                                    category: "Closed"
+                                   },
+                                   
+                                ];
+        
+        
+        
+        var pmrAnalysisEntries3 = [
+                                  
+                                   {baseURL: "https://w3-01.sso.ibm.com/software/servdb/crm/secure/l3groupClosed.do?",
+                                    group: "Optim Development Studio /  Data Studio (Developer)",
+                                    startDate: "2012-01-01",
+                                    endDate: "2014-09-01",
+                                    category: "Closed"
+                                   },
+                                   
+                                ];
+        
         var username = "wangyoux@cn.ibm.com";
         var password = "Taiji1005";
         
         var _jar = request.jar();
         
         var _startDate = "2012-01-01";
-        var _endDate = "2014-09-01";
-        
+        var _endDate = "2014-09-21";
+        //secureOptions: constants.SSL_OP_NO_TLSv1_2
         var form_data = qs.stringify({
             username : username,
             password : password,
             "login-form-type": "pwd"
+            
         });
         
         var _headers = qs.stringify( {
@@ -83,8 +120,7 @@ function TrackerController() {
         
         var localRepsPath = config.pmrRepository;
         
-        //request.post({url: _login_url, jar: _jar, form: form_data}, function(err, res, body) {
-        request.post(_post, function(err, res, body) {
+        request.post({url: _login_url, jar: _jar, form: form_data}, function(err, res, body) {
             if(err) {
                 return console.error(err);
             }
@@ -96,12 +132,11 @@ function TrackerController() {
                 
                 
                 var _url = item.baseURL + "&startDate=" + item.startDate + "&endDate=" + item.endDate + "&l3group=" + item.group;
-                console.log('_url is: ' + _url);
                 
                 request.get({url : _url, jar : _jar}, function(err, res, body) {
                     if(err) {
                     	console.log(err);
-                        return console.error("error" + err);
+                        return console.error("Error1:" + "\nURL=" + _url + "\nReason:" + err);
                     }
                     
                     var $ = cheerio.load(body);
@@ -116,18 +151,20 @@ function TrackerController() {
                                 var _pmr_url = _c1.find("a").attr("href");
                                 _pmr_url = "https://w3-01.sso.ibm.com" + _pmr_url;
                                 
-                                console.log("PMR" + _c1_pmr_number);
+                                //console.log("PMR" + _c1_pmr_number);
                                 request.get({url : _pmr_url, jar : _jar}, function(err, res, body) {
                                     if(err) {
-                                        return console.error("error" + err);
+                                    	console.trace();
+                                    	console.dir;
+                                    	return console.error("Error2:" + "\nURL=" + _pmr_url + "\nReason:" + err);
                                     }
                                     
                                     // parse the body for the information
-                                    var pmrInfo = _self.parseHTML(body);
+                                    var pmrInfo = _self.parseHTML(_pmr_url, body);
                                     pmrProxy.insert(pmrInfo);
                                     
-                                    console.log("PMR_3_" + pmrInfo.pmrNumber);
-                                    console.log("**********************************************************");
+                                    //console.log("PMR_3_" + pmrInfo.pmrNumber);
+                                    //console.log("**********************************************************");
                                     
                                     var fileName  = localRepsPath + "/" + pmrInfo.pmrNumber + ".html";
                                     
@@ -136,6 +173,8 @@ function TrackerController() {
                                             console.log(error);
                                         }
                                     });
+                                     
+                                     //callback();
                                 });
                                 
                             }
@@ -150,6 +189,8 @@ function TrackerController() {
                     console.error(err);
                 }
             });
+            
+            console.log("+++++++++++++++++++++++++++++++");
         });
         
         {
@@ -159,7 +200,7 @@ function TrackerController() {
     };
     
     
-    this.parseHTML = function(body){
+    this.parseHTML = function(pmrUrl, body){
         var $ = cheerio.load(body);
         
         var localRepsPath = config.pmrRepository;
@@ -216,7 +257,7 @@ function TrackerController() {
                                 pmrNumber = vNext.text().trim();
                                 // 00000,000,000
                                 pmrNumber = pmrNumber.substr(0, 13);
-                                console.log("**********************************************************");
+                                //console.log("**********************************************************");
                                 //console.log("PMR_1_" +pmrNumber);
                             }
 
@@ -264,7 +305,7 @@ function TrackerController() {
                                 l2Owner = vNext.text().trim();
                             }
                             
-                            if(tdText=="Days Open") {
+                            if(tdText=="Days Open:") {
                                 openDays = vNext.text().trim();
                             }
                          
@@ -293,7 +334,7 @@ function TrackerController() {
                               l3RequestDate = vNext.text().trim();
                             }
                             
-                            if(tdText=="L3 Closed Date") {
+                            if(tdText=="L3 Closed Date:") {
                               l3CloseDate = vNext.text().trim();
                             }
                             
@@ -314,6 +355,7 @@ function TrackerController() {
             pmrInfo.severity = severity;
             pmrInfo.currentQueue = currentQueue;
             pmrInfo.pmrStatus = 'O';
+            
             if(pmrStatus = 'C') {
             	// has been closed
             	pmrInfo.l2CloseDate = l2CloseDate;
@@ -332,6 +374,7 @@ function TrackerController() {
             pmrInfo.l3Owner = l3Owner;
             pmrInfo.l3RequestDate = l3RequestDate;
             pmrInfo.billTime = billTime;
+            pmrInfo.pmrUrl = pmrUrl;
             
             });
            
@@ -345,7 +388,6 @@ function TrackerController() {
             	   pmrInfo.scratchPad =  scratchPad;
                }
            });
-           console.log("PMR_2_" +pmrNumber);
            
            var updates = $(".ibm-twisty-body").first();
            

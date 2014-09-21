@@ -5,6 +5,9 @@ var Schema = mongoose.Schema;
 var Pmrchema = new Schema({
   pmrNumber: { type: String},
   productName: { type: String},
+  version: { type: String},
+  defect: { type: String },
+  fixedOn: { type: String },
   l2Owner: { type: String },
   l2OpenDate: { type: String },
   l2CloseDate: { type: String },
