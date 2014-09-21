@@ -18,8 +18,7 @@ define([
 
 		constructor: function(){
 			this.dataGridStore = null;
-		},	
-
+		},
 		dataWrapperForViewer: function(response) {
 			var result = {
 					identifier: "pmrNumber",
