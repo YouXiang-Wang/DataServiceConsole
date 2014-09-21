@@ -20,8 +20,7 @@ define([
 			this.dataGridStore = null;
 		},	
 
-		dataWrapperForViewer: function(response){
-			//var result = response.result; //.result;
+		dataWrapperForViewer: function(response) {
 			var result = {
 					identifier: "pmrNumber",
 					items: response.result

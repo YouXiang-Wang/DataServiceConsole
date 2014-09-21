@@ -1,0 +1,193 @@
+<div style="width: 100%; padding: 0px; left: 0px; right: 0px; border:0px">
+
+					<div data-dojo-type="dijit/Toolbar" style='border: 0;padding:0;width: 100%;' data-dojo-attach-point="toolBarContainer" >
+					
+					
+						<span><b>Select All:</b></span>
+						<input name="selectAll" data-dojo-type="dijit/form/CheckBox"  checked data-dojo-attach-event="onclick: _filterComponent" id="cbSelectAll"
+							data-dojo-attach-point="cbSelectAll" data-dojo-props=''/>
+						
+						
+						<span data-dojo-type="dijit/ToolbarSeparator"></span>
+						
+						<span><b>Filter By:</b></span>
+						
+						<input style="width: ${comboxWidth}" data-dojo-type="dijit/form/Select" 
+							data-dojo-props="labelAttr: 'label'" 
+							data-dojo-attach-point="queryItemType" />
+						<span><b>Value:</b></span>
+						
+						<input data-dojo-attach-point="queryValue" data-dojo-type="dcc/datatools/widget/ClearTextBox" style="width: ${searchInputWidth};" />
+						
+						<!-- dijit/form/ComboBox dijit/form/TextBox  dcc/datatools/widget/ClearTextBox-->
+						
+						<!--
+						<div data-dojo-type="dijit/form/Button" id="pmr_filter1" data-dojo-attach-point="pmr_filter1"
+					        	data-dojo-attach-event="onclick: _executeFilter" data-dojo-props="iconClass:'executeFilter', showLabel:false">Filter</div>
+						-->
+						<!--
+						<div data-dojo-type="dijit/form/Button" id="pmr_cond_clear1" data-dojo-attach-point="pmr_cond_clear1"
+					        	data-dojo-attach-event="onclick: _executeFilter" data-dojo-props="iconClass:'filterRemoveFilter', showLabel:false">Clear Filter</div>
+						-->
+		    	
+		    			<span data-dojo-type="dijit/ToolbarSeparator"></span>
+		    			
+		    			<input name="pmrDatePeriodEnabled" data-dojo-type="dijit/form/CheckBox"  data-dojo-attach-event="onclick: _filterComponent"  id="cbDatePeriod"
+							data-dojo-attach-point="cbDatePeriod" data-dojo-props=''/>
+						<label for="pmrDatePeriodEnabled"><b>Period Enabled:</b></label>
+						
+		    			<span><b>From:</b></span>
+						<input data-dojo-type="dijit/form/DateTextBox" data-dojo-attach-point="pmrBeginDate" data-dojo-props="constraints:{datePattern:'yyyy-MM-dd'}"/>
+						<span><b>To:</b></span>
+						<input data-dojo-type="dijit/form/DateTextBox" data-dojo-attach-point="pmrEndDate" data-dojo-props="constraints:{datePattern:'yyyy-MM-dd'}"/>
+		    	
+					
+						<div data-dojo-type="dijit/form/Button" id="pmr_filter2" data-dojo-attach-point="pmr_filter2"
+					        	data-dojo-attach-event="onclick: _filterByDatePeriod" data-dojo-props="iconClass:'executeFilter', showLabel:false">Filter</div>
+						
+						<!--
+						<div data-dojo-type="dijit/form/Button" id="pmr_cond_clear2"
+					        	data-dojo-attach-event="onclick: _executeFilter" data-dojo-props="iconClass:'filterRemoveFilter', showLabel:false">Clear Filter</div>
+						-->    	
+						
+
+							<span><b>Years:</b></span>
+							<input name="pmrYear2011" data-dojo-type="dijit/form/CheckBox"  checked data-dojo-attach-event="onclick: _filterComponent"  id="cbYear2011"
+								data-dojo-attach-point="cbYear2011" data-dojo-props=''/>
+							<label for="pmrYear2011">2011</label>
+							
+							<input name="pmrYear2012" data-dojo-type="dijit/form/CheckBox"  checked data-dojo-attach-event="onclick: _filterComponent"  id="cbYear2012"
+								data-dojo-attach-point="cbYear2012" data-dojo-props=''/>
+							<label for="pmrYear2012">2012</label>
+							
+							<input name="pmrYear2013" data-dojo-type="dijit/form/CheckBox"  checked data-dojo-attach-event="onclick: _filterComponent"  id="cbYear2013"
+								data-dojo-attach-point="cbYear2013" data-dojo-props=''/>
+							<label for="pmrYear2013">2013</label>
+							
+							<input name="pmrYear2014" data-dojo-type="dijit/form/CheckBox"  checked data-dojo-attach-event="onclick: _filterComponent"  id="cbYear2014"
+								data-dojo-attach-point="cbYear2014" data-dojo-props=''/>
+							<label for="pmrYear2014">2014</label>
+							
+
+		    			<span data-dojo-type="dijit/ToolbarSeparator"></span>
+		    			
+						<span><b>Components:</b></span>
+						<input name="admin" data-dojo-type="dijit/form/CheckBox"  checked data-dojo-attach-event="onclick: _filterComponent" id="cbAdmin"
+							data-dojo-attach-point="cbAdmin" data-dojo-props=''/>
+						<label for="admin">Administrator</label>
+						
+						<input name="dev" data-dojo-type="dijit/form/CheckBox"  checked data-dojo-attach-event="onclick: _filterComponent" id="cbDeveloper"
+							data-dojo-attach-point="cbDeveloper" data-dojo-props=''/>
+						<label for="dev">Developer</label>
+						
+						<input name="core" data-dojo-type="dijit/form/CheckBox"  checked data-dojo-attach-event="onclick: _filterComponent"  id="cbCore"
+							data-dojo-attach-point="cbCore" data-dojo-props=''/>
+						<label for="core">Core</label>
+		    	
+
+						<span data-dojo-type="dijit/ToolbarSeparator"></span>
+						
+						<input name="pmrDSVersion4100" data-dojo-type="dijit/form/CheckBox"  checked data-dojo-attach-event="onclick: _filterComponent"  id="cbDSVersion4100"
+							data-dojo-attach-point="cbDSVersion4100" data-dojo-props=''/>
+						<label for="pmrDSVersion4100">V4.1</label>
+						
+						<input name="pmrDSVersion4101" data-dojo-type="dijit/form/CheckBox"  checked data-dojo-attach-event="onclick: _filterComponent"  id="cbDSVersion4101"
+							data-dojo-attach-point="cbDSVersion4101" data-dojo-props=''/>
+						<label for="pmrDSVersion4101">V4.1.0.1</label>
+						
+						<input name="pmrDSVersion411O" data-dojo-type="dijit/form/CheckBox"  checked data-dojo-attach-event="onclick: _filterComponent"  id="cbDSVersion4110"
+							data-dojo-attach-point="cbDSVersion4110" data-dojo-props=''/>
+						<label for="pmrDSVersion4110">V4.1.1</label>
+						
+						<input name="pmrDSVersionOthers" data-dojo-type="dijit/form/CheckBox"  checked data-dojo-attach-event="onclick: _filterComponent"  id="cbDSVersionOthers"
+							data-dojo-attach-point="cbDSVersionOthers" data-dojo-props=''/>
+						<label for="pmrDSVersionOthers">Others</label>
+						
+						
+		    			<span data-dojo-type="dijit/ToolbarSeparator"></span>
+		    			
+		    			
+		    			<span><b>Severity:</b></span>
+						<input name="pmrs1" data-dojo-type="dijit/form/CheckBox"  checked data-dojo-attach-event="onclick: _filterComponent"  id="cbSev1"
+							data-dojo-attach-point="cbSev1" data-dojo-props=''/>
+						<label for="pmrs1">Severity 1</label>
+						
+						<input name="pmrs2" data-dojo-type="dijit/form/CheckBox"  checked data-dojo-attach-event="onclick: _filterComponent"  id="cbSev2"
+							data-dojo-attach-point="cbSev2" data-dojo-props=''/>
+						<label for="pmrs2">Severity 2</label>
+						
+						<input name="pmrs3" data-dojo-type="dijit/form/CheckBox"  checked data-dojo-attach-event="onclick: _filterComponent"  id="cbSev3"
+							data-dojo-attach-point="cbSev3" data-dojo-props=''/>
+						<label for="pmrs3">Severity 3</label>
+						
+						<input name="pmrs4" data-dojo-type="dijit/form/CheckBox"  checked data-dojo-attach-event="onclick: _filterComponent"  id="cbSev4"
+							data-dojo-attach-point="cbSev4" data-dojo-props=''/>
+						<label for="pmrs4">Severity 4</label>
+						
+						
+					
+						<span><b>Priority:</b></span>
+						<input name="pmrp1" data-dojo-type="dijit/form/CheckBox"  checked data-dojo-attach-event="onclick: _filterComponent"  id="cbPri1"
+							data-dojo-attach-point="cbPri1" data-dojo-props=''/>
+						<label for="pmrp1">Priority 1</label>
+						
+						<input name="pmrp2" data-dojo-type="dijit/form/CheckBox"  checked data-dojo-attach-event="onclick: _filterComponent"  id="cbPri2"
+							data-dojo-attach-point="cbPri2" data-dojo-props=''/>
+						<label for="pmrp2">Priority 2</label>
+						
+						<input name="pmrp3" data-dojo-type="dijit/form/CheckBox"  checked data-dojo-attach-event="onclick: _filterComponent"  id="cbPri3"
+							data-dojo-attach-point="cbPri3" data-dojo-props=''/>
+						<label for="pmrp3">Priority 3</label>
+						
+						<input name="pmrp4" data-dojo-type="dijit/form/CheckBox"  checked data-dojo-attach-event="onclick: _filterComponent"  id="cbPri4"
+							data-dojo-attach-point="cbPri4" data-dojo-props=''/>
+						<label for="pmrp4">Priority 4</label>
+						
+						
+						<span data-dojo-type="dijit/ToolbarSeparator"></span>
+						
+						<span><b>Status:</b></span>
+						
+						<input name="pmrOpened" data-dojo-type="dijit/form/CheckBox"  checked data-dojo-attach-event="onclick: _filterComponent"  id="cbOpened"
+							data-dojo-attach-point="cbOpened" data-dojo-props=''/>
+						<label for="pmrOpened">Opened</label>
+						
+						<input name="pmrClosed" data-dojo-type="dijit/form/CheckBox"  checked data-dojo-attach-event="onclick: _filterComponent"  id="cbClosed"
+							data-dojo-attach-point="cbClosed" data-dojo-props=''/>
+						<label for="pmrClosed">Closed</label>
+						
+						<input name="pmrPending" data-dojo-type="dijit/form/CheckBox"  checked data-dojo-attach-event="onclick: _filterComponent"  id="cbPending"
+							data-dojo-attach-point="cbPending" data-dojo-props=''/>
+						<label for="pmrPending">Pending</label>
+						
+						<span data-dojo-type="dijit/ToolbarSeparator"></span>
+												
+						<span><b>APAR:</b></span>
+						<input name="pmrAparYes" data-dojo-type="dijit/form/CheckBox"  checked data-dojo-attach-event="onclick: _filterComponent"  id="cbAPARYes"
+							data-dojo-attach-point="cbAPARYes" data-dojo-props=''/>
+						<label for="pmrAparYes">Yes</label>
+						
+						<input name="pmrAparNo" data-dojo-type="dijit/form/CheckBox"  checked data-dojo-attach-event="onclick: _filterComponent"  id="cbAPARNo"
+							data-dojo-attach-point="cbAPARNo" data-dojo-props=''/>
+						<label for="pmrAparNo">No</label>
+						
+						
+						<span data-dojo-type="dijit/ToolbarSeparator"></span>						
+								
+						<div data-dojo-type="dijit/form/Button" id="btn_EditPmr" data-dojo-attach-point="btn_EditPmr"
+					        	data-dojo-attach-event="onclick: _openPmrLocal" data-dojo-props="iconClass:'executeFilter', showLabel:true">Edit</div>
+						
+						
+						
+						<div data-dojo-type="dijit/form/Button" id="btn_OpenPmrLocal" data-dojo-attach-point="btn_OpenPmrLocal"
+					        	data-dojo-attach-event="onclick: _openPmrLocal" data-dojo-props="iconClass:'executeFilter', showLabel:true">Open Local</div>
+						
+						<div data-dojo-type="dijit/form/Button" id="btn_OpenPmrRemote" data-dojo-attach-point="btn_OpenPmrRemote"
+					        	data-dojo-attach-event="onclick: _openPmrLocal" data-dojo-props="iconClass:'executeFilter', showLabel:true">Open Server</div>
+						
+
+					</div>
+					
+
+		
+</div>

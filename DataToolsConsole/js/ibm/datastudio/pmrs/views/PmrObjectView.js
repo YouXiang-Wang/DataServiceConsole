@@ -34,14 +34,14 @@ define([
 		"dcc/datatools/utils/RegularExpressionUtil",
 		"./PmrObjectCons",
 		"./PmrObjectModel",
-		"./FilterItem"
+		"./PMROverviewToolbar"
 		
 		],
 		
 		function(declare, lang, _LayoutWidget, _TemplatedMixin, _WidgetsInTemplateMixin,viewTemplate, 
 				arrayUtil, domConstruct, on, TabContainer, ContentPane, 
 				Grid, OnDemandGrid, ColumnHider, ColumnReorder, ColumnResizer, selector, Selection, Keyboard, put, List, ColumnSet, Pagination,
-				DataConvertHelper, application, CommandHandler, _ViewOptionParserMixin, LoadingWidget, RegularExpressionUtil, PmrObjectCons, PmrObjectModel, FilterItem) {
+				DataConvertHelper, application, CommandHandler, _ViewOptionParserMixin, LoadingWidget, RegularExpressionUtil, PmrObjectCons, PmrObjectModel, PMROverviewToolbar) {
 	
 	
 		var events = PmrObjectCons.events;
@@ -56,6 +56,8 @@ define([
 			pmrsGrid : null,
 
 			selectedRow : null,
+			
+			toolbar: null,
 			
 			constructor: function(){
 				this.inherited(arguments);
@@ -192,19 +194,21 @@ define([
 			
 			_renderFilterOption: function(columns){
 				var _self = this;
-				var filter = new FilterItem();
+				var toolbar = new PMROverviewToolbar();
 				var filterStore = this.model.getFilterStore(columns);
-				filter.setOptions(filterStore);
-				this.filterSection.appendChild(filter.domNode);			
-				on(filter.domNode, filter.EXECUTE_FILTER, function(filterOptions){
+				toolbar.setOptions(filterStore);
+				this.filterSection.appendChild(toolbar.domNode);			
+				on(toolbar.domNode, toolbar.EXECUTE_FILTER, function(filterOptions){
 					var dataOptions = filterOptions.dataOptions;
 					var key = dataOptions.key;
 					var value = dataOptions.value;
 					var type = dataOptions.type;
 					_self.filterCurrentGrid(dataOptions);
+					_self.pmrsGrid.resize();
+					
 				});
 				
-				on(filter.domNode, filter.OPEN_PMR_INFO, function(options) {
+				on(toolbar.domNode, toolbar.OPEN_PMR_INFO, function(options) {
 					var resourceType = options.resourceType;
 					
 					if(resourceType!=undefined && resourceType !=null && resourceType!='') {
@@ -212,6 +216,9 @@ define([
 					}	
 					
 				});
+				
+				this.toolbar = toolbar;
+				this.toolbar.setDefault('pmrNumber');
 			},
 			
 			
@@ -239,7 +246,7 @@ define([
 						  args: {type: 1,
 							  	pmrNumber: '01981,442,000', //_pmrNumber
 							  },
-						  context: null,
+						  context: {data: _row},
 						  commandText: '01981,442,000', //_pmrNumber,
 						  commandDef: _command
 					  });
