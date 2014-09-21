@@ -26,6 +26,7 @@ define([
 			
 			OPEN_PMR_INFO: 'OPEN_PMR_INFO',
 
+			GEN_PMR_REPORT: 'GEN_PMR_REPORT',
 			
 			templateString: viewTemplate,
 			
@@ -409,7 +410,12 @@ define([
 				
 				this.btn_OpenPmrRemote.on('click', function(evt) {
 					_self._openPmrLocal();
-				});				
+				});			
+				
+				
+				this.btn_genPmrReport.on('click', function(evt) {
+					_self.genPmrReport();
+				});	
 			},
 			
 			setOptions: function(optionStore){
@@ -480,6 +486,14 @@ define([
 			_openPmrLocal: function() {
 				on.emit(this.domNode, this.OPEN_PMR_INFO, {
 					resourceType: "LOCAL",
+					bubbles: true,
+				    cancelable: true
+				});
+			},
+			
+			
+			genPmrReport: function() {
+				on.emit(this.domNode, this.GEN_PMR_REPORT, {
 					bubbles: true,
 				    cancelable: true
 				});

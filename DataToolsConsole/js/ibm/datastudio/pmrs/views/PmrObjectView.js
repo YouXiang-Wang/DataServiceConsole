@@ -11,6 +11,9 @@ define([
 		'dojo/on',
 		"dijit/layout/TabContainer",
 		"dijit/layout/ContentPane",
+		//"dijit/Dialog",
+		"idx/widget/Dialog" ,
+		"dijit/form/Button",
 		
 		"dgrid/Grid",
 		"dgrid/OnDemandGrid",
@@ -39,7 +42,7 @@ define([
 		],
 		
 		function(declare, lang, _LayoutWidget, _TemplatedMixin, _WidgetsInTemplateMixin,viewTemplate, 
-				arrayUtil, domConstruct, on, TabContainer, ContentPane, 
+				arrayUtil, domConstruct, on, TabContainer, ContentPane, Dialog, Button,
 				Grid, OnDemandGrid, ColumnHider, ColumnReorder, ColumnResizer, selector, Selection, Keyboard, put, List, ColumnSet, Pagination,
 				DataConvertHelper, application, CommandHandler, _ViewOptionParserMixin, LoadingWidget, RegularExpressionUtil, PmrObjectCons, PmrObjectModel, PMROverviewToolbar) {
 	
@@ -63,7 +66,8 @@ define([
 				this.inherited(arguments);
 				this.pmrsGrid = null;
 				this.model = new PmrObjectModel();
-				this.selectedRow = new Array();				
+				this.selectedRow = new Array();		
+				this.reportDialog = null;
 			},
 			
 			resize: function(){
@@ -217,10 +221,64 @@ define([
 					
 				});
 				
+				
+				on(toolbar.domNode, toolbar.GEN_PMR_REPORT, function(options) {
+					
+					if(this.reportDialog==null) {
+						
+						var dialog = new Dialog({ 
+							id: "pmrReportDialog", 
+							title: "PMR Report Dialog", 
+
+							instruction: "Choose the time stage to generate the PMR report.", 
+
+							content: "<div style='height:80px'>Lorem ipsum dolor sit amet, consectetuer adipiscing elit." +
+								"Aenean semper sagittis velit. Cras in mi. Duis porta mauris ut ligula. Proin porta rutrum lacus." +
+								"Etiam consequat scelerisque quam. Nulla facilisi. Maecenas luctus venenatis nulla.</div>" + 
+								
+								"<div>" + 
+								
+								'<span><b>Years:</b></span>' + 
+								'<input name="pmrYear2011" data-dojo-type="dijit/form/CheckBox"  data-dojo-attach-point="cbYear2011"/>' + 
+								'<label for="pmrYear2011">2011</label>' + 
+								
+								'<input name="pmrYear2012" data-dojo-type="dijit/form/CheckBox"  data-dojo-attach-point="cbYear2012"/>' +
+								'<label for="pmrYear2012">2012</label>' +
+								"</div>",
+
+							reference: { 
+								name: "Link goes here", 
+								link: "http://dojotoolkit.org/"
+							}, 
+
+							buttons: [ new Button({
+								label: "Generate",
+								onClick: function() {
+									alert("Button1 clicked!");
+								}
+							}),new Button({
+								label: "Generate And Open", 
+								onClick: function() {
+									_self.generatePmrReport();
+								} 
+							})], 
+							closeButtonLabel: "Cancel"
+								
+						});
+						
+						this.reportDialog = dialog;
+					}
+ 
+					this.reportDialog.show();			
+				});
+				
 				this.toolbar = toolbar;
 				this.toolbar.setDefault('pmrNumber');
 			},
 			
+			generatePmrReport: function() {
+				alert("Report!");
+			},
 			
 			openPmrInfomation: function(sourceType) {
 				
