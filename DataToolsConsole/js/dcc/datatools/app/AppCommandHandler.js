@@ -38,10 +38,15 @@ define('dcc/datatools/app/AppCommandHandler', [
 		if(lang.isFunction(propertiesCallback)){
 			props = propertiesCallback(data);
 		}
+		var contextData = null;
+		if(data.context!=undefined && data.context!=null) {
+			contextData = data.context.data;
+		}
 		var widgetProps = lang.mixin(
 			{
 				title: commandText,
 				dataObjectResult: data.result,
+				contextData: contextData,
 				closable: true,
 				commandOptions: {
 					commandId: commandId,
