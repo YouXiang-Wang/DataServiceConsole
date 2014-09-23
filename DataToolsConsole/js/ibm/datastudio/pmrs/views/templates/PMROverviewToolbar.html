@@ -14,7 +14,7 @@
 						
 						<input style="width: ${comboxWidth}" data-dojo-type="dijit/form/Select" 
 							data-dojo-props="labelAttr: 'label'" 
-							data-dojo-attach-point="queryCondition" />
+							data-dojo-attach-point="queryItemType" />
 						<span><b>Value:</b></span>
 						
 						<input data-dojo-attach-point="queryValue" data-dojo-type="dcc/datatools/widget/ClearTextBox" style="width: ${searchInputWidth};" />
@@ -184,6 +184,14 @@
 						
 						<div data-dojo-type="dijit/form/Button" id="btn_OpenPmrRemote" data-dojo-attach-point="btn_OpenPmrRemote"
 					        	data-dojo-attach-event="onclick: _openPmrLocal" data-dojo-props="iconClass:'executeFilter', showLabel:true">Open Server</div>
+						
+						
+						
+						<span data-dojo-type="dijit/ToolbarSeparator"></span>						
+								
+						<div data-dojo-type="dijit/form/Button" data-dojo-attach-point="btn_genPmrReport"
+					        	data-dojo-attach-event="onclick: genPmrReport" data-dojo-props="iconClass:'executeFilter', showLabel:true">PMR Report</div>
+						
 						
 
 					</div>

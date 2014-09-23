@@ -15,20 +15,22 @@ define([
 		"dojo/on",
 		"dojo/query",
 		"dojo/_base/array",
+		
+		"dojox/layout/TableContainer",
+		"dijit/form/TextBox",
 		"dijit/Toolbar",
 		"dijit/form/ComboBox",
-		"dijit/form/TextBox",
 		"dijit/form/CheckBox",
 		"dijit/form/Select"
 		
 	], function(declare, lang, DateLocale, _LayoutWidget, _TemplatedMixin, _WidgetsInTemplateMixin, 
 			ContentPane, viewTemplate, _ViewOptionParserMixin, html,
-			PmrDetailModel, on, query, array) {
+			PmrDetailModel, on, query, array,
+			TableContainer, TextBox) {
 
 		return declare("ibm/datastudio/pmrs/views/PmrDetailView", [_LayoutWidget, _TemplatedMixin, _WidgetsInTemplateMixin, _ViewOptionParserMixin], {
 			
 			templateString: viewTemplate,
-			htmlSetter : null,
 			
 			constructor: function(){
 				
@@ -40,17 +42,77 @@ define([
 			
 			postCreate: function() {
 				this.inherited(arguments);
+				html.set(this.pmrsCommuInfoContainer, this.model.dataStore, {parserContent: false});
 				
-				//pane.set("content", this.model.dataStore);
-				//pane.style.overflow='auto';
+				var _pmrData = this.contextData.data;
 				
-				//pane.set("href", 'http://localhost/DataToolsConsole/data/01981,442,000.html');
+				var _pmrNumber = new ContentPane({label: "PMR:"});
+				_pmrNumber.set('content', _pmrData.pmrNumber);
+				this.pmrsDetailInfoContainer.addChild(_pmrNumber);
 				
-				html.set(this.pmrsDetailInfoContainer, this.model.dataStore, {parserContent: false});
+				var _product = new ContentPane({label: "Product:"});
+				_product.set('content', _pmrData.productName);
+				this.pmrsDetailInfoContainer.addChild(_product);
+
+				var _l2OpenDate = new ContentPane({label: "L2 Open Date:"});
+				_l2OpenDate.set('content', _pmrData.l2OpenDate);
+				this.pmrsDetailInfoContainer.addChild(_l2OpenDate);
+
+				var _customer = new ContentPane({label: "Customer:"});
+				_customer.set('content', _pmrData.customer);
+				this.pmrsDetailInfoContainer.addChild(_customer);
 				
-					  
-				//this.pmrsDetailInfoContainer.appendChild(pane.domNode);
+				var _severity = new ContentPane({label: "Severity:"});
+				_severity.set('content', _pmrData.severity);
+				this.pmrsDetailInfoContainer.addChild(_severity);
 				
+				var _currentQueue = new ContentPane({label: "Current Queue:"});
+				_currentQueue.set('content', _pmrData.currentQueue);
+				this.pmrsDetailInfoContainer.addChild(_currentQueue);
+				
+				var _l3Group = new ContentPane({label: "L3 Group:"});
+				_l3Group.set('content', _pmrData.l3Group);
+				this.pmrsDetailInfoContainer.addChild(_l3Group);
+
+
+				var _l3Owner = new ContentPane({label: "L3 Owner:"});
+				_l3Owner.set('content', _pmrData.l3Owner);
+				this.pmrsDetailInfoContainer.addChild(_l3Owner);
+				
+
+				
+				var _l3RequestDate = new ContentPane({label: "L3 Request Date:"});
+				_l3RequestDate.set('content', _pmrData.l3RequestDate);
+				this.pmrsDetailInfoContainer.addChild(_l3RequestDate);
+				
+				var _l3CloseDate = new ContentPane({label: "L3 Closed Date:"});
+				_l3CloseDate.set('content', _pmrData.l3CloseDate);
+				this.pmrsDetailInfoContainer.addChild(_l3CloseDate);
+				
+				
+				var _billTime = new ContentPane({label: "L3 Billable Time:"});
+				_billTime.set('content', _pmrData.billTime);
+				this.pmrsDetailInfoContainer.addChild(_billTime);
+				
+				
+				var _l2Owner = new ContentPane({label: "L2 Owner:"});
+				_l2Owner.set('content', _pmrData.productName);
+				this.pmrsDetailInfoContainer.addChild(_l2Owner);
+				
+				
+				var _apar = new ContentPane({label: "APAR:"});
+				_apar.set('content', _pmrData.apar);				
+				this.pmrsDetailInfoContainer.addChild(_apar);
+				
+				var status = _pmrData.pmrStatus;
+				
+				if(status!=undefined && status!=null && status!='') {
+					var _l2CloseDate = new ContentPane({label: "L2 Closed Date::"});
+					_l2CloseDate.set('content', _pmrData.l2CloseDate);
+					this.pmrsDetailInfoContainer.addChild(_l2CloseDate);
+				}
+				
+					
 			},
 			
 			resize: function(){

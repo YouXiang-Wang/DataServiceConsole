@@ -5,17 +5,20 @@ define([
 		"dijit/_WidgetBase",
 		"dijit/_TemplatedMixin",
 		"dijit/_WidgetsInTemplateMixin",
-		"dojo/text!./templates/FilterItem.html",
+		"dojo/text!./templates/PMROverviewToolbar.html",
+		
 		"dojo/on",
 		"dojo/query",
 		"dojo/_base/array",
+		"dojo/data/ObjectStore",
 		"dijit/form/ComboBox",
 		"dijit/form/TextBox",
 		"dijit/form/CheckBox",
 		"dijit/form/Select",
 		"dcc/datatools/widget/ClearTextBox"
 		
-	], function(declare, lang, DateLocale, _WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, viewTemplate, on, query, array) {
+	], function(declare, lang, DateLocale, _WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin, viewTemplate, 
+			on, query, array, ObjectStore) {
 
 		return declare([_WidgetBase, _TemplatedMixin, _WidgetsInTemplateMixin], {
 			
@@ -23,6 +26,7 @@ define([
 			
 			OPEN_PMR_INFO: 'OPEN_PMR_INFO',
 
+			GEN_PMR_REPORT: 'GEN_PMR_REPORT',
 			
 			templateString: viewTemplate,
 			
@@ -66,7 +70,17 @@ define([
 				
 				this.queryValue.set('intermediateChanges', true);
 				this.queryValue.set('placeHolder', "type in the value");
+
+			},
+			
+			
+			setDefault: function(value) {
 				
+				if(value!=null && value!='') {
+					//var item = this.optionStore.get(value);
+					//this.queryItemType.set('item', item);
+					this.queryItemType.set('value', value);
+				}
 			},
 			
 			returnCheckedStatus: function(){
@@ -195,6 +209,15 @@ define([
 					_self._executeFilter();
 					
 				});
+
+				this.queryItemType.on('change', function(evt) {
+					var value = _self.queryValue.get('value');
+					if(value!=undefined && value!=null && value!='') {
+						_self._executeFilter();
+					}
+					
+				});
+				
 				
 				
 				this.cbSelectAll.on('click', function(evt) {
@@ -387,26 +410,24 @@ define([
 				
 				this.btn_OpenPmrRemote.on('click', function(evt) {
 					_self._openPmrLocal();
-				});				
+				});			
+				
+				
+				this.btn_genPmrReport.on('click', function(evt) {
+					_self.genPmrReport();
+				});	
 			},
 			
 			setOptions: function(optionStore){
+				//this.optionStore = new ObjectStore({objectStore: optionStore});
 				this.optionStore = optionStore;
-				if(this.queryCondition){
-					this.queryCondition.set('store', optionStore);
+				if(this.queryItemType){
+					this.queryItemType.set('store', optionStore);
 				}
-				/*
-				optionStore.fetch({query:{lable: field}, onComplete: function (items) {
-					array.forEach(items, function(item){
-		                  selector.set("displayedValue", "the_text_of_the_option");
-		                  selector.set("value", "the_value_of_the_option");
-		              });
-				}});
-				*/
 			},
 			
 			getQueryOption: function(){
-				var queryKey = this.queryCondition.get('value');
+				var queryKey = this.queryItemType.get('value');
 				if(queryKey==undefined || queryKey==null || queryKey=='') {
 					queryKey = 'pmrNumber';
 				}
@@ -431,7 +452,7 @@ define([
 			 * for number type, it should not add '', for the filter type for varchar, it will add the ''.
 			 */
 			getFilterString: function(columnName, value, filterType){
-				var selectedItem = this.optionStore.query({field: columnName})[0];
+				var selectedItem = this.optionStore.query({id: columnName})[0];
 				var columnType = selectedItem.columnType || 'VARCHAR';
 				var filterCondition = value;
 				if(!this.isNumberType(columnType)){
@@ -465,6 +486,14 @@ define([
 			_openPmrLocal: function() {
 				on.emit(this.domNode, this.OPEN_PMR_INFO, {
 					resourceType: "LOCAL",
+					bubbles: true,
+				    cancelable: true
+				});
+			},
+			
+			
+			genPmrReport: function() {
+				on.emit(this.domNode, this.GEN_PMR_REPORT, {
 					bubbles: true,
 				    cancelable: true
 				});

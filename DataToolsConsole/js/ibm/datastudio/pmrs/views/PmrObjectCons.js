@@ -11,7 +11,8 @@ define([
 		var column = function(label, field){
 			return {label: label, id: field}
 		}
-	
+		
+		
 		var tableProperties = 
 			[
 		      column('PMR Number', 'pmrNumber'),
