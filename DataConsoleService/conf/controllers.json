@@ -11,7 +11,7 @@
 	{
 		"url" : "/track/:url",
 		"rest" : "get",
-		"id" : "com.ibm.datatools.node.controller.trackercontroller",
+		"id" : "com.dcc.datatools.node.controller.trackercontroller",
 		"resource" : "url",
 		"path" : "TrackerController",
 		"class" : "TrackerController",
@@ -53,5 +53,4 @@
 		"class" : "ConnectionController",
 		"procedure" : "addConnection"
 	}
-	
 ]

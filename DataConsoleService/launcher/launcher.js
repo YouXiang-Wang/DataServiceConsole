@@ -63,9 +63,13 @@ exports.start = function() {
 		if(entry.rest == 'get') {
 			
 			app.get(entry.url, function(req, res) {
-				console.log('--------------------------------');
+				
 				console.log(CONTROLLER );
 				console.log(entry.path );
+				
+				console.log('CONTROLLER=' + CONTROLLER);
+				console.log('entry.path=' + entry.path);
+				
 				require(CONTROLLER + entry.path);
 				
 				var controller = eval('new ' + entry.class);

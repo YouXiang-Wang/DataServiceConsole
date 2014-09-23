@@ -44,5 +44,7 @@ exports.getPmrsByCondition = function (condition, fields, options, callback) {
 	if (condition.length === 0) {
 		return callback(null, []);
 	}
-	PmrInfo.find(condition, fields, options, callback);
+	//PmrInfo.find(condition, fields, options, callback);
+	PmrInfo.find(condition, fields, callback);
+	
 };

@@ -32,7 +32,7 @@ GLOBAL.host = 'localhost';
 
 GLOBAL.index = function(req, res) {
 	res.writeHead(200, {'Content-Type': 'text/plain'});
-	res.end('Welcome to DB2 EOS Service Console!');	
+	res.end('Welcome to Data Service Console!');	
 }
 
 

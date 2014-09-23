@@ -33,7 +33,10 @@ var config = {
   auth_cookie_name: 'pmrdb',
   port: 3200,
   
-  pmrRepository : '/Users/wangyouxiang/dev/PMRS2',
+  pmrRepository : 'C:/PMRs',
+  
+  pmrReportResource : 'resources',
+  
   // mail SMTP
   mail_opts: {
     host: 'smtp.126.com',
@@ -58,7 +61,7 @@ var config = {
   GITHUB_OAUTH: {
     clientID: 'your GITHUB_CLIENT_ID',
     clientSecret: 'your GITHUB_CLIENT_SECRET',
-    callbackURL: 'http://cnodejs.org/auth/github/callback',
+    callbackURL: '',
   },
   allow_sign_up: true,
   newrelic_key: 'yourkey'
