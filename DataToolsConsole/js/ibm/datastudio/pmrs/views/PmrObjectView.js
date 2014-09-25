@@ -52,7 +52,7 @@ define([
 			templateString: viewTemplate,
 			
 			severityArray : [1,2,4,8],
-			priorityArray : [1,2,4,8],
+			priorityArray : [0,1,2,4,8],
 			
 			yearArray : [1,2,4,8],
 			
@@ -96,7 +96,7 @@ define([
 								get: function (rowData) {
 							    	var value = rowData.customer;
 							    	if(value!=null && value!='') {
-							            return value.substr(16);
+							            return value;
 							    	}
 							    	return "";
 						        }},
@@ -121,11 +121,19 @@ define([
 								get: function (rowData) {
 							    	var value = rowData.l3RequestDate;
 							    	if(value!=null && value!='') {
-							    		return value.substr(0, 10);
+							    		return value;
 							    	}
 							    	return "";
 						        }},
-					l3CloseDate: { label: "Close Date"},
+					l3CloseDate: { label: "Close Date",
+								width: 120,
+								get: function (rowData) {
+							    	var value = rowData.l3CloseDate;
+							    	if(value!=null && value!='') {
+							    		return value;
+							    	}
+							    	return "";
+						        }},
 					apar: { label: "APAR", width: 80},
 					comments: { label: "Comments"},
 				};
@@ -290,7 +298,7 @@ define([
 					var _command = {
 						moduleID: "GET_PMR",
 						displayTitle: _pmrNumber,
-						contextPath: "http://localhost:3200",
+						contextPath: "http://9.123.149.188:3200", //"http://localhost:3200",
 						args: {type: 1,
 						  	pmrNumber: _pmrNumber
 						},
@@ -302,10 +310,10 @@ define([
 					
 					var commandHandler = new CommandHandler({
 						  args: {type: 1,
-							  	pmrNumber: '01981,442,000', //_pmrNumber
+							  	pmrNumber: _pmrNumber
 							  },
 						  context: {data: _row},
-						  commandText: '01981,442,000', //_pmrNumber,
+						  commandText: _pmrNumber, //'01981,442,000'
 						  commandDef: _command
 					  });
 					
@@ -399,11 +407,15 @@ define([
 					var _group = item['l3Group'];
 					var _groupID = _self.returnGroupID(_group);
 					var _severity = _self.severityArray[item['severity']-1];
-					var _priority = _self.severityArray[item['priority']-1];
+					var _priority = item['priority'];
+					if(_priority==undefined || _priority ==null ) {
+						_priority=0;
+					}
+					var _priority = _self.priorityArray[_priority];
 					var _status = _self.returnStatus(item['pmrStatus']);
+					
 					var _apar = item['apar'].trim() !=''? 1 : 2;
-					
-					
+								
 					if( (_groupID & _groups) == _groupID) {
 						
 						if((_severity & _severities) == _severity) {
