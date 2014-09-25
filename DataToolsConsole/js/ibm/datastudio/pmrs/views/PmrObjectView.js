@@ -52,7 +52,7 @@ define([
 			templateString: viewTemplate,
 			
 			severityArray : [1,2,4,8],
-			priorityArray : [1,2,4,8],
+			priorityArray : [0,1,2,4,8],
 			
 			yearArray : [1,2,4,8],
 			
@@ -407,11 +407,15 @@ define([
 					var _group = item['l3Group'];
 					var _groupID = _self.returnGroupID(_group);
 					var _severity = _self.severityArray[item['severity']-1];
-					var _priority = _self.severityArray[item['priority']-1];
+					var _priority = item['priority'];
+					if(_priority==undefined || _priority ==null ) {
+						_priority=0;
+					}
+					var _priority = _self.priorityArray[_priority];
 					var _status = _self.returnStatus(item['pmrStatus']);
+					
 					var _apar = item['apar'].trim() !=''? 1 : 2;
-					
-					
+								
 					if( (_groupID & _groups) == _groupID) {
 						
 						if((_severity & _severities) == _severity) {
