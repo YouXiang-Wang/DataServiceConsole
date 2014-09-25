@@ -37,6 +37,10 @@ var config = {
   
   pmrReportResource : 'resources',
   
+  pmrSystemCredential: {username: 'wangyoux@cn.ibm.com', password: 'Taiji1005' },
+  
+  pmrReportRepository: path.join(__dirname, 'report'),
+  
   // mail SMTP
   mail_opts: {
     host: 'smtp.126.com',

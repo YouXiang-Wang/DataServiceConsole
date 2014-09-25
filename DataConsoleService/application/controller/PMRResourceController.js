@@ -5,6 +5,7 @@ var cheerio = require("cheerio");
 var fs = require("fs");
 
 var PDFDocument = require('pdfkit');
+var moment = require("moment");
 
 var async = require("async");
 var Q = require("q");
@@ -12,6 +13,8 @@ var Q = require("q");
 var qs = require("querystring");
 
 var config = require("../../config").config;
+var utils = require("../../utils/utils");
+
 
 var PMRModel = require("../models").PmrInfo;
 var pmrProxy = require('../proxy').PmrProxy;
@@ -65,9 +68,13 @@ function PMRResourceController() {
 			
 			if(type!=null) {
 				if(type == 1) {
-					var localFilePath = localRepsPath + '/' + pmrNumber + '.html'; 
-					// from local	
-					fs.readFile(localFilePath, "utf-8", _self.returnData );					
+					var localFilePath = localRepsPath + '/_' + pmrNumber + '.html'; 
+					// from local
+					fs.exists(localFilePath, function(exists) {
+						if(exists) {
+							fs.readFile(localFilePath, "utf-8", _self.returnData );	
+						}
+					});
 				}
 			}
 		}
@@ -77,7 +84,7 @@ function PMRResourceController() {
     	
 		var req = _parent._req;
 		var res = _parent._res;
-		
+	
 		var scope;
 		var type = req.query.type;
 		
@@ -136,6 +143,11 @@ function PMRResourceController() {
 				"$or":_groups
 		};
 		
+		if(fromDate !=0 &&  toDate !=0) {
+			conditions._l3RequestDate = {$gt:fromDate,$lte:toDate};
+		}
+		
+		
 		var fields= {
 				l3RequestDate : 1,
 				pmrNumber : 1,
@@ -156,10 +168,27 @@ function PMRResourceController() {
 		
 		var _group = req.query.group;
 		var _cols = req.query.cols;
+		
 		var _from = req.query.from;
+		
+		var _fromLong;
+		var _toLong;
+		
+		if(_from==undefined || _from == null || _from =='' ) {
+			_from = '2011-01-01';
+		}
+		
+		var _fromLong = (new moment(_from)).valueOf();
+		
 		var _to = req.query.to;
 		
-		_self._listPmrs( _from, _to, _group);
+		if(_to==undefined || _to == null || _to =='' ) {
+			_to = moment().format('YYYY-MM-DD');
+		}
+		
+		var _toLong = (new moment(_to)).valueOf();
+		
+		_self._listPmrs( _fromLong, _toLong, _group);
 		
     };
     
@@ -192,7 +221,8 @@ function PMRResourceController() {
     this.pdfPmrReport = function(data) {
     	
     	var doc = new PDFDocument({bufferPages: true});
-    	doc.pipe(fs.createWriteStream('c:/PMRReport/output1.pdf'));
+    	var _reportTime = new moment().format("YYYYMMDD_HHmmss");
+    	doc.pipe(fs.createWriteStream( config.pmrReportRepository + '/' + 'PMRReprot_' + _reportTime + '.pdf'));
     	
     	doc.image(config.pmrReportResource + '/images/128px-IBM_logo.png', 500, 60,  {width: 64});
     	doc.moveTo(30, 90);
@@ -218,9 +248,9 @@ function PMRResourceController() {
     	// 2nd page
     	doc.addPage();
     	
-    	doc.image(config.pmrReportResource + '/images/32_1px-IBM_logo.png', 550, 10,  {width: 32});
+    	doc.image(config.pmrReportResource + '/images/32_1px-IBM_logo.png', 570, 10,  {width: 32});
     	doc.moveTo(10, 30);
-    	doc.lineTo(585, 30);
+    	doc.lineTo(602, 30);
     	doc.stroke();
 
     	doc.fontSize(22).fillColor('blue');
@@ -247,15 +277,15 @@ function PMRResourceController() {
 
     	// 3rd page
     	doc.addPage();
-    	doc.image(config.pmrReportResource + '/images/32_1px-IBM_logo.png', 550, 10,  {width: 32});
+    	doc.image(config.pmrReportResource + '/images/32_1px-IBM_logo.png', 570, 10,  {width: 32});
     	doc.moveTo(10, 30);
-    	doc.lineTo(585, 30);
+    	doc.lineTo(602, 30);
     	doc.stroke();
 
 
     	var options =
     	{
-    	    columns:
+    		columns:
     	        [
     	         { id: 'l3RequestDate', width: 8, name: 'Request Date'},
     	         { id: 'pmrNumber',     width: 11, align:'center',name: 'PMR Number' },
@@ -266,7 +296,12 @@ function PMRResourceController() {
     	         { id: 'defect',   width: 6, align:'left', name: 'Defect' },
     	     ],
 
-
+    	     y : 40,
+    	     pageHeader : {
+    	     	image : {path: 'resources/images/32_1px-IBM_logo.png', x: 570, y: 10, style : {width: 32} },
+    	     	line: {x1:10, y1:30, x2:602, y2:30 }
+    	     },
+    	     
     	    margins: {
     	        left: 10,
     	        top: 10,
@@ -281,12 +316,7 @@ function PMRResourceController() {
     	        bottom: 5,
     	    }
     	};
-
-    	/*var pmrData = new Array();
-    	for(var i = 0; i < data.length, i++) {
-    		
-    	}
-    	*/
+    	
     	doc.fontSize(8).fillColor('black');
     	doc.table(data, options);
     	doc.end();
@@ -311,7 +341,6 @@ function PMRResourceController() {
         }
     	
     	res.writeHead(200, {"Content-Type": "application/json"});
-    	
     	
     	var callback = req.query.callback;
 		if(callback!=undefined && callback!=null && callback!='') {
@@ -349,7 +378,6 @@ function PMRResourceController() {
         }
     	
     	res.writeHead(200, {"Content-Type": "application/json"});
-    	
     	
     	var callback = req.query.callback;
 		if(callback!=undefined && callback!=null && callback!='') {
