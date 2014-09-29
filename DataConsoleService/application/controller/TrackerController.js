@@ -56,9 +56,7 @@ function TrackerController() {
     };
     
     this.trackPMRs = function(){
-    	
-    	console.log("this.trackPMRs++++++++++++++++++++++++++++++++++++++++++++++");
-    	
+    
     	var req = _parent._req;
         var res = _parent._res;
         
@@ -179,7 +177,7 @@ function TrackerController() {
 		                                    	console.trace();
 		                                    	return console.error("Error2:" + "\nURL=" + url + "\nReason:" + err);
 		                                    } else {
-		                                    	
+		                                    	/*
 		                                    	if(url=='https://w3-01.sso.ibm.com/software/servdb/crm/secure/l3PmrRecord1.do?&pmrno=50629&bno=075&cno=724&createDate=O14/02/21&method=retrieveCRMWithDate') 
 		                                    	{
 		                                    		console.log("inputUrl%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%" + url);
@@ -191,7 +189,7 @@ function TrackerController() {
 		                                            });
 		                                    		
 		                                    	}
-		                                    	
+		                                    	*/
 		                                        // parse the body for the information
 		                                    	
 		                                        var pmrInfo = _self.parseHTML(url, body);
@@ -237,10 +235,7 @@ function TrackerController() {
 
     this.parseHTML = function(pmrUrl, body) {
     	
-    	console.log("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^" + pmrUrl);
         var $ = cheerio.load(body);
-        
-        
         var localRepsPath = config.pmrRepository;
         
         var tdText;
@@ -405,13 +400,15 @@ function TrackerController() {
                         }
                         
                         if(tdText=="L3 Closed Date:") {
-                        	if(!utils.isEmptyValue(vNext.text())) {
+                        	if(utils.isEmptyValue(vNext.text())) {
+                        		pmrStatus = 'O';
+                            	l3CloseDate="";
+                            	_l3CloseDate=0;
+                        	} else {
                         		_tmp_ = vNext.text().trim();
                             	l3CloseDate = _tmp_.substr(0, 10);
                             	_l3CloseDate = moment(_tmp_,'YYYY-MM-DD HH:mm:ss:ms').valueOf();
-                        	} else {
-                            	l3CloseDate="";
-                            	_l3CloseDate=0;
+                            	pmrStatus = 'C';
                         	}
                         }
                         
@@ -451,7 +448,7 @@ function TrackerController() {
 	        	pmrInfo.priority = priority;
 	        	
 	        	pmrInfo.l2Owner = l2Owner;
-	        	//pmrInfo.pmrStatus = 'C';
+	        	pmrInfo.pmrStatus = 'C';
 	        	pmrInfo.openDays = openDays;
 	        	pmrInfo.l3CloseDate = l3CloseDate;
 	        	pmrInfo._l3CloseDate = _l3CloseDate;

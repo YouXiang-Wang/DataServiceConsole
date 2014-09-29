@@ -23,6 +23,14 @@ exports.getIntArrayByByte = function(number) {
 	return result;
 };
 
+exports.hasAttr = function(object, attr) {
+	var value = object[attr];
+	if(value == undefined || value==null ) {
+		return false;
+	}
+	return true;
+};
+
 exports.isEmptyValue = function(value) {
 	if(value == undefined || value==null || value == '' ) return true;
 	return false;

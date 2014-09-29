@@ -9,7 +9,7 @@
 		"procedure" : "executeCommand"
 	},
 	{
-		"url" : "/track/:url",
+		"url" : "/track/:command",
 		"rest" : "get",
 		"id" : "com.dcc.datatools.node.controller.trackercontroller",
 		"resource" : "url",

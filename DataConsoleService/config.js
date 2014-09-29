@@ -35,22 +35,29 @@ var config = {
   
   pmrRepository : 'C:/PMRs',
   
-  pmrReportResource : 'resources',
+  pmrReportResource : path.join(__dirname, 'resources'),
   
   pmrSystemCredential: {username: 'wangyoux@cn.ibm.com', password: 'Taiji1005' },
   
   pmrReportRepository: path.join(__dirname, 'report'),
   
+  appResourceRepository: path.join(__dirname, 'resources'),
+  
   // mail SMTP
   mail_opts: {
-    host: 'smtp.126.com',
+    host: 'd23ml028.ibm.com',
     port: 25,
     auth: {
-      user: 'club@126.com',
-      pass: 'club'
+      user: 'wangyoux@cn.ibm.com',
+      pass: ''
     }
   },
 
+  // IBM mail SMTP
+  ibm_mail_opts: {
+    host: 'd23ml028.ibm.com'
+  },
+  
   //weibo app key
   weibo_key: 10000000,
 
