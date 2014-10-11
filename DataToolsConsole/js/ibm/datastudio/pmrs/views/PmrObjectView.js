@@ -6,15 +6,16 @@ define([
 		"dijit/_WidgetsInTemplateMixin",
 		"dojo/text!./templates/PmrObjectView.html",
 		
+		'dojo/Deferred',
 		"dojo/_base/array",
 		"dojo/dom-construct",
 		'dojo/on',
 		"dijit/layout/TabContainer",
 		"dijit/layout/ContentPane",
-		//"dijit/Dialog",
-		"idx/widget/Dialog" ,
+		"dijit/Dialog",
 		"dijit/form/Button",
-		
+		"moment/moment",
+		"dojo/date/locale",
 		"dgrid/Grid",
 		"dgrid/OnDemandGrid",
 		"dgrid/extensions/ColumnHider",
@@ -37,14 +38,16 @@ define([
 		"dcc/datatools/utils/RegularExpressionUtil",
 		"./PmrObjectCons",
 		"./PmrObjectModel",
-		"./PMROverviewToolbar"
+		"./PMROverviewToolbar",
+		"./PmrReportDialog"
 		
 		],
 		
 		function(declare, lang, _LayoutWidget, _TemplatedMixin, _WidgetsInTemplateMixin,viewTemplate, 
-				arrayUtil, domConstruct, on, TabContainer, ContentPane, Dialog, Button,
+				Deferred, arrayUtil, domConstruct, on, TabContainer, ContentPane, Dialog, Button, moment, DateLocale,
 				Grid, OnDemandGrid, ColumnHider, ColumnReorder, ColumnResizer, selector, Selection, Keyboard, put, List, ColumnSet, Pagination,
-				DataConvertHelper, application, CommandHandler, _ViewOptionParserMixin, LoadingWidget, RegularExpressionUtil, PmrObjectCons, PmrObjectModel, PMROverviewToolbar) {
+				DataConvertHelper, application, CommandHandler, _ViewOptionParserMixin, LoadingWidget, RegularExpressionUtil, PmrObjectCons, 
+				PmrObjectModel, PMROverviewToolbar, PmrReportDialog) {
 	
 	
 		var events = PmrObjectCons.events;
@@ -61,6 +64,8 @@ define([
 			selectedRow : null,
 			
 			toolbar: null,
+			
+			reportDialog : null,
 			
 			constructor: function(){
 				this.inherited(arguments);
@@ -90,7 +95,24 @@ define([
 						//formatter : _pmrNumberFormatter
 						},
 						
-					l3Group: { label: "Component"},
+					l3Group: { label: "Component",
+								get: function (rowData) {
+							    	var value = rowData.l3Group;
+							    	if(value !=undefined) {
+							    		if(value == 'Data Studio Administrator') {
+							        		return 'Administrator';
+							        	} else if (value == 'Optim Development Studio / Data Studio (Developer') {
+							        		return 'Developer'
+							        	} else if (value == 'Optim Data Studio Core Development') {
+							        		return 'Core Development'
+							        	}else {
+							        		return value;
+							        	}
+							    	} else {
+							    		return '';
+							    	}
+						        },
+						        width: 120},
 					l3Owner: { label: "L3 Owner"},
 					customer: { label: "Customer",
 								get: function (rowData) {
@@ -141,9 +163,16 @@ define([
 				this._renderDGrid(columns, memoryStore);
 				this._renderFilterOption(columns1);
 			},
-
-			_renderDGrid: function(columns, store){
+			
+			
+			getViewId: function() {
+				return 'PMR_MAIN_TAB';
+			},
+			
+			_renderDGrid: function(columns, store) {
 				var _self = this;
+				
+				//var pmrsGridNode = domConstruct.create("div");
 				var pmrsGridNode = put("div#pmrsGrid");
 				put(document.body, pmrsGridNode);
 				var pmrsGrid = new (declare([OnDemandGrid, ColumnHider,
@@ -232,59 +261,48 @@ define([
 				
 				on(toolbar.domNode, toolbar.GEN_PMR_REPORT, function(options) {
 					
-					if(this.reportDialog==null) {
+					if(_self.reportDialog==null) {
+						var reportDialog = new PmrReportDialog();
+						_self.reportDialog = reportDialog;
+					}
+					
+					_self.reportDialog.show();			
+				});
+				
+				
+				on(toolbar.domNode, toolbar.ANALYZE_PMRS, function(options) {
+					
+					var _command = {
+							moduleID: "ANALYZE_PMR",
+							displayTitle: "PMR Analysis",
+							contextPath: "",
+							args: {},
+							moduleRenderView: "ibm/datastudio/pmrs/views/PmrAnalysisView",
+							viewId: 'PMR_ANALYSIS_VIEW',
+							restServiceUrl: "",
+							isCrossDomain: "N"
+						};
+		
 						
-						var dialog = new Dialog({ 
-							id: "pmrReportDialog", 
-							title: "PMR Report Dialog", 
-
-							instruction: "Choose the time stage to generate the PMR report.", 
-
-							content: "<div style='height:80px'>Lorem ipsum dolor sit amet, consectetuer adipiscing elit." +
-								"Aenean semper sagittis velit. Cras in mi. Duis porta mauris ut ligula. Proin porta rutrum lacus." +
-								"Etiam consequat scelerisque quam. Nulla facilisi. Maecenas luctus venenatis nulla.</div>" + 
-								
-								"<div>" + 
-								
-								'<span><b>Years:</b></span>' + 
-								'<input name="pmrYear2011" data-dojo-type="dijit/form/CheckBox"  data-dojo-attach-point="cbYear2011"/>' + 
-								'<label for="pmrYear2011">2011</label>' + 
-								
-								'<input name="pmrYear2012" data-dojo-type="dijit/form/CheckBox"  data-dojo-attach-point="cbYear2012"/>' +
-								'<label for="pmrYear2012">2012</label>' +
-								"</div>",
-
-							reference: { 
-								name: "Link goes here", 
-								link: "http://dojotoolkit.org/"
-							}, 
-
-							buttons: [ new Button({
-								label: "Generate",
-								onClick: function() {
-									alert("Button1 clicked!");
-								}
-							}),new Button({
-								label: "Generate And Open", 
-								onClick: function() {
-									_self.generatePmrReport();
-								} 
-							})], 
-							closeButtonLabel: "Cancel"
-								
+					var commandHandler = new CommandHandler({
+							args: {},
+							context: {data: _self.model},
+							commandText: "PMR Analysis",
+							commandDef: _command
 						});
 						
-						this.reportDialog = dialog;
-					}
- 
-					this.reportDialog.show();			
+					commandHandler.execute();
+					return commandHandler.defer;
+					
+					
 				});
+				
 				
 				this.toolbar = toolbar;
 				this.toolbar.setDefault('pmrNumber');
 			},
 			
-			generatePmrReport: function() {
+			_generatePmrReport: function() {
 				alert("Report!");
 			},
 			
@@ -298,11 +316,13 @@ define([
 					var _command = {
 						moduleID: "GET_PMR",
 						displayTitle: _pmrNumber,
-						contextPath: "http://9.123.149.188:3200", //"http://localhost:3200",
+						//contextPath: "http://9.123.149.26:3200", //"http://localhost:3200",
+						contextPath: "http://192.168.0.102:3200", //"http://localhost:3200",
 						args: {type: 1,
 						  	pmrNumber: _pmrNumber
 						},
 						moduleRenderView: "ibm/datastudio/pmrs/views/PmrDetailView",
+						viewId: 'PMR_DETAIL_VIEW_' + _pmrNumber,
 						restServiceUrl: "/resource/pmr/getpmr",
 						isCrossDomain: "Y"
 					};

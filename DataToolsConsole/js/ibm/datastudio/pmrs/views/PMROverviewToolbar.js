@@ -28,6 +28,8 @@ define([
 
 			GEN_PMR_REPORT: 'GEN_PMR_REPORT',
 			
+			ANALYZE_PMRS: 'ANALYZE_PMRS',
+			
 			templateString: viewTemplate,
 			
 			comboxWidth: '130px',
@@ -70,15 +72,12 @@ define([
 				
 				this.queryValue.set('intermediateChanges', true);
 				this.queryValue.set('placeHolder', "type in the value");
-
+				
 			},
 			
 			
 			setDefault: function(value) {
-				
 				if(value!=null && value!='') {
-					//var item = this.optionStore.get(value);
-					//this.queryItemType.set('item', item);
 					this.queryItemType.set('value', value);
 				}
 			},
@@ -415,7 +414,12 @@ define([
 				
 				this.btn_genPmrReport.on('click', function(evt) {
 					_self.genPmrReport();
+				});
+				
+				this.btn_pmrAnalyze.on('click', function(evt) {
+					_self.analyzePmr();
 				});	
+				
 			},
 			
 			setOptions: function(optionStore){
@@ -498,6 +502,15 @@ define([
 				    cancelable: true
 				});
 			},
+			
+			analyzePmr: function() {
+				on.emit(this.domNode, this.ANALYZE_PMRS, {
+					bubbles: true,
+				    cancelable: true
+				});
+			},
+			
+			
 			
 			_filterComponent: function(){
 				

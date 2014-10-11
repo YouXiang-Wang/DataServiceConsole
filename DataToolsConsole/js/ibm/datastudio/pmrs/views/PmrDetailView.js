@@ -2,11 +2,10 @@ define([
 		"dojo/_base/declare",
 		"dojo/_base/lang",
 		"dojo/date/locale",
-		"dijit/_WidgetBase",
+		"dijit/layout/_LayoutWidget",
 		"dijit/_TemplatedMixin",
 		"dijit/_WidgetsInTemplateMixin",
-		
-		"dijit/layout/ContentPane",
+
 		"dojo/text!./templates/PmrDetailView.html",
 		"dcc/datatools/shared/_ViewOptionParserMixin",
 		"dojo/html",
@@ -17,36 +16,37 @@ define([
 		"dojo/_base/array",
 		
 		"dojox/layout/TableContainer",
+		"dijit/layout/ContentPane",
 		"dijit/form/TextBox",
 		"dijit/Toolbar",
 		"dijit/form/ComboBox",
 		"dijit/form/CheckBox",
 		"dijit/form/Select"
 		
-	], function(declare, lang, DateLocale, _LayoutWidget, _TemplatedMixin, _WidgetsInTemplateMixin, 
-			ContentPane, viewTemplate, _ViewOptionParserMixin, html,
+	], function(declare, lang, DateLocale, _LayoutWidget, _TemplatedMixin, _WidgetsInTemplateMixin,
+			viewTemplate, _ViewOptionParserMixin, html,
 			PmrDetailModel, on, query, array,
-			TableContainer, TextBox) {
+			TableContainer, ContentPane, TextBox) {
 
 		return declare("ibm/datastudio/pmrs/views/PmrDetailView", [_LayoutWidget, _TemplatedMixin, _WidgetsInTemplateMixin, _ViewOptionParserMixin], {
 			
 			templateString: viewTemplate,
 			
 			constructor: function(){
-				
 				this.inherited(arguments);
 				this.addEventsListener();
 				this.model = new PmrDetailModel();
 			},
 			
-			
 			postCreate: function() {
 				this.inherited(arguments);
+				
 				html.set(this.pmrsCommuInfoContainer, this.model.dataStore, {parserContent: false});
 				
 				var _pmrData = this.contextData.data;
-				
+				this.pmrNumber = _pmrData.pmrNumber;
 				var _pmrNumber = new ContentPane({label: "PMR:"});
+
 				_pmrNumber.set('content', _pmrData.pmrNumber);
 				this.pmrsDetailInfoContainer.addChild(_pmrNumber);
 				
@@ -115,6 +115,10 @@ define([
 					
 			},
 			
+			getViewId: function() {
+				return 'PMR_DETAIL_VIEW_' + this.pmrNumber;
+			},
+			
 			resize: function(){
 				this.inherited(arguments);
 			},
@@ -122,7 +126,7 @@ define([
 			addEventsListener: function(){
 				var _self = this;
 			},
-
+						
 			_executeFilter: function() {
 				this.cbSelectAll.set('checked', this.returnCheckedStatus());
 				on.emit(this.domNode, this.EXECUTE_FILTER, {
@@ -130,7 +134,7 @@ define([
 					bubbles: true,
 				    cancelable: true
 				});
-			},
+			}
 			
 	});
 });
