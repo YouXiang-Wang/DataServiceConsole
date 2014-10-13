@@ -293,3 +293,69 @@ table.responseBottomBorder td, table.responseBottomBorder th { border-bottom:1px
 .oneui .dijitSelect .dijitArrowButton .dijitArrowButtonInner {
 	width:16px !important;
 }
+
+table.ibm-data-table tbody th, table.ibm-data-table tbody td {
+    border-left: 3px solid #fff;
+    border-top: 1px solid #dddddd;
+    color: #555555;
+    padding: 8px 5px 5px 3px;
+}
+
+labelsAndValues-labelCell {
+
+  background-color: lightgrey;
+  padding-left: 5px;
+}
+
+.labelsAndValues-valueCell {
+
+  padding-left: 20px;
+  background-color: lightblue;
+}
+
+table.ibm-data-table tbody tr:first-child td, table.ibm-data-table tbody tr:first-child th, table.ibm-data-table.ibm-alternating tbody tr:first-child td, table.ibm-data-table.ibm-alternating tbody tr:first-child th {
+    border-top: 2px solid #999999;
+}
+
+
+.ExpandablePane {
+	padding-left: 0px;
+	margin-top: 0px;
+	width: 100%;
+}
+
+.ExpandablePane li {
+	background-color: #FFFFFF;
+	float: left;
+	display: inline;
+	width: 100%;
+	margin: 2px 2px 0;
+	padding: 0;
+	position: relative;
+	margin-bottom: 3px;
+	list-style: none outside;
+	font-size: 12px;
+	font-weight: normal;
+	width: 100%;
+}
+
+
+.dojoxLegendNode {border: 1px solid #ccc; margin: 5px 10px 5px 10px; padding: 3px;}
+.dojoxLegendText {vertical-align: text-top; padding-right: 10px}
+    
+
+#charts {
+	clear: both;
+	margin-bottom: 50px;
+}
+.chart-area {
+	float: left;
+	border: 1px solid #ccc;
+	width:  400px;
+	height: 350px;
+	margin: 2px;
+}
+.chart {
+	width:  200px;
+	height: 200px;
+}
