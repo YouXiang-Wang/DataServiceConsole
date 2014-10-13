@@ -10,10 +10,11 @@ define([
 		"dcc/datatools/context/AppContext",
 		"dcc/datatools/helper/DataConvertHelper",
 		
+		"./PmrObjectCons",
 		"../utils/PmrUtil",
 		
 	], function(declare, lang, connect, array, domConstruct, arrayUtil,
-			BaseModel, AppContext,dataConvertHelper, PmrUtil ) {
+			BaseModel, AppContext, DataConvertHelper, PmrObjectCons, PmrUtil ) {
 	
 	
 	return declare("ibm/datastudio/pmrs/views/PmrAnalysisModel", [BaseModel], {
@@ -141,6 +142,9 @@ define([
 	    	var _endYear = moment(to).get('year');
 	    	var _weeks;
 	    	
+	    	var _legends = PmrObjectCons.legends;
+	    	var _legendIndex = 0;
+	    	
 	    	if(_beginYear == _endYear) {
 	    		_weeks = _endWeek - _beginWeek + 1;
 	    	} else {
@@ -155,7 +159,10 @@ define([
 	    		_l3Group = _data[i].l3Group;
 	    		
 	    		if(_groups[_l3Group] == undefined || _groups[_l3Group] == null || _groups[_l3Group] == '') {
+	    			
 	    			var _component = {
+	    						show: true,
+	    						legend: _legends[_legendIndex],
 	    						groupName : _l3Group,
 	    						abbrGroupName: PmrUtil.abbrL3Group(_l3Group),
 	    						inflow : new Array(),
@@ -166,10 +173,12 @@ define([
 	    						backlogCount : new Array(_weeks),
 	    					};
 	    			
-	    			for(var i=0; i < _weeks; i ++ ) {
-	    				_component.inflowCount[i] = 0 ;
-	    				_component.closedCount[i] = 0 ;
-	    				_component.backlogCount[i] = 0 ;
+	    			_legendIndex++;
+	    			
+	    			for(var j=0; j < _weeks; j ++ ) {
+	    				_component.inflowCount[j] = 0 ;
+	    				_component.closedCount[j] = 0 ;
+	    				_component.backlogCount[j] = 0 ;
 	    			}
 	    			_groups[_l3Group] = _component;
 	    		}
@@ -213,7 +222,9 @@ define([
 			}
 			
 			//return _result;
-			return _groups;
+			//return _groups;
+			
+			return DataConvertHelper.createMemoryStoreByObject('abbrGroupName', _groups);
 
 		},
 		
@@ -234,6 +245,7 @@ define([
 	    	
 	    	var _l3Group;
 	    	
+
 	    	
 	    	for(var i=0 ; i < _len; i++) {
 	    		

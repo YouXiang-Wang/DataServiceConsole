@@ -10,7 +10,7 @@ define([
 	
 		var column = function(label, field){
 			return {label: label, id: field}
-		}
+		};
 		
 		
 		var tableProperties = 
@@ -49,15 +49,19 @@ define([
 		
 		var events = {
 				LOAD_DATA_READY: 'loadDataReady'
-		}
+		};
 		
 		var requests = {
 				REQ_DATA_OBJECT_MOCKUP: '/data/tables.json'
-		}
+		};
+		
+		var legends = ['red', 'green', 'blue', 'purple', 'orange', 'teal', 'yellow', 'gold'];
+		
 		
 		return {
 			tableProperties: tableProperties,
 			events: events,
+			legends: legends,
 			requests: requests
 		}
 	}

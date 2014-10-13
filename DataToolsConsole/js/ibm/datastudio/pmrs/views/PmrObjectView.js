@@ -37,6 +37,8 @@ define([
 		"dcc/datatools/shared/widgets/LoadingWidget",
 		"dcc/datatools/utils/RegularExpressionUtil",
 		"./PmrObjectCons",
+		"../../constants/constants",
+		"../utils/PmrUtil",
 		"./PmrObjectModel",
 		"./PMROverviewToolbar",
 		"./PmrReportDialog"
@@ -47,7 +49,7 @@ define([
 				Deferred, arrayUtil, domConstruct, on, TabContainer, ContentPane, Dialog, Button, moment, DateLocale,
 				Grid, OnDemandGrid, ColumnHider, ColumnReorder, ColumnResizer, selector, Selection, Keyboard, put, List, ColumnSet, Pagination,
 				DataConvertHelper, application, CommandHandler, _ViewOptionParserMixin, LoadingWidget, RegularExpressionUtil, PmrObjectCons, 
-				PmrObjectModel, PMROverviewToolbar, PmrReportDialog) {
+				constants, PmrUtil, PmrObjectModel, PMROverviewToolbar, PmrReportDialog) {
 	
 	
 		var events = PmrObjectCons.events;
@@ -99,15 +101,7 @@ define([
 								get: function (rowData) {
 							    	var value = rowData.l3Group;
 							    	if(value !=undefined) {
-							    		if(value == 'Data Studio Administrator') {
-							        		return 'Administrator';
-							        	} else if (value == 'Optim Development Studio / Data Studio (Developer') {
-							        		return 'Developer'
-							        	} else if (value == 'Optim Data Studio Core Development') {
-							        		return 'Core Development'
-							        	}else {
-							        		return value;
-							        	}
+							    		return PmrUtil.abbrL3Group(value);
 							    	} else {
 							    		return '';
 							    	}
@@ -172,7 +166,6 @@ define([
 			_renderDGrid: function(columns, store) {
 				var _self = this;
 				
-				//var pmrsGridNode = domConstruct.create("div");
 				var pmrsGridNode = put("div#pmrsGrid");
 				put(document.body, pmrsGridNode);
 				var pmrsGrid = new (declare([OnDemandGrid, ColumnHider,
@@ -344,9 +337,9 @@ define([
 			
 			returnGroupID : function(group) {
 				var value;
-				if(group == "Data Studio Administrator") {
+				if(group == constants.L3GROUP_ADMINISTRATION) {
 					value = 1;
-				} else if(group == "Optim Development Studio / Data Studio (Developer)") {
+				} else if(group == constants.L3GROUP_DEVELOPER) {
 					value = 2;
 				} else {
 					value = 4;
@@ -400,7 +393,6 @@ define([
 					} else {
 						regExp = RegularExpressionUtil.compilePattern(queryText, false, true);
 					}
-					
 				}
 				
 				var _groups = dataOptions.filterConditions.groups;
@@ -433,8 +425,12 @@ define([
 					}
 					var _priority = _self.priorityArray[_priority];
 					var _status = _self.returnStatus(item['pmrStatus']);
-					
-					var _apar = item['apar'].trim() !=''? 1 : 2;
+					var _apar;
+					if(item['apar']==undefined || item['apar']==undefined || item['apar'].trim() =='') {
+						_apar = 2;
+					} else {
+						_apar = 1;
+					}
 								
 					if( (_groupID & _groups) == _groupID) {
 						
