@@ -4,10 +4,15 @@ var PmrInfo = models.PmrInfo;
 exports.insert = function (pmrInfo, callback) {
 	
 	pmrInfo.save(function(err) {
-		  if (err) {
+		if (err) {
 		    console.error(err);
-		  }
-		});
+		    //try to update
+		}
+	});
+};
+
+exports.update = function (pmrInfo, callback) {
+	var _pmrNumber = pmrInfo.pmrNumber;
 };
 
 exports.getPmrsByL3Owners = function (l3Owners, callback) {
