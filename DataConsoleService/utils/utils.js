@@ -32,7 +32,7 @@ exports.hasAttr = function(object, attr) {
 };
 
 exports.isEmptyValue = function(value) {
-	if(value == undefined || value==null || value == '' ) return true;
+	if(value == undefined || value==null || value.trim() == '' ) return true;
 	return false;
 }
 		

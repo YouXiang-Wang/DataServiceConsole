@@ -111,7 +111,7 @@ function PMRResourceController() {
 				
 				if( (_group & 4) == 4 ) {
 					// developer
-					groups.push("Optim Development Studio / Data Studio (Developer)");
+					groups.push("Optim Development Studio /  Data Studio (Developer)");
 				}
 				pmrProxy.getPmrsByGroup(groups, _self.returnPMRInfo);
 			}
@@ -135,7 +135,7 @@ function PMRResourceController() {
 		
 		if( (groups & 4) == 4 ) {
 			// developer
-			_groups.push("Optim Development Studio / Data Studio (Developer)");
+			_groups.push("Optim Development Studio /  Data Studio (Developer)");
 		}
 		
 		var conditions = {
