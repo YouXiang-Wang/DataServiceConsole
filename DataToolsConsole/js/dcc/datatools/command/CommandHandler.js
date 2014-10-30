@@ -65,7 +65,7 @@ define([
 			}
 			
 			if(responseSuccess){
-				AppHelper.publishCommand({
+				AppHelper.publishCommand(AppHelper.COMMAND_HANDLER, {
 					commandDef: this.commandDef,
 					commandText: this.commandText,
 					args: this.args,
