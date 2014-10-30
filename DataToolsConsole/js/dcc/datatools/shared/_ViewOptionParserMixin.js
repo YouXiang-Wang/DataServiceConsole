@@ -76,7 +76,15 @@ define('dcc/datatools/shared/_ViewOptionParserMixin', [
 			//      if the view support refresh it will be invoked.
 			// tags:
 			//		abstract method need each child widget implementation				
-		}
+		},
+		
+		onClose: function() {
+			this.inherited(arguments);
+			appHelper.publishCommand(appHelper.CLOSE_TAB_VIEW, {
+				viewId: this.getViewId()
+			});
+			return true;
+		},
 	})
 	
 	return parserMixin;

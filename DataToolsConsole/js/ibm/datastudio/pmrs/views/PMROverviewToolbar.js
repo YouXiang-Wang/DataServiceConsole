@@ -115,11 +115,13 @@ define([
 				}
 				
 				this.filterConditions.endDate = _end;
-				
+				/*
 				this.cbYear2011.set('disabled', true);
 				this.cbYear2012.set('disabled', true);
 				this.cbYear2013.set('disabled', true);
 				this.cbYear2014.set('disabled', true);
+				*/
+				
 				this._executeFilter();
 				
 			},
@@ -147,10 +149,12 @@ define([
 					this.cbAPARYes.set('checked', checked);
 					this.cbAPARNo.set('checked', checked);
 					
+					/*
 					this.cbYear2011.set('checked', checked);
 					this.cbYear2012.set('checked', checked);
 					this.cbYear2013.set('checked', checked);
 					this.cbYear2014.set('checked', checked);
+					*/
 				}
 			},
 			
@@ -184,10 +188,12 @@ define([
 				
 				this.cbDatePeriod.on('change', function(checked) {
 					
+					/*
 					_self.cbYear2011.set('disabled', checked);
 					_self.cbYear2012.set('disabled', checked);
 					_self.cbYear2013.set('disabled', checked);
 					_self.cbYear2014.set('disabled', checked);
+					*/
 					
 					_self.pmrBeginDate.set('disabled', !checked);
 					_self.pmrEndDate.set('disabled', !checked);
@@ -348,6 +354,7 @@ define([
 					_self._executeFilter();
 				});
 				
+				/*
 				this.cbYear2011.on('change', function(checked){
 					checked == true ? _self.filterConditions.years += 1 : _self.filterConditions.years -= 1;
 					checked == true? _self.checkedStatus[16] = 1 :  _self.checkedStatus[16] = 0;
@@ -371,6 +378,7 @@ define([
 					checked == true? _self.checkedStatus[19] = 1 :  _self.checkedStatus[19] = 0;
 					_self._executeFilter();
 				});
+				*/
 				
 				this.cbDSVersion4100.on('change', function(checked){
 					checked == true ? _self.filterConditions.versions += 1 : _self.filterConditions.versions -= 1;

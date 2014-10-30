@@ -144,7 +144,7 @@ define([
 	    	
 	    	var _legends = PmrObjectCons.legends;
 	    	var _legendIndex = 0;
-	    	
+	    	var _dataIndex = 0;
 	    	if(_beginYear == _endYear) {
 	    		_weeks = _endWeek - _beginWeek + 1;
 	    	} else {

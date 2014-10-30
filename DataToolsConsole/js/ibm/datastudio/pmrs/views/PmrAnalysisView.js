@@ -87,17 +87,23 @@ define([
 			postCreate: function() {
 				this.inherited(arguments);
 				this.model.setDataStore(this.contextData.dataGridStore);
+				this.grid = null;
+				this.charts = [];
+				this._createToolbar();
 				
-				var _fromLong = (new moment('2014-01-01')).valueOf();
+
+				this.initData();
+				this._renderDGrid();
+				this._renderChart();				
+			},
+			
+			initData: function(){
+				var _fromLong = (new moment('2011-01-01')).valueOf();
 				var _toLong = (new moment()).valueOf();
 				
-				this.dataStore = new Observable( this.model.analyzeData(_fromLong, _toLong));
-				
-				this.grid = null;
-				
-				this._createToolbar();
-				this._renderDGrid();
-				this._renderChart();
+				this.memoryStore = this.model.analyzeData(_fromLong, _toLong);
+				this.observedStore = new Observable(this.memoryStore);
+				this.chartResults = this.observedStore.query({show: true});
 			},
 			
 			resize: function(){
@@ -120,7 +126,7 @@ define([
 					this.tbCurrentWeek = new ToggleButton({
 						label: "Current Week",
 			            showLabel: true,
-			            checked: true,
+			            
 			            iconClass:"dijitRadioIcon"
 					});
 					_toolbar.addChild(this.tbCurrentWeek);
@@ -159,6 +165,7 @@ define([
 					this.tbCurrentYear = new ToggleButton({
 						label: "Current Year",
 			            showLabel: true,
+			            checked: true,
 			            iconClass:"dijitRadioIcon"
 					});
 					
@@ -173,7 +180,7 @@ define([
 						}
 					}));
 				}
-				
+				/*
 				{
 					this.tbCustomTime = new ToggleButton({
 						label: "Custom Time",
@@ -193,17 +200,31 @@ define([
 					}));
 					
 				}
+				*/
+				
 				_toolbar.addChild(new ToolbarSeparator());
 				
 				{
 					this.pmrBeginDate = new DateTextBox({constraints:{datePattern:'yyyy-MM-dd'}});
 					this.pmrEndDate = new DateTextBox({constraints:{datePattern:'yyyy-MM-dd'}});
-					var _start = moment().startOf('week');
-					var _end = moment().endOf('week');
-					this._selectMoment(_start, _end);
+					var _start = moment().startOf('year');
+					var _end = moment().endOf('year');
+					this.pmrBeginDate.set('value', _start.format('YYYY-MM-DD'));
+					this.pmrEndDate.set('value', _end.format('YYYY-MM-DD'));
+					
 					_toolbar.addChild(this.pmrBeginDate);
 					_toolbar.addChild(this.pmrEndDate);
 				}
+				
+				{
+					this.btChoose = new Button({label: "Choose", checked: true, name:"btChoose", iconClass:'executeFilter'});
+					_toolbar.addChild(this.btChoose);
+					this.own(this.btChoose.on('click', function(evt) {
+						_self._selectMoment(0, 0, true);
+					}));
+				}
+				
+				_toolbar.addChild(new ToolbarSeparator());
 				
 				{
 					this.btAbout = new Button({label: "About", checked: true, name:"btAbout", iconClass:'executeFilter'});
@@ -219,7 +240,7 @@ define([
 			
 			
 			_toggle: function(tgButton) {
-				arrayUtil.forEach([this.tbCurrentWeek, this.tbCurrentMonth, this.tbCurrentYear, this.tbCustomTime ], function(_tgButton){
+				arrayUtil.forEach([this.tbCurrentWeek, this.tbCurrentMonth, this.tbCurrentYear ], function(_tgButton){
 					if(_tgButton.isInstanceOf(ToggleButton)){
 						
 						if(tgButton == _tgButton) {
@@ -231,16 +252,29 @@ define([
 				})
 			},
 			
-			_selectMoment: function(start, end) {
-				this.pmrBeginDate.set('value', start.format('YYYY-MM-DD'));
-				this.pmrEndDate.set('value', end.format('YYYY-MM-DD'));
-			},
 			
+			_selectMoment: function(start, end, byChoose) {
+				var _start = start;
+				var _end = end;
+				if(byChoose==undefined || byChoose == false) {
+					this.pmrBeginDate.set('value', start.format('YYYY-MM-DD'));
+					this.pmrEndDate.set('value', end.format('YYYY-MM-DD'));
+				} else {
+					_start = this.pmrBeginDate.get('value');
+					_end = this.pmrEndDate.get('value');
+				}
+				
+				var _fromLong = moment(_start).valueOf();
+				var _toLong = moment(_end).valueOf();
+				this.memoryStore = this.model.analyzeData(_fromLong, _toLong);
+				this._reRenderChart();
+			},
+
 			
 			_renderDGrid: function() {
 				var _self = this;
 				var _columns = [
-			                editor({ label: "", width: 30, field: "show", sortable: true, autosave: true }, "checkbox"),
+			                editor({ label: "", width: 30, field: "show", sortable: true }, "checkbox"),
 			                { id: "legend", width: 50, label: "Legend", field: "legend", renderCell: function (object, data, td, options){
 			                                                                                      var span = document.createElement("span");
 			                                                                                      span.style.setProperty("width", "12px", "important");
@@ -289,17 +323,18 @@ define([
 						//allowTextSelection: true,
 						selectionMode: 'extended', 
 						updateDelay: 0,
-						store: _gridStore
+						store: this.observedStore
 						
 					}, gridDomNode);
 				
-				this.grid.styleColumn(0, "width: 3em; text-align: center; border-width: 0px;");
-				this.grid.styleColumn("legend", "width: 5em; text-align: center; border-width: 0px;");
+				this.grid.styleColumn(0, "width: 3em; text-align: center; border-width: 1px;");
+				this.grid.styleColumn("legend", "width: 5em; text-align: center; border-width: 1px;");
 				/*
 				this.grid.styleColumn("abbrGroupName", "width: 7em; text-align: left; border-width: 0px;");
 				this.grid.styleColumn("inflowCount", "width: 3em; text-align: center; border-width: 0px;");
 				this.grid.styleColumn("closedCount", "width: 3em; text-align: center; border-width: 0px;");
-				this.grid.styleColumn("backlogCount", "width: 3em; text-align: center; border-width: 0px;");
+				
+				this.grid.styleColumn("backlogCount", "width: 3em; text-align: center; border-width: 1px;");
 				*/
 				
 				this.grid.startup();
@@ -308,17 +343,16 @@ define([
 				this.gridContentNode.domNode.appendChild(gridDomNode);
 				
 				
-				this.grid.on("dgrid-datachange", function(evt){  
-						// when the show checkbox is flagged/unflagged we need to update the store by saving the dirt data of the grid
-				    	var cell = evt.cell;
-				    	if ( cell.column && cell.column.id == 0 ) {
-				    		setTimeout(function() {
-				    			var st1 = _self.dataStore;
-				    			//_self.grid.save();
-				    		},0);
-				    	}
-				  });
-				
+				this.grid.on("dgrid-datachange", function(evt){
+					// when the show checkbox is flagged/unflagged
+					//we need to update the store by saving the dirt data of the grid
+				    var cell = evt.cell;
+			    	if ( cell.column && cell.column.id == 0 ) {
+			    		// must call grid.save() in setTimeout
+			    		// do not call grid.save() directly
+			    		setTimeout(function() { _self.grid.save();},0);
+			    	}
+				});
 			},
 			
 			_createChart: function(groups, item, type) {
@@ -326,16 +360,9 @@ define([
 				var chartLegendNode = domConstruct.create("div", null, chartAreaNode);
 				var chartDomNode = domConstruct.create("div", {class: "chart"}, chartAreaNode);
 				
+				
 				var chart = new Chart(chartDomNode);
 				chart.setTheme(Claro);
-				/*
-				chart.addPlot("grid", {
-					type: "Grid",
-					hMinorLines: true,
-					vMinorLines: true
-					
-				});
-				*/
 				
 				if( (type == Lines) || (type == ClusteredColumns) ) {
 					chart.addAxis("x", {natural: true, includeZero: true, fixUpper: "minor"});
@@ -360,7 +387,7 @@ define([
 						margins: {l: 0,r: 0,t: 0,b: 0},
 				        type: Pie,
 				        radius: 80,
-				        fontColor: "blue",
+				        fontColor: "black",
 				        shadows: { dx:2, dy:2, dw:2 }  
 					});
 					chart.addSeries("count", this._valTrans(groups, item));
@@ -374,47 +401,109 @@ define([
 					});
 				}
 
-
-			    var _legends = PmrObjectCons.legends;
 			    
 			    if( (type == Lines) || (type == ClusteredColumns) ) {
 				    for(var _index = 0; _index < groups.length; _index++) {
-				    	chart.addSeries(groups[_index].abbrGroupName, groups[_index][item], {stroke: _legends[_index]});
+				    	chart.addSeries(groups[_index].abbrGroupName, groups[_index][item], {stroke: groups[_index].legend});
 				    }
 			    }
 
+			    this.charts.push({
+			    	chart: chart,
+			    	dataItem: item,
+			    	chartType: type
+			    });
+			    
 				new Tooltip(chart, 'default');
 		        new MoveSlice(chart, 'default');
 		        new Highlight(chart, 'default');
+		        
 			    chart.render();
 				this._addLegend(chart, chartLegendNode);
 			    
+			    
+			},
+			
+			_addChartSeries: function(chart, type, seriesName, data, legend) {
+				
+				if( (type == Lines) || (type == ClusteredColumns) ) {
+					chart.addSeries(seriesName, data, {stroke: legend});
+					chart.render();
+				}
+			},
+		
+			_removeChartSeries: function(chart, seriesName) {
+				chart.removeSeries(seriesName);
+				chart.render();
+
+			},
+			
+			
+			_reRenderChart: function() {
+				var _self = this;
+				arrayUtil.forEach(_self.charts, function (chart) {
+					arrayUtil.forEach(_self.chartResults, function (group) {
+						var _name = group.abbrGroupName;
+						chart.chart.removeSeries(_name);
+					});
+					chart.chart.render();
+				});
+				
+				
+				this.observedStore = new Observable(this.memoryStore);
+				this.grid.set("store",this.observedStore);
+				this.chartResults = this.observedStore.query({show: true});
+				
+				
+				arrayUtil.forEach(_self.charts, function (chart) {
+					arrayUtil.forEach(_self.chartResults, function (group) {
+						var _type = chart.chartType;
+						var _item = chart.dataItem;
+						var _name = group.abbrGroupName;
+						if( (_type == Lines) || (_type == ClusteredColumns) ) {
+							chart.chart.addSeries(_name, group[_item], {stroke: group.legend});
+						}
+					});
+					chart.chart.render();
+				});
+				
 			},
 			
 			_renderChart: function() {
-				var _from = this.pmrBeginDate.get('value');
-				var _fromLong = (new moment('2014-01-01')).valueOf();
-				
-				var _to = this.pmrEndDate.get('value');
-				var _toLong = (new moment(_to)).valueOf();
-				
-				var _chartResults = this.dataStore.query({show: true});
+				var _self = this;
 				
 				var _items = ['inflowCount', 'closedCount', 'backlogCount'];
 				for(var i=0; i < _items.length; i++) {
-					this._createChart(_chartResults, _items[i], Lines);
+					this._createChart(this.chartResults, _items[i], Lines);
 				}
 				
-				this._createChart(_chartResults, 'inflow', Pie);
+				//this._createChart(this.chartResults, 'inflow', Pie);
 				
 				for(var i=0; i < _items.length; i++) {
-					this._createChart(_chartResults, _items[i], ClusteredColumns);
+					this._createChart(this.chartResults, _items[i], ClusteredColumns);
 				}
 
-				
-				_chartResults.observe(function(updatedObject, oldPosition, newPosition) {
-					//console.log(updatedObject);
-					alert(1);
+
+				this.chartResults.observe(function(updatedObject, removedFrom, updatedInto) {
+					
+					if(!updatedObject["show"]) {
+						arrayUtil.forEach(_self.charts, function (chart) {
+							chart.chart.removeSeries(updatedObject["abbrGroupName"]);
+							chart.chart.render();
+						});
+					} else {
+						var _name = updatedObject["abbrGroupName"];
+						var _index = _self._getDataIndex('abbrGroupName', _name, _self.chartResults);
+						arrayUtil.forEach(_self.charts, function (chart) {
+							var _type = chart.chartType;
+							var _item = chart.dataItem;
+							if( (_type == Lines) || (_type == ClusteredColumns) ) {
+								chart.chart.addSeries(_name, _self.chartResults[_index][_item], {stroke: updatedObject.legend});
+								chart.chart.render();
+							}
+						});
+					}
+
 				});
 				
 			},
@@ -426,13 +515,17 @@ define([
 			    	var tmpItem = {};
 			    	tmpItem.x = groups[_index].abbrGroupName;
 					tmpItem.y = (groups[_index][item]).length;
-					tmpItem.color = PmrObjectCons.legends[_index],
+					tmpItem.color = groups[_index].legend,
 					tmpItem.text = groups[_index].abbrGroupName;
 					tmpItem.tooltip = (groups[_index][item]).length;
 					_series.push(tmpItem);
 			    }
 				
 				return _series;
+			},
+			
+			_getDataIndex: function(id, value, dataArray) {
+				return PmrUtil.getDataIndex(id, value, dataArray);
 			},
 			
 		    _addLegend : function(chart, node){

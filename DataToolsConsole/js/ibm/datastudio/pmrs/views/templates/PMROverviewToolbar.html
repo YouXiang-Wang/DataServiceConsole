@@ -50,7 +50,7 @@
 					        	data-dojo-attach-event="onclick: _executeFilter" data-dojo-props="iconClass:'filterRemoveFilter', showLabel:false">Clear Filter</div>
 						-->    	
 						
-
+						<!--
 							<span><b>Years:</b></span>
 							<input name="pmrYear2011" data-dojo-type="dijit/form/CheckBox"  checked data-dojo-attach-event="onclick: _filterComponent"  id="cbYear2011"
 								data-dojo-attach-point="cbYear2011" data-dojo-props=''/>
@@ -68,108 +68,115 @@
 								data-dojo-attach-point="cbYear2014" data-dojo-props=''/>
 							<label for="pmrYear2014">2014</label>
 							
-
+						  -->
 		    			<span data-dojo-type="dijit/ToolbarSeparator"></span>
 		    			
 						<span><b>Components:</b></span>
+						<label for="admin">Administrator</label>
 						<input name="admin" data-dojo-type="dijit/form/CheckBox"  checked data-dojo-attach-event="onclick: _filterComponent" id="cbAdmin"
 							data-dojo-attach-point="cbAdmin" data-dojo-props=''/>
-						<label for="admin">Administrator</label>
 						
+						<label for="dev">Developer</label>
 						<input name="dev" data-dojo-type="dijit/form/CheckBox"  checked data-dojo-attach-event="onclick: _filterComponent" id="cbDeveloper"
 							data-dojo-attach-point="cbDeveloper" data-dojo-props=''/>
-						<label for="dev">Developer</label>
 						
+						<label for="core">Core</label>
 						<input name="core" data-dojo-type="dijit/form/CheckBox"  checked data-dojo-attach-event="onclick: _filterComponent"  id="cbCore"
 							data-dojo-attach-point="cbCore" data-dojo-props=''/>
-						<label for="core">Core</label>
+						
 		    	
 
 						<span data-dojo-type="dijit/ToolbarSeparator"></span>
-						
-						<input name="pmrDSVersion4100" data-dojo-type="dijit/form/CheckBox"  checked data-dojo-attach-event="onclick: _filterComponent"  id="cbDSVersion4100"
-							data-dojo-attach-point="cbDSVersion4100" data-dojo-props=''/>
-						<label for="pmrDSVersion4100">V4.1</label>
-						
-						<input name="pmrDSVersion4101" data-dojo-type="dijit/form/CheckBox"  checked data-dojo-attach-event="onclick: _filterComponent"  id="cbDSVersion4101"
-							data-dojo-attach-point="cbDSVersion4101" data-dojo-props=''/>
-						<label for="pmrDSVersion4101">V4.1.0.1</label>
-						
+						<span><b>Version:</b></span>
+						<label for="pmrDSVersion4110">V4.1.1</label>
 						<input name="pmrDSVersion411O" data-dojo-type="dijit/form/CheckBox"  checked data-dojo-attach-event="onclick: _filterComponent"  id="cbDSVersion4110"
 							data-dojo-attach-point="cbDSVersion4110" data-dojo-props=''/>
-						<label for="pmrDSVersion4110">V4.1.1</label>
+							
+						<label for="pmrDSVersion4101">V4.1.0.1</label>
+						<input name="pmrDSVersion4101" data-dojo-type="dijit/form/CheckBox"  checked data-dojo-attach-event="onclick: _filterComponent"  id="cbDSVersion4101"
+							data-dojo-attach-point="cbDSVersion4101" data-dojo-props=''/>
+														
+						<label for="pmrDSVersion4100">V4.1</label>
+						<input name="pmrDSVersion4100" data-dojo-type="dijit/form/CheckBox"  checked data-dojo-attach-event="onclick: _filterComponent"  id="cbDSVersion4100"
+							data-dojo-attach-point="cbDSVersion4100" data-dojo-props=''/>
 						
+						<label for="pmrDSVersionOthers">Others</label>
 						<input name="pmrDSVersionOthers" data-dojo-type="dijit/form/CheckBox"  checked data-dojo-attach-event="onclick: _filterComponent"  id="cbDSVersionOthers"
 							data-dojo-attach-point="cbDSVersionOthers" data-dojo-props=''/>
-						<label for="pmrDSVersionOthers">Others</label>
+						
 						
 						
 		    			<span data-dojo-type="dijit/ToolbarSeparator"></span>
 		    			
 		    			
 		    			<span><b>Severity:</b></span>
+		    			
+						<label for="pmrs1">Severity 1</label>
 						<input name="pmrs1" data-dojo-type="dijit/form/CheckBox"  checked data-dojo-attach-event="onclick: _filterComponent"  id="cbSev1"
 							data-dojo-attach-point="cbSev1" data-dojo-props=''/>
-						<label for="pmrs1">Severity 1</label>
-						
+
+						<label for="pmrs2">Severity 2</label>						
 						<input name="pmrs2" data-dojo-type="dijit/form/CheckBox"  checked data-dojo-attach-event="onclick: _filterComponent"  id="cbSev2"
 							data-dojo-attach-point="cbSev2" data-dojo-props=''/>
-						<label for="pmrs2">Severity 2</label>
-						
+
+						<label for="pmrs3">Severity 3</label>						
 						<input name="pmrs3" data-dojo-type="dijit/form/CheckBox"  checked data-dojo-attach-event="onclick: _filterComponent"  id="cbSev3"
 							data-dojo-attach-point="cbSev3" data-dojo-props=''/>
-						<label for="pmrs3">Severity 3</label>
-						
+
+						<label for="pmrs4">Severity 4</label>						
 						<input name="pmrs4" data-dojo-type="dijit/form/CheckBox"  checked data-dojo-attach-event="onclick: _filterComponent"  id="cbSev4"
 							data-dojo-attach-point="cbSev4" data-dojo-props=''/>
-						<label for="pmrs4">Severity 4</label>
-						
-						
+
 					
 						<span><b>Priority:</b></span>
+						
+						<label for="pmrp1">Priority 1</label>
 						<input name="pmrp1" data-dojo-type="dijit/form/CheckBox"  checked data-dojo-attach-event="onclick: _filterComponent"  id="cbPri1"
 							data-dojo-attach-point="cbPri1" data-dojo-props=''/>
-						<label for="pmrp1">Priority 1</label>
-						
+
+						<label for="pmrp2">Priority 2</label>						
 						<input name="pmrp2" data-dojo-type="dijit/form/CheckBox"  checked data-dojo-attach-event="onclick: _filterComponent"  id="cbPri2"
 							data-dojo-attach-point="cbPri2" data-dojo-props=''/>
-						<label for="pmrp2">Priority 2</label>
-						
+
+						<label for="pmrp3">Priority 3</label>						
 						<input name="pmrp3" data-dojo-type="dijit/form/CheckBox"  checked data-dojo-attach-event="onclick: _filterComponent"  id="cbPri3"
 							data-dojo-attach-point="cbPri3" data-dojo-props=''/>
-						<label for="pmrp3">Priority 3</label>
-						
+
+						<label for="pmrp4">Priority 4</label>						
 						<input name="pmrp4" data-dojo-type="dijit/form/CheckBox"  checked data-dojo-attach-event="onclick: _filterComponent"  id="cbPri4"
 							data-dojo-attach-point="cbPri4" data-dojo-props=''/>
-						<label for="pmrp4">Priority 4</label>
+
 						
 						
 						<span data-dojo-type="dijit/ToolbarSeparator"></span>
 						
 						<span><b>Status:</b></span>
 						
+						<label for="pmrOpened">Opened</label>						
 						<input name="pmrOpened" data-dojo-type="dijit/form/CheckBox"  checked data-dojo-attach-event="onclick: _filterComponent"  id="cbOpened"
 							data-dojo-attach-point="cbOpened" data-dojo-props=''/>
-						<label for="pmrOpened">Opened</label>
-						
+
+						<label for="pmrClosed">Closed</label>						
 						<input name="pmrClosed" data-dojo-type="dijit/form/CheckBox"  checked data-dojo-attach-event="onclick: _filterComponent"  id="cbClosed"
 							data-dojo-attach-point="cbClosed" data-dojo-props=''/>
-						<label for="pmrClosed">Closed</label>
-						
+
+						<label for="pmrPending">Pending</label>						
 						<input name="pmrPending" data-dojo-type="dijit/form/CheckBox"  checked data-dojo-attach-event="onclick: _filterComponent"  id="cbPending"
 							data-dojo-attach-point="cbPending" data-dojo-props=''/>
-						<label for="pmrPending">Pending</label>
+
 						
 						<span data-dojo-type="dijit/ToolbarSeparator"></span>
 												
 						<span><b>APAR:</b></span>
+						
+						<label for="pmrAparYes">Yes</label>
 						<input name="pmrAparYes" data-dojo-type="dijit/form/CheckBox"  checked data-dojo-attach-event="onclick: _filterComponent"  id="cbAPARYes"
 							data-dojo-attach-point="cbAPARYes" data-dojo-props=''/>
-						<label for="pmrAparYes">Yes</label>
-						
+
+						<label for="pmrAparNo">No</label>						
 						<input name="pmrAparNo" data-dojo-type="dijit/form/CheckBox"  checked data-dojo-attach-event="onclick: _filterComponent"  id="cbAPARNo"
 							data-dojo-attach-point="cbAPARNo" data-dojo-props=''/>
-						<label for="pmrAparNo">No</label>
+
 						
 						
 						<span data-dojo-type="dijit/ToolbarSeparator"></span>						

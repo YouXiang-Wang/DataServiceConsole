@@ -19,11 +19,12 @@ define([
 		modules : null,
 		
 		openedModules : null,
-		
+
 		workspaceModules : null,
 		
 		constructor: function(){
 			this.modules = {};
+			this.openedViews = {};
 			this.openedModules = {};
 			this.workspaceModules = {};
 			this.workspaceName = AppContext.workspaceToLoad;
@@ -71,27 +72,70 @@ define([
 		},
 		
 		registerEvents: function(){
-			AppHelper.generalCommandHandler(lang.hitch(this, 'commandHandler'));
+			AppHelper.generalCommandHandler(AppHelper.COMMAND_HANDLER, lang.hitch(this, 'commandHandler'));
+			AppHelper.generalCommandHandler(AppHelper.CLOSE_TAB_VIEW, lang.hitch(this, 'unRegisterView'));
 		},
 		
-		registerModule: function(module){
-			var moduleID = module.moduleID;
-			this.modules[moduleID] = module;
+		getView: function(viewId){
+			if(viewId!=null && viewId !='') {
+				return this.openedViews[viewId];
+			}
 		},
 		
-		registerWorkspaceModule: function(module){
-			var moduleID = module.moduleID;
-			this.workspaceModules[moduleID] = module;
+		registerView: function(viewId, view){
+			if(viewId!=undefined && viewId!=null ) {
+				this.openedViews[viewId] = view;
+			}
+		},
+		
+		unRegisterView: function(viewId) {
+			var _tmp = {};
+			var _viewId = viewId.viewId;
+			if(_viewId!=undefined && _viewId!=null ) {
+				
+				for(var _tmpId in this.openedViews) {
+		    		if (_tmpId == _viewId) {
+		    			delete this.openedViews[_viewId];
+		    		}
+		    	}
+			}
+		},
+		
+		isViewOpened: function(viewId){
+			if(viewId!=undefined && viewId!=null && viewId!='') {
+				for(var _viewId in this.openedViews) {
+		    		if (viewId == _viewId) {
+		    			return true;
+		    		}
+		    	}
+			}
+			return false;
+		},
+		
+		registerModule: function(moduleInfo){
+			var _moduleID = moduleInfo.moduleID;
+			this.modules[_moduleID] = moduleInfo;
+		},
+		
+		registerWorkspaceModule: function(moduleInfo){
+			var _moduleID = moduleInfo.moduleID;
+			this.workspaceModules[_moduleID] = moduleInfo;
 		},
 		
 		commandHandler: function(data){
 			var _self = this;
 			var commandDef = data.commandDef;
-			if(commandDef != null && commandDef.moduleID != null){
-				var deferred = appCommandHandler.renderView(commandDef.moduleID, data);
-				deferred.then(function(resultInfo){
-					_self.emit(AppHelper.RESOPNSE_RESULT_READY, resultInfo)
-				})
+			var _viewId = commandDef.viewId;
+			if(this.isViewOpened(_viewId)) {
+				_self.emit(AppHelper.SELECT_TAB_VIEW, _viewId);
+				
+			} else {
+				if(commandDef != null && commandDef.moduleID != null){
+					var deferred = appCommandHandler.renderView(commandDef.moduleID, data);
+					deferred.then(function(resultInfo){
+						_self.emit(AppHelper.RESOPNSE_RESULT_READY, resultInfo);
+					})
+				}
 			}
 		},
 	
@@ -124,7 +168,6 @@ define([
 				var optionString = json.stringify(commandOptions);
 				console.log('save workspace setting ' + optionString);
 			}
-			
 		}
 
 	})
