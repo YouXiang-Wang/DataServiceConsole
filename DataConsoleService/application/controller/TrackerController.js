@@ -16,6 +16,8 @@ var utils = require("../../utils/utils");
 var PMRModel = require("../models").PmrInfo;
 var pmrProxy = require('../proxy').PmrProxy;
 
+var lineReader = require('line-reader');
+
 function TrackerController() {
     
     var _parent = Object.getPrototypeOf(this);
@@ -62,6 +64,18 @@ function TrackerController() {
         
         var type = req.query.type;
 		var group = req.query.group;
+		var requestedPmr = req.query.pmrlink;
+		var fileList = req.query.filelist;
+		
+		var byType = 1;
+		
+		if(!utils.isEmptyValue(requestedPmr)) {
+			byType = 2; // by PMR number
+		}
+		
+		if(!utils.isEmptyValue(fileList)) {
+			byType = 3; // by PMR list file
+		}
 		
 		var allGroups = 1 + 2 + 4;
 		var allTypes = 1 + 2;
@@ -87,19 +101,22 @@ function TrackerController() {
         var _bytes1 = utils.getIntArrayByByte(group);
         var _bytes2 = utils.getIntArrayByByte(type);
         var tmp1, tmp2;
-        for(var i = 0; i < _bytes1.length ; i ++ ) {
-        	tmp1 = _bytes1[i];
-        	for(var j = 0; j < _bytes2.length ; j ++ ) {
-            	tmp2 = _bytes2[j];
-            	var a = {
-        				baseURL: baseUrlGroups[tmp2 - 1],
-        				group: l3Groups[tmp1 >> 1],
-        				startDate: _from,
-        				endDate: _to,
-        				status: ( (tmp2 - 1 )== 0 )? "Opened" : "Closed",
-        		}
-            	pmrAnalysisEntries.push(a);
-        	}
+        
+        if(byType==1) {
+        	for(var i = 0; i < _bytes1.length ; i ++ ) {
+            	tmp1 = _bytes1[i];
+            	for(var j = 0; j < _bytes2.length ; j ++ ) {
+                	tmp2 = _bytes2[j];
+                	var a = {
+            				baseURL: baseUrlGroups[tmp2 - 1],
+            				group: l3Groups[tmp1 >> 1],
+            				startDate: _from,
+            				endDate: _to,
+            				status: ( (tmp2 - 1 )== 0 )? "Opened" : "Closed",
+            		}
+                	pmrAnalysisEntries.push(a);
+            	}
+            }
         }
         
         var username = config.pmrSystemCredential.username;
@@ -107,7 +124,7 @@ function TrackerController() {
         
         var _jar = request.jar();
         
-        var _startDate = "2012-01-01";
+        var _startDate = "2011-01-01";
         var _endDate = "2014-09-21";
         
         var form_data = qs.stringify({
@@ -120,14 +137,14 @@ function TrackerController() {
         var _headers = qs.stringify( {
             'Content-Type': 'application/x-www-form-urlencoded',
             'Content-Length': Buffer.byteLength(form_data)
-          });
+        });
         
         var _post = {
                 url: _login_url,    
                 jar: _jar,
                 headers: _headers,
                 form: form_data
-            };
+        };
         
         var _baseUrl = "https://w3-01.sso.ibm.com/software/servdb/crm/secure/l3AnalystProfile.do?";
         
@@ -144,95 +161,104 @@ function TrackerController() {
             
             console.log("cookie_string:", cookie_string);
             
-            async.each(pmrAnalysisEntries, function(item, callback) {
-            	var _url;
-            	if(item.status=="Closed") {
-            		_url = item.baseURL + "&startDate=" + item.startDate + "&endDate=" + item.endDate + "&l3group=" + item.group;
-            	} else {
-            		_url = item.baseURL + "&l3group=" + item.group;
-            	}
-            	
-                request.get({url : _url, jar : _jar}, function(err, res, body) {
-                    if(err) {
-                    	console.log(err);
-                        return console.error("Error1:" + "\nURL=" + _url + "\nReason:" + err);
-                    }
-                    
-                    var $ = cheerio.load(body);
-                    
-	                    $(".ibm-data-table.ibm-sortable-table").each(function(index) {
-	                    
-	                        $(this).find("tr").each(function(trindex,tritem) {
-	                            var _c1 = $(this).find("td").eq(0);
-	                            var _c1_pmr_number = _c1.text();
-	                            if(_c1 !=undefined && _c1_pmr_number!="" && _c1_pmr_number !="Comments") {
-	                                
-	                                var _pmr_url = _c1.find("a").attr("href");
-	                                _pmr_url = "https://w3-01.sso.ibm.com" + _pmr_url;
-	                                
-	                                (function(url, jar) {
-	                                	
-	                                	request.get({url : url, jar : jar}, function(err, res, body) {
-		                                    if(err) {
-		                                    	console.trace();
-		                                    	return console.error("Error2:" + "\nURL=" + url + "\nReason:" + err);
-		                                    } else {
-		                                    	/*
-		                                    	if(url=='https://w3-01.sso.ibm.com/software/servdb/crm/secure/l3PmrRecord1.do?&pmrno=50629&bno=075&cno=724&createDate=O14/02/21&method=retrieveCRMWithDate') 
-		                                    	{
-		                                    		console.log("inputUrl%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%" + url);
-		                                    		console.log("_pmr_url%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%" + _pmr_url);
-		                                            fs.writeFile('c:/ddd.body50629_2.html', body, function(error){
-		                                                if(error){
-		                                                    console.log(error);
-		                                                }
-		                                            });
-		                                    		
-		                                    	}
-		                                    	*/
-		                                        // parse the body for the information
-		                                    	
-		                                        var pmrInfo = _self.parseHTML(url, body);
-		                                        pmrProxy.insert(pmrInfo);
-		                                        
-		                                        var fileName  = localRepsPath + "/" + pmrInfo.pmrNumber + ".html";
-		                                        
-		                                        fs.exists(fileName, function(exists) {
-		                                     	   if(!exists) {
-		                                     		   
-		                                                fs.writeFile(fileName, body.toString(), function(error){
-		                                                    if(error){
-		                                                        console.log(error);
-		                                                    }
-		                                                });
-		                                     	   }
-		                                        });
-		                                        
-		                                    }
-		                                
-		                                });
-	                                	} (_pmr_url,_jar));
-	                                }
-	                        });
-	                        
+            if(byType == 1) {
+                async.each(pmrAnalysisEntries, function(item, callback) {
+                	var _url;
+                	if(item.status=="Closed") {
+                		_url = item.baseURL + "&startDate=" + item.startDate + "&endDate=" + item.endDate + "&l3group=" + item.group;
+                	} else {
+                		_url = item.baseURL + "&l3group=" + item.group;
+                	}
+                	
+                    request.get({url : _url, jar : _jar}, function(err, res, body) {
+                        if(err) {
+                        	console.log(err);
+                            return console.error("Error1:" + "\nURL=" + _url + "\nReason:" + err);
+                        }
+                        
+                        var $ = cheerio.load(body);
+                        
+    	                    $(".ibm-data-table.ibm-sortable-table").each(function(index) {
+    	                    
+    	                        $(this).find("tr").each(function(trindex,tritem) {
+    	                            var _c1 = $(this).find("td").eq(0);
+    	                            var _c1_pmr_number = _c1.text();
+    	                            if(_c1 !=undefined && _c1_pmr_number!="" && _c1_pmr_number !="Comments") {
+    	                                var _pmr_url = _c1.find("a").attr("href");
+    	                                _pmr_url = "https://w3-01.sso.ibm.com" + _pmr_url;
+    	                                _self.requestPMRInfo(_pmr_url,_jar);
+    	                            }
+    	                        });
+                        });
                     });
-	                    
+                    callback();
+                }, function(err) {
+                    if(err) {
+                        console.error(err);
+                    }
                 });
-                callback();
-            }, function(err) {
-                if(err) {
-                    console.error(err);
-                }
-            });
+            } else if(byType == 2) {
+            	// by pmr link
+            	_self.requestPMRInfo(url, _jar);
+            	
+            } else if(byType == 3) {
+            	// by file
+            	var _pmrUrls = new Array();
+            	
+            	lineReader.eachLine('c:\pmrlist.txt', function(line) {
+            		_pmrUrls.push(line);
+            	}).then(function () {
+            		async.each(_pmrUrls, function(pmrUrl, callback) {
+                		console.log("pmrUrl=" + pmrUrl);
+                		_self.requestPMRInfo(pmrUrl, _jar);
+                		callback();
+                	}, function(err) {
+                        if(err) {
+                            console.error(err);
+                        }
+                    });
+            	});
+            }
         });
         
         {
             res.writeHead(200, {'Content-Type': 'text/plain'});
             res.end('Welcome to Data Service Console!');
         }
-
+        
     };
 
+    this.requestPMRInfo = function(pmrUrl, cookieJar) {
+    	 (function(url, jar) {
+    		 var localRepsPath = config.pmrRepository;
+         	request.get({url : url, jar : jar}, function(err, res, body) {
+         		
+                 if(err) {
+                 	console.trace();
+                 	return console.error("Error2:" + "\nURL=" + url + "\nReason:" + err);
+                 } else {
+                     // parse the body for the information
+                     var pmrInfo = _self.parseHTML(url, body);
+                     //pmrProxy.insert(pmrInfo);
+                     pmrProxy.save(pmrInfo);
+                     var fileName  = localRepsPath + "/" + pmrInfo.pmrNumber + ".html";
+                     fs.exists(fileName, function(exists) {
+                  	   if( (!exists) || (exists && config.redownloadPMRHtml)) {
+                             fs.writeFile(fileName, body.toString(), function(error){
+                                 if(error){
+                                     console.log(error);
+                                 }
+                             });
+                  	   }
+                     });
+
+                 }
+             
+             });
+         	} (pmrUrl,cookieJar));
+    };
+    
+    
     this.parseHTML = function(pmrUrl, body) {
     	
         var $ = cheerio.load(body);
@@ -242,7 +268,7 @@ function TrackerController() {
         var vNext;
         
         var pmrNumber;
-        var productName;
+        var productName = '';
         var l2Owner;
         var l2OpenDate;
         var _l2OpenDate;
@@ -252,12 +278,12 @@ function TrackerController() {
         var l2Sevdays;
         var apar;
         var pmrStatus = 'O';
-        var customer;
-        var severity;
-        var priority;
+        var customer = '';
+        var severity = 0;
+        var priority = 0;
         var currentQueue;
-        var l3Group;
-        var l3Owner;
+        var l3Group = '';
+        var l3Owner ='';
         var l3RequestDate;
         var _l3RequestDate;
         var l3CloseDate;
@@ -370,7 +396,6 @@ function TrackerController() {
                         	} else {
                         		pmrStatus = 'O';
                         	}
-
                         }
                     }
                 });
@@ -415,7 +440,6 @@ function TrackerController() {
                         if(tdText=="L3 Billable Time:") {
                           billTime = vNext.text().trim();
                         }
-                        
                     }
                     
                  });
@@ -476,10 +500,8 @@ function TrackerController() {
            
            var fileName  = localRepsPath + "/_" + pmrInfo.pmrNumber + ".html";
            
-
            fs.exists(fileName, function(exists) {
-        	   if(!exists) {
-        		   
+        	   if( (!exists) || (exists && config.redownloadPMRHtml)) {
                    fs.writeFile(fileName, updates, function(error){
                        if(error){
                            console.log(error);
@@ -488,7 +510,7 @@ function TrackerController() {
         	   }
            });
            
-        return pmrInfo;
+           return pmrInfo;
     }
 };
 

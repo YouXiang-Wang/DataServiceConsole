@@ -33,11 +33,13 @@ var config = {
   auth_cookie_name: 'pmrdb',
   port: 3200,
   
+  redownloadPMRHtml : true,
+  
   pmrRepository : 'C:/PMRs',
   
   pmrReportResource : path.join(__dirname, 'resources'),
   
-  pmrSystemCredential: {username: 'wangyoux@cn.ibm.com', password: 'Taiji1005' },
+  pmrSystemCredential: {username: 'wangyoux@cn.ibm.com', password: 'Bagua1005' },
   
   pmrReportRepository: path.join(__dirname, 'report'),
   
