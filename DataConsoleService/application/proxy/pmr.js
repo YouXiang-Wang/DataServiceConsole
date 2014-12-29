@@ -30,10 +30,14 @@ exports.save = function (pmrInfo, callback) {
 				if(_pmr.pmrStatus==='C') {
 					_pmr.l3CloseDate = pmrInfo_.l3CloseDate;
 					_pmr._l3CloseDate = pmrInfo_._l3CloseDate;
+				} else {
+					_pmr._l3CloseDate = 0;
 				}
 				_pmr.scratchPad = pmrInfo_.scratchPad;
 				_pmr.comments = pmrInfo_.comments;
 				_pmr.pmrUrl = pmrInfo_.pmrUrl;
+				
+				console.log("pmrNumber=" + pmrInfo_.pmrNumber + ":" + "pmrStatus=" + pmrInfo_.pmrStatus + "\n");
 				
 				var options = {};
 				PmrInfo.update(query, {$set: _pmr} , options, function(err, docs) {

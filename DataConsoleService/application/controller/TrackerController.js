@@ -57,6 +57,23 @@ function TrackerController() {
 		}
     };
     
+    this.requestSession = function() {
+    	var req = _parent._req;
+        var res = _parent._res;
+        
+    	var parameters = {};
+    	
+    };
+    
+    
+    this.analyzeParameters = function() {
+    	var req = _parent._req;
+        var res = _parent._res;
+        
+    	var parameters = {};
+    	
+    };
+    
     this.trackPMRs = function(){
     
     	var req = _parent._req;
@@ -169,7 +186,6 @@ function TrackerController() {
                 	} else {
                 		_url = item.baseURL + "&l3group=" + item.group;
                 	}
-                	
                     request.get({url : _url, jar : _jar}, function(err, res, body) {
                         if(err) {
                         	console.log(err);
@@ -204,8 +220,8 @@ function TrackerController() {
             } else if(byType == 3) {
             	// by file
             	var _pmrUrls = new Array();
-            	
-            	lineReader.eachLine('c:\pmrlist.txt', function(line) {
+            	console.log("BY FILE");
+            	lineReader.eachLine('c:/pmrlist.txt', function(line) {
             		_pmrUrls.push(line);
             	}).then(function () {
             		async.each(_pmrUrls, function(pmrUrl, callback) {
@@ -239,7 +255,6 @@ function TrackerController() {
                  } else {
                      // parse the body for the information
                      var pmrInfo = _self.parseHTML(url, body);
-                     //pmrProxy.insert(pmrInfo);
                      pmrProxy.save(pmrInfo);
                      var fileName  = localRepsPath + "/" + pmrInfo.pmrNumber + ".html";
                      fs.exists(fileName, function(exists) {
@@ -425,15 +440,19 @@ function TrackerController() {
                         }
                         
                         if(tdText=="L3 Closed Date:") {
-                        	if(utils.isEmptyValue(vNext.text())) {
-                        		pmrStatus = 'O';
-                            	l3CloseDate="";
-                            	_l3CloseDate=0;
-                        	} else {
-                        		_tmp_ = vNext.text().trim();
-                            	l3CloseDate = _tmp_.substr(0, 10);
-                            	_l3CloseDate = moment(_tmp_,'YYYY-MM-DD HH:mm:ss:ms').valueOf();
-                            	pmrStatus = 'C';
+                        	if(pmrStatus =='O') {
+                        		if(utils.isEmptyValue(vNext.text())) {
+                            		pmrStatus = 'O';
+                                	l3CloseDate="";
+                                	_l3CloseDate=0;
+                            	} else {
+                            		_tmp_ = vNext.text().trim();
+                            		console.log("+++++++++++++++++++++++++++++++++++++++++++\n")
+                                	l3CloseDate = _tmp_.substr(0, 10);
+                                	_l3CloseDate = moment(_tmp_,'YYYY-MM-DD HH:mm:ss:ms').valueOf();
+                                	pmrStatus = 'C';
+                                	console.log("+++++++++++++++++++++++++++++++++++++++++++\n")
+                            	}
                         	}
                         }
                         
@@ -461,6 +480,8 @@ function TrackerController() {
 	        pmrInfo._l2CloseDate = 0;
 	        pmrInfo.l3CloseDate = '';
 	        pmrInfo._l3CloseDate = 0;
+	        pmrInfo.comments = '';
+	        pmrInfo.scratchPad= '';
 	        
 	        if(pmrStatus == 'C') {
 	        	// has been closed
@@ -487,12 +508,18 @@ function TrackerController() {
            
            $("form > p > span > textarea").each(function(index) {
                if(index==0) {
-                   comments =$(this).text().trim();
-                   pmrInfo.comments =  comments;
+            	   if(!utils.isEmptyValue($(this).text())) {
+            		   comments =$(this).text().trim();
+            		   comments.replace(/\r\n/g, '\\n');
+                       pmrInfo.comments =  comments;
+            	   }
                }
                if(index==1) {
-            	   scratchPad =$(this).text().trim();
-            	   pmrInfo.scratchPad =  scratchPad;
+            	   if(!utils.isEmptyValue($(this).text())) {
+                	   scratchPad =$(this).text().trim();
+                	   scratchPad.replace(/\r\n/g, '\n');
+                	   pmrInfo.scratchPad =  scratchPad;
+            	   }
                }
            });
            
