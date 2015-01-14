@@ -109,7 +109,7 @@ function PMRTrackerController() {
 	                    $(this).find("tr").each(function(trindex,tritem) {
 	                        var _c1 = $(this).find("td").eq(0);
 	                        var _c1_pmr_number = _c1.text();
-	                        if(_c1 !=undefined && _c1_pmr_number!="" && _c1_pmr_number !="Comments") {
+	                        if(_c1 !=undefined && _c1_pmr_number!="" && _c1_pmr_number !="Comments" && _c1_pmr_number!='50629,075,724') {
 	                            var _pmr_url = _c1.find("a").attr("href");
 	                            _pmr_url = "https://w3-01.sso.ibm.com" + _pmr_url;
 	                            pmrUrlList.push(_pmr_url);
