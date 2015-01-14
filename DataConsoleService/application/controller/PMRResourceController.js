@@ -125,33 +125,40 @@ function PMRResourceController() {
     	
     	if( (groups & 1 ) == 1 ) {
 			// admin
-    		_groups.push("Data Studio Administrator");
+    		_groups.push({l3Group: "Data Studio Administrator"});
 		}
 		
 		if( (groups & 2) == 2 ) {
 			// core
-			_groups.push("Optim Data Studio Core Development");
+			_groups.push({l3Group: "Optim Data Studio Core Development"});
 		}
 		
 		if( (groups & 4) == 4 ) {
 			// developer
-			_groups.push("Optim Development Studio /  Data Studio (Developer)");
+			_groups.push({l3Group: "Optim Development Studio /  Data Studio (Developer)"});
 		}
+
+		
+		var _dates = new Array();
+		_dates.push({_l3RequestDate: {$gt:fromDate,$lte:toDate}});
+		_dates.push({_l3CloseDate: {$gt:fromDate,$lte:toDate}});
+		_dates.push({_l3CloseDate: {$lte:0}});
+		
+		var _conditions = new Array();
+		_conditions.push({$or:_groups});
+		_conditions.push({$or:_dates});
 		
 		var conditions = {
-				$or:_groups
+				$and:_conditions
 		};
 		
-		
+		/*
 		if(fromDate !=0 && toDate !=0) {
 			conditions._l3RequestDate = {$gt:fromDate,$lte:toDate};
 		}
-		
-		//conditions._l3CloseDate = { $or:[{ _l3CloseDate: 0 }, {$gt:fromDate,$lte:toDate}]};
-		
+		*/
 		
 		pmrProxy.getPmrsByCondition(conditions, fields, {}, callback);
-		
     };
     
     this.generatePmrReport = function() {
@@ -188,6 +195,7 @@ function PMRResourceController() {
 				l3Group : 1,
 				l3Owner : 1,
 				scratchPad : 1,
+				comments : 1,
 				customer : 1,
 				version : 1,
 				pmrStatus : 1,
@@ -199,11 +207,11 @@ function PMRResourceController() {
     };
     
     this._generatePmrReport = function(fromLong, toLong, fields){ return function(err, data) {
-    	
     	var resultResponse = {};
     	var res = _parent._res;
     	var req = _parent._req;
-
+    	var _maillist = req.query.maillist;
+    	
     	if(err) {
     		resultResponse = {
 					type: 'ERROR',
@@ -211,7 +219,7 @@ function PMRResourceController() {
 			}
         } else {
         	
-        	_self.pdfPmrReport(fromLong, toLong, fields, data);
+        	_self.pdfPmrReport(fromLong, toLong, fields, data, _maillist);
         	resultResponse = {
     				type: 'SUCCESS',
     				result: ""
@@ -224,7 +232,7 @@ function PMRResourceController() {
     	
     }};
     
-    this.pdfPmrReport = function(from, to, fields, data) {
+    this.pdfPmrReport = function(from, to, fields, data, maillist) {
     	
     	var doc = new PDFDocument({bufferPages: true});
     	
@@ -282,9 +290,9 @@ function PMRResourceController() {
     	var _backlogPmrs = _metaData.backlogPmrs;
     	var _groups = _metaData.groups;
     	
-    	var _colsedCount = utils.isEmptyValue(_closedPmrs) ? 0 : _closedPmrs.length;
-    	var _newCount = utils.isEmptyValue(_newPmrs) ? 0 : _newPmrs.length;
-    	var _backlongCount = utils.isEmptyValue(_backlogPmrs) ? 0 : _backlogPmrs.length;
+    	var _colsedCount = _closedPmrs.length;
+    	var _newCount = _newPmrs.length;
+    	var _backlongCount = _backlogPmrs.length;
     	
     	doc.moveDown();
     	
@@ -298,6 +306,52 @@ function PMRResourceController() {
     	doc.fontSize(18).fillColor('blue');
     	doc.text('Component Details:');
     	
+    	
+    	var optionGroupDetail =
+    	{
+    		columns:
+    	        [
+    	         { id: 'groupName', width: 20, name: 'Component'},
+    	         { id: 'date', width: 40, name: 'Date'},
+    	         { id: 'inflow', width: 10, align:'center', name: 'Inflow' },
+    	         { id: 'closed', width: 10, align:'center',name: 'Closed' },
+    	         { id: 'backlog', width: 10, align:'center', name: 'Backlog' },
+    	     ],
+
+    	     y : 400,
+    	    
+    	     
+    	    margins: {
+    	        left: 100,
+    	        top: 10,
+    	        right: 10,
+    	        bottom: 10,
+    	    },
+    	    
+    	    padding: {
+    	        left: 2,
+    	        top: 5,
+    	        right: 2,
+    	        bottom: 5,
+    	    }
+    	};
+    	
+    	var groupData = new Array();
+    	
+    	for(var attr in _groups) {
+    		groupData.push({
+    			groupName: _groups[attr].groupName,
+    			date: _from + "~" + _to,
+    			inflow: _groups[attr].inflow,
+    			closed: _groups[attr].closed,
+    			backlog: _groups[attr].backlog
+    		});
+    	}
+    	
+    	
+    	doc.table(groupData, optionGroupDetail);
+    	
+    	/*
     	var _groupsText='';
     	var _compontX = 100;
     	var _compontY = 390;
@@ -320,15 +374,9 @@ function PMRResourceController() {
     			doc.fontSize(12).fillColor('red').text(_groups[attr].data.length, _compontX  + _x1 + _x2 + _x3 + _x4, _compontY + _index * _currentSpace);
     			
     			_index++;
-    			
-    			/*
-    			doc.fontSize(12).fillColor('black').text('Component [ '.slice(0, 20), { width: 100, continued : 'yes'});
-    			doc.fontSize(12).fillColor('blue').text(_groups[attr].groupName, { width: 100, continued : 'yes'});
-    			doc.fontSize(12).fillColor('black').text(' ] has:', { width: 100, continued : 'yes'});
-    			doc.fontSize(12).fillColor('red').text(_groups[attr].data.length, { width: 100, continued : 'no'} );
-    			*/
     		}
     	}
+    	*/
     	
     	// 3rd page
     	doc.addPage();
@@ -345,7 +393,8 @@ function PMRResourceController() {
     	         { id: 'pmrNumber',     width: 11, align:'center',name: 'PMR Number' },
     	         { id: 'l3Group', width: 5, align:'left', name: 'Component' },
     	         { id: 'l3Owner', width: 10, align:'left', name: 'L3 Owner' },
-    	         { id: 'scratchPad', width: 40, align:'left', name: 'Description' },
+    	         //{ id: 'scratchPad', width: 40, align:'left', name: 'Description' },
+    	         { id: 'comments', width: 40, align:'left', name: 'Description' },
     	         { id: 'customer',    width: 10, align:'center', name: 'Customer' },
     	         { id: 'version',    width: 5, align:'center', name: 'Version' },
     	         { id: 'pmrStatus',   width: 5, align:'center', name: 'Status' },
@@ -379,35 +428,32 @@ function PMRResourceController() {
     	doc.table(data, options);
     	
     	stream.on('finish', function () {
-    		//_self.sendMail(message);
+    		if(maillist!=undefined && maillist!=null && maillist!='') {
+    			var _imagesPath = path.join( config.appResourceRepository, 'images' );
+    	    	
+    	    	var _subject = 'Data Sutdio PMR Report ' + '(' +  _from + "~" + _to + ')';
+    	    	
+    	    	var _attachments = new Array();
+    	    	var _pdfReport = {
+    	    			fileName:  _shortName,
+    	    			filePath:  _fileName,
+    	    			cid: _shortName
+    	    	}
+    	    	
+    	    	_attachments.push(_pdfReport);
+    	    	console.log("***********************maillist=" + maillist);
+    	    	var message = {
+    	    		from: 'wangyoux@cn.ibm.com',
+    	    		to: maillist,
+    	    		//cc: _ccMailList,
+    	    		subject: _subject,
+    	    		attachments: _attachments,
+    	    		html:'<p>The data of this PMR report is from the IBM CRM system.</p> <p>The report is generated automatically by Data Console Sevice produced by Wang You Xiang CopyRight 2014.</p> <p><img src="' + _ibmLogo64Path + '"/></p>'
+    	    	}
+    			_self.sendMail(message);
+        	}
     	});
 
-    	
-    	var _toMailList = ['wangyoux@cn.ibm.com'];
-    	///var _ccMailList = ['wangyoux@cn.ibm.com', 'zengal@cn.ibm.com', 'wuping@cn.ibm.com'];
-    	var _imagesPath = path.join( config.appResourceRepository, 'images' );
-    	
-
-    	
-    	var _subject = 'Data Sutdio PMR Report ' + '(' +  _from + "~" + _to + ')';
-    	
-    	var _attachments = new Array();
-    	var _pdfReport = {
-    			fileName:  _shortName,
-    			filePath:  _fileName,
-    			cid: _shortName
-    	}
-    	
-    	_attachments.push(_pdfReport);
-    	
-    	var message = {
-    		to: _toMailList,
-    		//cc: _ccMailList,
-    		subject: _subject,
-    		attachments: _attachments,
-    		html:'<p>Embedded image: <img src="' + _ibmLogo64Path + '"/></p>'
-    	}
-    	
     	doc.end();
     	
     };
@@ -452,6 +498,9 @@ function PMRResourceController() {
     	
     	var _l3Group;
     	var _customer;
+    	
+    	console.log("LEN=" + _len);
+    	
     	for(var i=0 ; i < _len; i++) {
     		
     		_l3Group = _self._returnGroup(data[i].l3Group);
@@ -460,7 +509,10 @@ function PMRResourceController() {
     		if(_groups[_l3Group] == undefined || _groups[_l3Group] == null || _groups[_l3Group] == '') {
     			var _component = {
     						groupName : _l3Group,
-    						data : new Array()
+    						data : new Array(),
+    						closed:0,
+    						inflow:0,
+    						backlog:0
     					};
     			
     			_groups[_l3Group] = _component;
@@ -471,18 +523,22 @@ function PMRResourceController() {
     		
     		if(_requestedDate >= from ) {
     			_newPmrs.push(data[i]);
+    			_groups[_l3Group].inflow++;
     		}
     		
-    		if(_closedDate==undefined || _closedDate == null || _closedDate == 0) {
+    		if(_closedDate==undefined || _closedDate == null || _closedDate <= 0) {
     			_backlogPmrs.push(data[i]);
+    			_groups[_l3Group].backlog++;
     		}
     		
     		if(_closedDate >= from && _closedDate <= to) {
     			_closedPmrs.push(data[i]);
+    			_groups[_l3Group].closed++;
     		}
     		
     		_groups[_l3Group].data.push(data[i]);
     	}
+    	
     	
     	return metaInfo = {
     			closedPmrs: _closedPmrs,

@@ -13,8 +13,8 @@
 		"rest" : "get",
 		"id" : "com.dcc.datatools.node.controller.trackercontroller",
 		"resource" : "url",
-		"path" : "TrackerController",
-		"class" : "TrackerController",
+		"path" : "PMRTrackerController",
+		"class" : "PMRTrackerController",
 		"procedure" : "executeCommand"
 	},
 	{

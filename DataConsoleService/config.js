@@ -45,6 +45,15 @@ var config = {
   
   appResourceRepository: path.join(__dirname, 'resources'),
   
+  baseUrlGroups: ['https://w3-01.sso.ibm.com/software/servdb/crm/secure/l3groupBacklog.do?', 
+                   'https://w3-01.sso.ibm.com/software/servdb/crm/secure/l3groupClosed.do?'
+                   ],
+  l3Groups:  [
+                   'Data Studio Administrator',
+                   'Optim Data Studio Core Development',
+                   'Optim Development Studio /  Data Studio (Developer)',
+                   'Data Studio Query Tuner / Common VE'
+                   ],
   // mail SMTP
   mail_opts: {
     host: 'd23ml028.ibm.com',

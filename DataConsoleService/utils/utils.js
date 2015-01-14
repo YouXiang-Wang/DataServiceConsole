@@ -1,5 +1,5 @@
-	// number should less than 2 ^ 32
-exports.getIntArrayByByte = function(number) {
+// number should less than 2 ^ 32
+function getIntArrayByByte(number) {
 	
 	var result = new Array();
 	var tmp;
@@ -23,7 +23,25 @@ exports.getIntArrayByByte = function(number) {
 	return result;
 };
 
-exports.hasAttr = function(object, attr) {
+
+function getIntArrayLog2ByByte(number) {
+	var byteArray = getIntArrayByByte(number);
+	var result = new Array();
+	for(var i=0; i<byteArray.length; i++)
+	{
+		for(var j=0;j<32;j++) {
+			if(Math.pow(2,j)==byteArray[i]) {
+				result.push(j);
+				break;
+			}
+		}
+	}
+	
+	return result;
+};
+
+
+function hasAttr (object, attr) {
 	var value = object[attr];
 	if(value == undefined || value==null ) {
 		return false;
@@ -31,8 +49,13 @@ exports.hasAttr = function(object, attr) {
 	return true;
 };
 
-exports.isEmptyValue = function(value) {
-	if(value == undefined || value==null || value.trim() == '' ) return true;
+
+function isEmptyValue(value) {
+	if(value == undefined || value==null || value.trim()== '' ) return true;
 	return false;
 }
-		
+
+exports.getIntArrayByByte = getIntArrayByByte;
+exports.getIntArrayLog2ByByte = getIntArrayLog2ByByte;
+exports.hasAttr = hasAttr;
+exports.isEmptyValue = isEmptyValue;

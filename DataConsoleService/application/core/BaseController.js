@@ -1,4 +1,4 @@
-function BaseController(){
+function BaseController() {
 	var _self = this;
 	
 	_self._req;
@@ -54,7 +54,16 @@ function BaseController(){
 		}
 	};
 
-	
+	this.returnResponse = function(resultResponse){
+		_self._res.writeHead(200, {"Content-Type": "application/json"});
+		_self._res.write(JSON.stringify(resultResponse));
+		_self._res.end();
+	};
+
+	this.welcome = function(){
+		_self._res.writeHead(200, {"Content-Type": "application/json"});
+		_self._res.end('Welcome to Data Service Console!');
+	};
 	// return the JSON data
 	this.returnError = function(code,msg,dataJson){
 		_self._res.send({"code":code, "msg":msg, "data":dataJson});
