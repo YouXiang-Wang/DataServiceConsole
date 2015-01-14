@@ -20,7 +20,7 @@ define([
 		"dojo/_base/array",
 		"dojo/aspect",
 		
-		"dcc/datatools/widget/ExpandablePane",
+		//"dcc/datatools/widget/ExpandablePane",
 		"dijit/layout/TabContainer",
 		"dijit/layout/ContentPane",
 		"dijit/form/TextBox",
@@ -36,7 +36,8 @@ define([
 			ContentPane, viewTemplate,
 			Dialog, moment, DateLocale,
 			domConstruct, domStyle, window, on, query, arrayUtil, aspect,
-			ExpandablePane, TabContainer, ContentPane, TextBox, DateTextBox, TableContainer, Button, RadioButton, CheckBox, Standby) {
+			//ExpandablePane, 
+			TabContainer, ContentPane, TextBox, DateTextBox, TableContainer, Button, RadioButton, CheckBox, Standby) {
 	
 		return declare("ibm/datastudio/pmrs/views/PmrReportDialog", [Dialog, _WidgetsInTemplateMixin ], {
 			
