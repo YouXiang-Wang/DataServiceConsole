@@ -1,0 +1,56 @@
+<div class="dijitDialog" role="dialog" aria-labelledby="${id}_title" style="padding: 10px; width: 800px;">
+
+    <div data-dojo-attach-point="titleBar" class="dijitDialogTitleBar">
+        <span data-dojo-attach-point="titleNode" class="dijitDialogTitle" id="${id}_title" role="heading" ></span>
+        <span data-dojo-attach-point="closeButtonNode" class="dijitDialogCloseIcon" data-dojo-attach-event="ondijitclick: onCancel" title="${buttonCancel}" role="button" tabindex="0">
+            <span data-dojo-attach-point="closeText" class="closeText" title="${buttonCancel}">x</span>
+        </span>
+    </div>
+    
+	<div data-dojo-attach-point="containerNode" class="dijitDialogPaneContent">    
+    </div>
+    
+    <!--
+	<div data-dojo-type="dijit/layout/TabContainer"  data-dojo-props='baseClass:"dijitTabContainerCompact dijitTabContainer",style: "padding:5px 15px; height: 175px"'>
+		
+		<div data-dojo-type="dijit/layout/ContentPane"  data-dojo-props='title:"${tabTimeSettings}"'>
+			<p style="border-style:dotted">Choose the time stage to generate the PMR report.</p>
+			<br>
+			
+			<div data-dojo-attach-point="timeChooseNode">
+
+			<input type="radio" data-dojo-type="dijit/form/RadioButton" name="topping" value="anchovies" checked
+					data-dojo-type="dijit.form.RadioButton">
+			<label for="topping1">Anchovies</label>
+			
+			<input id="topping2" type="radio" name="topping" value="olives"
+					data-dojo-type="dijit/form/RadioButton">
+			<label for="topping2">Olives</label>
+				
+			<input id="topping3" type="radio" name="topping" value="pineapple"
+					data-dojo-type="dijit/form/RadioButton">
+			<label for="topping3">Pineapple</label>
+			
+			</div>
+			<br><br>
+			
+			<span><b>From:</b></span>
+				<input data-dojo-type="dijit/form/DateTextBox" data-dojo-attach-point="pmrReportBeginDate" data-dojo-props="constraints:{datePattern:'yyyy-MM-dd'}"/>
+			<span><b>To:</b></span>
+				<input data-dojo-type="dijit/form/DateTextBox" data-dojo-attach-point="pmrReportEndDate" data-dojo-props="constraints:{datePattern:'yyyy-MM-dd'}"/>
+		</div>
+	
+		<div data-dojo-type="dijit/layout/ContentPane"  data-dojo-props='title:"Tab 2"'>
+			I'm tab2. 
+		</div>
+		
+		
+	</div>
+	-->
+	<div style="padding: 14px 15px 15px;text-align: right;" align="right">
+		<button data-dojo-type="dijit/form/Button" data-dojo-attach-point="generateButton" title="${labelGenerateButton}">${labelGenerateButton}</button>
+		<button data-dojo-type="dijit/form/Button" data-dojo-attach-point="cancelButton" title="${labelCancelButton}">${labelCancelButton}</button>
+	</div>
+    
+    
+</div>

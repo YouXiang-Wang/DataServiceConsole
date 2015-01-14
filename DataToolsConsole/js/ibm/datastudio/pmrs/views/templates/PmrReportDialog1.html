@@ -1,0 +1,34 @@
+<div style="padding: 0px 0px;">
+
+	<div data-dojo-type="dijit/layout/TabContainer"  data-dojo-props='baseClass:"dijitTabContainerCompact dijitTabContainer",style: "height: 175px"'>
+		
+		<div data-dojo-type="dijit/layout/ContentPane"  data-dojo-props='title:"Report Options"'>
+			Choose the time stage to generate the PMR report.
+			<br>
+			<!--
+			<select data-dojo-type="idx/form/RadioButtonSet" data-dojo-attach-event="onclick: _chooseMoment"
+				data-dojo-props="name: 'rbsChooseTime', label: 'Time:', labelAlignment: 'horizontal', groupAlignment: 'horizontal'">
+				
+			   <option value="currentWeek">Current Week</option> 
+			   <option value="currentMonth">Current Month</option>
+			   <option value="currentYear">Current Year</option>
+				<option value="Default">Default</option>
+			</select>
+			  -->
+			<br>
+			<span><b>From:</b></span>
+				<input data-dojo-type="dijit/form/DateTextBox" data-dojo-attach-point="pmrReportBeginDate" data-dojo-props="constraints:{datePattern:'yyyy-MM-dd'}"/>
+			<span><b>To:</b></span>
+				<input data-dojo-type="dijit/form/DateTextBox" data-dojo-attach-point="pmrReportEndDate" data-dojo-props="constraints:{datePattern:'yyyy-MM-dd'}"/>
+		</div>
+	
+		<div data-dojo-type="dijit/layout/ContentPane"  data-dojo-props='title:"Tab 2"'>
+			I'm tab2. 
+		</div>
+	</div>
+
+	<div style="padding: 14px 15px 15px;text-align: right;" align="right">
+		<button data-dojo-type="dijit/form/Button" data-dojo-attach-point="okButton">${labelGenerateButton}</button>
+		<button data-dojo-type="dijit/form/Button" data-dojo-attach-point="cancelButton">${labelCancelButton}</button>
+	</div>
+</div>
