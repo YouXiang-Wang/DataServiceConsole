@@ -57,7 +57,7 @@ define([
 		},
 		
 		getCurrentViewCommandOptions: function(){
-			/*
+			
 			var children = this.mainViewContainer.getChildren();
 			var commandOptions = []
 			array.forEach(children, function(tab){
@@ -66,7 +66,6 @@ define([
 				}
 			})
 			return commandOptions;
-			*/
 		},
 		
 		addEventListenerForModel: function(){
@@ -74,6 +73,9 @@ define([
 			var _self = this;
 			this.model.on(AppHelper.RESOPNSE_RESULT_READY, lang.hitch(this, AppHelper.RESOPNSE_RESULT_READY));
 			this.model.on(AppHelper.RESOPNSE_WORKSPACE_LOADED, lang.hitch(this, "initTabByWorkspaceSetting"));
+			this.model.on(AppHelper.SELECT_TAB_VIEW, lang.hitch(this, AppHelper.SELECT_TAB_VIEW));
+			this.model.on('closeTabView', lang.hitch(this, 'closeTabView'));
+			
 			//this.subscribe(AppHelper.COMMAND_GET_WORKSPACE, function(deferred){
 				//deferred.resolve(_self.getCurrentViewCommandOptions());
 			//})
@@ -107,15 +109,19 @@ define([
 		    var modleListPmr = new ModuleItem( {
 		    			moduleID: "LIST_PMRS",
 		    			displayTitle: "PMRs",
-		    			//contextPath: 'http://9.123.149.188:3200',
-		    			contextPath: 'http://localhost:3200',
+		    			//contextPath: 'http://9.123.149.26:3200',
+		    			//contextPath: 'http://9.181.91.59:3200',
+		    			contextPath: 'http://192.168.0.102:3200',
+		    			///contextPath: 'http://9.125.232.104:3200',
+		    			//contextPath: 'http://localhost:3200',
 		    			args: {
 		    				type: 1,
 		    				group: 7
 		    			},
 		    			moduleRenderView: "ibm/datastudio/pmrs/views/PmrObjectView",
+		    			viewId: 'PMR_MAIN_TAB',
 		    			restServiceUrl: "/resource/pmr/listpmrs",
-		    			isCrossDomain: "N"
+		    			isCrossDomain: "Y"
 		    		}
 		    );
 		    this.model.registerModule(modleListPmr);
@@ -165,14 +171,25 @@ define([
 			this.renderViewInCanvas(resultDef.view, resultDef.commandPropties);
 		},
 		
-		//FIXME if the view is already showing, 
-		// it should only refresh the view and change it to active.
-		renderViewInCanvas: function(view, resOptions){
+		selectTabView: function(viewId) {
+			var _view = this.model.getView(viewId);
+			if(_view!=undefined) {
+				this.mainViewTabContainer.selectChild(_view);
+			}
+		},
+		
+		closeTabView: function(viewId) {
+			this.model.unRegisterView(viewId);
+		},
+		
+		renderViewInCanvas: function(view, resOptions) {
 			this.addToMainViewContainer(view, resOptions);
 		},
 		
 		addToMainViewContainer: function(view, resOptions){
 			this.mainViewTabContainer.addChild(view);
+			var _viewID = resOptions.commandDef.viewId;
+			this.model.registerView(_viewID, view);
 			this.mainViewTabContainer.selectChild(view);
 		},
 		

@@ -24,6 +24,14 @@ define([
 	};
 
 	
+	exports.getDataIndex = function(id, value, dataArray) {
+		for(var i=0; i < dataArray.length; i++) {
+			if(dataArray[i][id] == value ) {
+				return i;
+			}
+		}
+		return -1;
+	};
 	
 	
 	return exports;

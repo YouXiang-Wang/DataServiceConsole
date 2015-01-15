@@ -56,7 +56,7 @@ define('dcc/datatools/app/AppCommandHandler', [
 			},
 			props
 		)
-		require([viewLoc], function(viewClass){
+		require([viewLoc], function(viewClass) {
 			var view = new viewClass(widgetProps)
 			deferred.resolve({
 				view: view,
@@ -79,7 +79,11 @@ define('dcc/datatools/app/AppCommandHandler', [
 				title: viewConfig.commandText,
 				commandOptions: viewConfig,
 				sendRequest: true,
-				closable: true
+				closable: true,
+				onClose: function(){
+			           // confirm() returns true or false, so return that.
+			           return confirm("Do you really want to Close this?");
+			        }
 		}
 		var viewClassName = commandViewerMapping[commandId];
 		require([viewClassName], function(viewClass){

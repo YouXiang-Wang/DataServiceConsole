@@ -310,7 +310,10 @@ define([
 						moduleID: "GET_PMR",
 						displayTitle: _pmrNumber,
 						//contextPath: "http://9.123.149.26:3200", //"http://localhost:3200",
+						//contextPath: "http://9.181.91.59:3200", //"http://localhost:3200",
+						
 						contextPath: "http://192.168.0.102:3200", //"http://localhost:3200",
+						//contextPath: "http://9.125.232.104:3200", //"http://localhost:3200",
 						args: {type: 1,
 						  	pmrNumber: _pmrNumber
 						},

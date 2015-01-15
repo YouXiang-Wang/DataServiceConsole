@@ -14,6 +14,8 @@ define( "dcc/datatools/app/module/ModuleItem", [
 			
 			moduleRenderView: "",
 			
+			viewId: "",
+			
 			restServiceUrl: "",
 			
 			displayTitle: "",
@@ -27,6 +29,7 @@ define( "dcc/datatools/app/module/ModuleItem", [
 					this.displayTitle = _info.displayTitle;
 					this.contextPath = _info.contextPath
 					this.moduleRenderView = _info.moduleRenderView;
+					this.viewId = _info.viewId;
 					this.args = _info.args;
 					this.restServiceUrl = _info.restServiceUrl;
 					this.isCrossDomain = _info.isCrossDomain;

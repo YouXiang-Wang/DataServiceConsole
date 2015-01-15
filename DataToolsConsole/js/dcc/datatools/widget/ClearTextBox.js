@@ -1,7 +1,6 @@
 define("dcc/datatools/widget/ClearTextBox", [
 		"dojo/_base/declare",
 		"dojo/_base/lang",
-		//"dijit/_WidgetBase",
 		"dojo/on",
 		"dojo/dom-construct",
 		"dojo/dom-style",

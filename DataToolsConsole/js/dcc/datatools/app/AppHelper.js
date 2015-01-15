@@ -8,7 +8,8 @@ define('dcc/datatools/app/AppHelper',[
 	'dcc/datatools/shared/base/request'
 ], function(declare, lang, connect, ioQuery, Deferred, AppContext, request){
 	
-	var helper = {	
+	var helper = {
+			
 		COMMAND_HANDLER: 'commandHandler',
 		
 		COMMAND_GET_WORKSPACE: 'getWorkspaceSetting',
@@ -17,7 +18,11 @@ define('dcc/datatools/app/AppHelper',[
 		
 		RESOPNSE_WORKSPACE_SAVE: 'workspaceSaveReady',
 		
-		RESOPNSE_RESULT_READY: 'responseResultReady'
+		RESOPNSE_RESULT_READY: 'responseResultReady',
+			
+		SELECT_TAB_VIEW: 'selectTabView',
+		
+		CLOSE_TAB_VIEW: 'closeTabView'
 	}
 	
 	function publishEvent(eventId, eventArgs){
@@ -37,14 +42,23 @@ define('dcc/datatools/app/AppHelper',[
 		connect.subscribe(eventId, callback);
 	}
 	
+	function generalCommandHandler(commandId, callback){
+		connect.subscribe(commandId, callback);
+	}
+	
+	function publishCommand(commandId, commandDetail){
+		connect.publish(commandId, [commandDetail])
+	}
+	
+	/*
 	function generalCommandHandler(callback){
-		connect.subscribe(helper.COMMAND_HANDLER, callback);
+		//connect.subscribe(helper.COMMAND_HANDLER, callback);
 	}
 	
 	function publishCommand(commandDetail){
 		connect.publish(helper.COMMAND_HANDLER, [commandDetail])
 	}
-	
+	*/
 	function getCurrentWorkspaceSetting(deferred){
 		if(deferred instanceof Deferred){
 			connect.publish(helper.COMMAND_GET_WORKSPACE, [deferred])
