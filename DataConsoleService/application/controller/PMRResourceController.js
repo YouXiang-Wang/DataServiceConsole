@@ -266,7 +266,7 @@ function PMRResourceController() {
     		align: 'right'
     	});
     	doc.text('\n');
-    	var lorem = 'The data of this PMR report is from the IBM CRM system. \nThe report is generated automatically by Data Console Sevice produced by Wang You Xiang CopyRight 2014.';
+    	var lorem = 'The data of this PMR report is from the IBM CRM system. \nThe report is generated automatically by Data Console Sevice';
     	
     	doc.fontSize(10);
     	doc.text('' + lorem, {
