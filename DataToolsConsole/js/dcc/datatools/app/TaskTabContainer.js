@@ -4,7 +4,6 @@ require([
 		"dijit/layout/_LayoutWidget",
 		"dijit/_TemplatedMixin",
 		"dijit/_WidgetsInTemplateMixin",
-		"dojo/text!./templates/TaskContentPane.html",
 		"dojo/_base/Deferred",
 		"dojo/DeferredList",
         "dijit/MenuItem",
@@ -12,11 +11,10 @@ require([
         "dijit/layout/ContentPane",
         "dcc/datatools/app/task/TaskContentPane",
         "law/contractmanage/ContractManageTab"
-        ], function(declare, lang, _LayoutWidget, _TemplatedMixin, _WidgetsInTemplateMixin, viewTemplate,
+        ], function(declare, lang, _LayoutWidget, _TemplatedMixin, _WidgetsInTemplateMixin,
         		Deferred, DeferredList, MenuItem, TabContainer, ContentPane, TaskContentPane, ContractManageTab){
 		
 		return declare("dcc/datatools/app/task/TaskTabContainer", [_LayoutWidget, _TemplatedMixin, _WidgetsInTemplateMixin], {
-			templateString: viewTemplate,
 			
 			constructor: function(){
 				
