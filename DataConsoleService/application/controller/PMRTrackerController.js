@@ -109,7 +109,7 @@ function PMRTrackerController() {
 	                    $(this).find("tr").each(function(trindex,tritem) {
 	                        var _c1 = $(this).find("td").eq(0);
 	                        var _c1_pmr_number = _c1.text();
-	                        if(_c1 !=undefined && _c1_pmr_number!="" && _c1_pmr_number !="Comments" && _c1_pmr_number!='50629,075,724') {
+	                        if(_c1 !=undefined && _c1_pmr_number!="" && _c1_pmr_number !="Comments") {
 	                            var _pmr_url = _c1.find("a").attr("href");
 	                            _pmr_url = "https://w3-01.sso.ibm.com" + _pmr_url;
 	                            pmrUrlList.push(_pmr_url);
@@ -218,8 +218,7 @@ function PMRTrackerController() {
     this.requestPMRsByURLs = function(pmrUrls, cookieJar) {
     	console.log("Being to extract the PMR information, pmrUrls.length=" + pmrUrls.length);
 		async.each(pmrUrls, function(pmrUrl, callback) {
-    		_self.requestPMRInfo(pmrUrl, cookieJar);
-    		callback();
+    		_self.requestPMRInfo(pmrUrl, cookieJar, callback);
     	}, function(err) {
             if(err) {
                 console.error(err);
@@ -227,7 +226,7 @@ function PMRTrackerController() {
         });
     };
     
-    this.requestPMRInfo = function(pmrUrl, cookieJar) {
+    this.requestPMRInfo = function(pmrUrl, cookieJar, callback) {
     	
     	(function(url, jar) {
     		 var localRepsPath = config.pmrRepository;
@@ -249,11 +248,12 @@ function PMRTrackerController() {
                                      console.log(error);
                                  }
                              });
+                             callback();
                   	   }
                      });
                  }
              });
-        } (pmrUrl,cookieJar));
+        } (pmrUrl, cookieJar, callback));
     };
 };
 
